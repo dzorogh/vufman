@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.p-contextmenu {
+    @apply w-auto max-w-screen-sm !important;
+}
+
+
+img[lazy=loading] {
+    @apply animate-pulse;
+}
+img[lazy=error] {
+    /*your style here*/
+}
+img[lazy=loaded] {
+    /*your style here*/
+}

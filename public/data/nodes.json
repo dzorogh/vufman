@@ -1,0 +1,223 @@
+{
+  "data": [
+    {
+      "name": "Моторы 1",
+      "id": "665eba1f-8011-4811-80da-c552df23d3a4",
+      "isFolder": true,
+      "size": 13123123,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "name": "All children like cooked melons in kefir and marmalade",
+      "id": "121021fa-b42a-4bdb-b68a-ca5343624b7c",
+      "isFolder": true,
+      "size": 123412,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "name": "The light of emerging suns is honorable",
+      "id": "1df9683b-52f5-4f3a-8e84-eaf8392cccae",
+      "isFolder": true,
+      "size": 0,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "3bcfbfe9-2bb8-41fc-a16d-169a99084323",
+      "name": "Grandis cotta",
+      "extension": "png",
+      "size": 1231823019823901809238109283,
+      "thumbnail": "https://placekitten.com/10/10",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "application/pdf",
+      "isFolder": false,
+      "id": "0a7fabde-5a6e-423d-b8f5-fdf956dc9f36",
+      "name": "Особенности под печать 2020 (вылеты-кривые)",
+      "extension": "pdf",
+      "size": 1231,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "application/pdf",
+      "isFolder": false,
+      "id": "e5679602-fbe8-425c-82d2-1e39f633085b",
+      "name": "Особенности под печать 2020 (вылеты-кривые)",
+      "extension": "pdf",
+      "size": 31415345,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "video/mp4",
+      "src": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "isFolder": false,
+      "id": "9ee86aec-0739-422a-9b9e-6f14b470d75f",
+      "name": "Yamaha 30 из румпеля в дистанцию. Блог сервисного центра",
+      "extension": "mp4",
+      "size": 5645643456636,
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "0932b73a-57e9-4970-b389-582d2fa52e57",
+      "name": "Sing awkwardly like a big pegleg",
+      "extension": "png",
+      "size": 593049539,
+      "thumbnail": "https://placekitten.com/1000/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "b56363b1-9001-4ef2-abca-5ebc410dcffd",
+      "name": "Fight ho! love to be vandalized",
+      "extension": "png",
+      "size": 4353636,
+      "thumbnail": "https://placekitten.com/1000/10",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "aba94d14-75aa-402f-b1d3-6983880f0978",
+      "name": "Amicitias unda, tanquam camerarius abaculus",
+      "extension": "png",
+      "size": 9040539845093849053,
+      "thumbnail": "https://placekitten.com/1000/1000",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "3717d273-ca7b-4c18-9089-11f6b3610373",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 5435,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "589508c4-2da9-4cb6-9097-e6877a19cc09",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "0869af07-6c2d-42c3-9619-d401520039d5",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "55a44030-2f48-483a-8255-767c078e46a6",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "b851746f-8727-4807-830a-ee5f23c0176d",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "384b4d08-5330-4fb4-8ef9-2d7db076e1ce",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "1cf9a9ae-6d7a-40e1-a65a-6d0b721d8f2d",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "86dffa8d-ce40-41db-9a76-ffba1808416a",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "dea3c3ba-d3ee-4f56-b7b6-dc0a2fd2dd46",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "b3240e52-876b-44b8-af78-5ed3b04635ca",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "ac21f820-033b-44c9-bedd-8abbefb67494",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "579b5fcd-d366-4d67-8fb0-97645b884bd2",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "4aa3f7e6-8bf6-47a9-84d8-686bea867c79",
+      "name": "мотор2",
+      "extension": "png",
+      "size": 100000000,
+      "thumbnail": "https://placekitten.com/100/100",
+      "createdAt": "2019-02-01T03:45:27+00:00"
+    }
+  ]
+}
