@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import AppNavigator from "./AppNavigator.vue";
-import AppFolderView from "./AppFolderView.vue";
+import AppNavigator from "@/components/AppNavigator.vue";
+import AppFolderView from "@/components/AppFolderView.vue";
 </script>
 
 <style scoped>

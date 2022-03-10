@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import * as path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -25,7 +26,6 @@ export default defineConfig(({ command }) => {
           code = code.replace(/"\/node_modules\//g, `"http://localhost:${port}/node_modules/`);
 
           code = code.replace(/(axios\.get\(['|"|`])\/(.*)(.json)/gm, `$1http://localhost:${port}/$2$3`);
-
 
 
           // console.log(code);
@@ -61,6 +61,12 @@ export default defineConfig(({ command }) => {
         //   }
         // }
       },
+    },
+
+    resolve: {
+      alias: [
+        { find: '@', replacement: '/src' },
+      ]
     },
   };
 });

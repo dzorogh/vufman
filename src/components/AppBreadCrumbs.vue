@@ -1,5 +1,5 @@
 <template>
-
+  breadcrumbs
 </template>
 
 <script setup lang="ts">

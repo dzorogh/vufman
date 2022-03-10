@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import Tree from "primevue/tree";
-import Api from "../service/Api";
+import Api from "@/services/Api";
 
 const navigator = await Api.getNavigator();
 
@@ -31,7 +31,7 @@ function updateNavigator(nodes: any) {
 updateNavigator(navigator);
 
 function onNodeSelect(node) {
-  console.log(node)
+  console.log(node);
 }
 
 const selectedFolderKey = null;

@@ -1,13 +1,20 @@
 <template>
   <AppBreadCrumbs />
 
-  <div class="grid grid-cols-1">
-    <AppNode
-      v-for="(child) in nodes"
-      :key="child.id"
-      :node="child"
-      @contextmenu="showContextMenu(child, $event)"
-    />
+  <div class="grid grid-cols-1 overflow-x-hidden">
+    <TransitionGroup
+      name="list"
+    >
+      <AppNode
+        v-for="(child) in nodes"
+        :key="child.id"
+        :node="child"
+        class="border border-transparent"
+        :class="{'bg-slate-100': selectedNodes.includes(child.id)}"
+        @contextmenu="showContextMenu(child, $event)"
+        @click="selectedNodes.push(child.id)"
+      />
+    </TransitionGroup>
 
     <ContextMenu
       ref="menu"
@@ -17,26 +24,31 @@
 </template>
 
 <script setup lang="ts">
-import Api from '../service/Api';
-import AppNode from "./AppNode.vue";
-import AppBreadCrumbs from "./AppBreadCrumbs.vue";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import ContextMenu from 'primevue/contextmenu';
-import { Node } from "../types/Node";
-import { MenuItem } from "primevue/menuitem";
-import { useConfirm } from "primevue/useconfirm";
 
-const confirm = useConfirm();
+import Api from '@/services/Api';
+import AppNode from "@/components/AppNode.vue";
+import AppBreadCrumbs from "@/components/AppBreadCrumbs.vue";
 
-const nodes = await Api.getNodes({ id: null });
+import { Node } from "@/types/Node";
+import { useDeleteAction } from "@/composables/useDeleteAction";
+import { useRenameAction } from "@/composables/useRenameAction";
+
+const deleteAction = useDeleteAction();
+const renameAction = useRenameAction();
+
+const nodes = ref(await Api.getNodes({ id: null }));
+
+const selectedNodes = reactive([]);
 
 const activeContextNode = ref<Node>();
 const menu = ref();
 const showContextMenu = (child: Node, event: any) => {
   activeContextNode.value = child;
   menu.value.show(event);
-}
-const menuItems = computed<MenuItem[]>(() => [
+};
+const menuItems = computed<object[]>(() => [
   {
     label: activeContextNode.value?.extension ? `${activeContextNode.value?.name}.${activeContextNode.value?.extension}` : activeContextNode.value?.name,
     icon: activeContextNode.value?.isFolder ? 'pi pi-fw pi-folder' : 'pi pi-fw pi-file',
@@ -55,27 +67,50 @@ const menuItems = computed<MenuItem[]>(() => [
   },
   {
     label: 'Переименовать',
-    icon: 'pi pi-fw pi-pencil'
+    icon: 'pi pi-fw pi-pencil',
+    command: async () => {
+      if (activeContextNode.value && nodes.value) {
+        const result = await renameAction.show(activeContextNode.value);
+
+        console.log(result);
+
+        if (result) {
+
+          const currentNodeIndex = nodes.value.findIndex((item) => {
+            return item.id === activeContextNode.value?.id;
+          });
+
+          nodes.value[currentNodeIndex].name = result;
+
+          // TODO: Actually delete node
+        }
+      }
+    }
   },
   {
     label: 'Скачать',
-    icon: 'pi pi-fw pi-download'
+    icon: 'pi pi-fw pi-download',
+    command() {
+      alert('Скачивание');
+    }
   },
   {
     label: 'Удалить',
     icon: 'pi pi-fw pi-trash text-danger',
-    command: (event) => {
-      confirm.require({
-        message: 'Вы уверены, что хотите удалить?',
-        header: 'Подтверждение',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          alert('Удаление')
-        },
-        reject: () => {
-          //
+    command: async () => {
+      if (activeContextNode.value && nodes.value) {
+        const result = await deleteAction.show([ activeContextNode.value ]);
+
+        if (result === true) {
+          const currentNodeIndex = nodes.value.findIndex((item) => {
+            return item.id === activeContextNode.value?.id;
+          });
+
+          nodes.value.splice(currentNodeIndex, 1);
+
+          // TODO: Actually delete node
         }
-      });
+      }
     }
   }
 ]);
