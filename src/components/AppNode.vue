@@ -1,6 +1,6 @@
 <template data-label="AppNode">
   <div
-    class="flex flex-row items-center p-3 hover:bg-slate-100 rounded select-none"
+    class="flex flex-row items-center p-3 rounded select-none"
     aria-haspopup="true"
   >
     <div
@@ -76,12 +76,12 @@ import IconFolder from "@/components/IconFolder.vue";
 import { FileTypes } from "@/config/FileTypes";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
-import { FormatTimestamp } from "@/formatters/FormatTimestamp"
+import { FormatTimestamp } from "@/formatters/FormatTimestamp";
 
 
 const props = defineProps<{
-  node: Node
-}>()
+  node: Node;
+}>();
 
 function getFileType(node: Node): keyof typeof FileTypes | null {
   if (!node.mimetype) {

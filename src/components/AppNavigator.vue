@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import Tree from "primevue/tree";
 import Api from "@/services/Api";
+import { Node } from "@/types/Node";
 
 const navigator = await Api.getNavigator();
 
@@ -30,7 +31,7 @@ function updateNavigator(nodes: any) {
 
 updateNavigator(navigator);
 
-function onNodeSelect(node) {
+function onNodeSelect(node: Node) {
   console.log(node);
 }
 
