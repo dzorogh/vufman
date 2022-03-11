@@ -116,6 +116,7 @@ export const useNodesStore = defineStore('nodes', {
 
       // TODO: API - save changes
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
+      this.copiedNodes = [];
     },
 
     async moveNodes() {
