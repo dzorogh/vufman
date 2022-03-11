@@ -6,7 +6,7 @@
       name="list"
     >
       <AppNode
-        v-for="(child) in nodesStore.nodes"
+        v-for="(child) in nodesStore.sortedNodes"
         :key="child.id"
         :node="child"
         class="border border-transparent hover:bg-slate-50"

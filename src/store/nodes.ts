@@ -27,15 +27,15 @@ export const useNodesStore = defineStore('nodes', {
       } else {
         if (this.nodes) {
 
-          const firstNodeIndex = this.nodes.indexOf(this.selectedNodes[0]);
+          const firstNodeIndex = this.sortedNodes.indexOf(this.selectedNodes[0]);
           const lastNodeIndex = firstNodeIndex + this.selectedNodes.length - 1;
-          const selectedNodeIndex = this.nodes.indexOf(node);
+          const selectedNodeIndex = this.sortedNodes.indexOf(node);
 
           this.selectedNodes = [];
 
           // Select all nodes between first and selected node
           // Including edge items
-          this.nodes.forEach((item, index) => {
+          this.sortedNodes.forEach((item, index) => {
             if (index >= firstNodeIndex && index <= selectedNodeIndex) {
               this.selectedNodes.push(item);
             }
@@ -121,6 +121,32 @@ export const useNodesStore = defineStore('nodes', {
     isNodeSelected: (state) => {
       return (node: Node) => state.selectedNodes.indexOf(node) >= 0;
     },
+
+    sortedNodes: (state) => {
+      return [ ...state.nodes ]
+        .sort((a: Node, b: Node) => {
+          if (a.name > b.name) {
+            return 1;
+          }
+
+          if (a.name < b.name) {
+            return -1;
+          }
+
+          return 0;
+        })
+        .sort((a: Node, b: Node) => {
+          if (a.isFolder > b.isFolder) {
+            return -1;
+          }
+
+          if (a.isFolder < b.isFolder) {
+            return 1;
+          }
+
+          return 0;
+        });
+    }
   }
 });
 
