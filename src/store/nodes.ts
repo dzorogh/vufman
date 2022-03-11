@@ -89,6 +89,13 @@ export const useNodesStore = defineStore('nodes', {
 
     copyNodes() {
       this.copiedNodes = this.selectedNodes;
+    },
+
+    pasteNodes() {
+      this.selectedNodes = [];
+
+      // TODO: API - save changes
+      this.nodes = [ ...this.copiedNodes, ...this.nodes ];
     }
   },
 
