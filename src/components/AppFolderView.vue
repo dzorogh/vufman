@@ -79,7 +79,7 @@ nodesStore.nodes = await Api.getNodes({ id: null });
 
 const menu = ref();
 const showContextMenu = (node: Node, event: unknown) => {
-  if (nodesStore.selectedNodes.indexOf(node) < 0) {
+  if (!nodesStore.isNodeSelected(node)) {
     nodesStore.selectNodeSingle(node);
   }
 

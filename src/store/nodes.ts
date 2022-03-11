@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Node } from "@/types/Node";
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
+import { computed } from "vue";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
