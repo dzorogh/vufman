@@ -12,7 +12,10 @@ export function useDeleteAction() {
         confirmStore.content = 'Переместить файлы/папки в корзину?';
 
         confirmStore.list = nodes.map(item => {
-          return item.extension ? `${item.name}.${item.extension}` : item.name;
+          return {
+            label: item.extension ? `${item.name}.${item.extension}` : item.name,
+            icon: item.isFolder ? 'pi pi-fw pi-folder' : 'pi pi-fw pi-file'
+          };
         });
       } else {
         confirmStore.content =

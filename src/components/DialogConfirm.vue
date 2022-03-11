@@ -27,7 +27,12 @@
           :key="index"
           class="py-2 px-3"
         >
-          {{ item }}
+          <i
+            v-if="item.icon"
+            class="mr-2"
+            :class="item.icon"
+          />
+          {{ item.label }}
         </li>
       </ul>
     </div>

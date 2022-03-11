@@ -7,7 +7,7 @@ export const useConfirmStore = defineStore('confirm', {
       show: false,
       header: '',
       content: '',
-      list: [] as string[]
+      list: [] as { label: string; icon?: string }[]
     };
   },
   actions: {
