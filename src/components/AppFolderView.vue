@@ -1,6 +1,4 @@
 <template>
-  <AppBreadCrumbs />
-
   <div class="grid grid-cols-1 overflow-x-hidden">
     <TransitionGroup
       name="list"
