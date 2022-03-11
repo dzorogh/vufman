@@ -34,6 +34,7 @@
       v-tooltip.bottom="'Переименовать'"
       class="p-button-raised p-button-secondary  p-button-text"
       icon="pi pi-pencil"
+      @click="nodesStore.renameNode"
     />
 
     <Button
@@ -41,6 +42,7 @@
       v-tooltip.bottom="'Скачать'"
       class="p-button-raised p-button-secondary  p-button-text"
       icon="pi pi-download"
+      @click="nodesStore.downloadNodes"
     />
 
     <Button
@@ -48,6 +50,7 @@
       v-tooltip.bottom="'Переместить в корзину'"
       class="p-button-raised p-button-secondary p-button-text"
       icon="pi pi-trash"
+      @click="nodesStore.deleteNodes"
     />
 
     <Button
@@ -55,6 +58,7 @@
       v-tooltip.bottom="'Удалить навсегда'"
       class="p-button-raised p-button-danger p-button-text"
       icon="pi pi-times"
+      @click="nodesStore.destroyNodes"
     />
   </div>
 </template>
