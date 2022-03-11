@@ -106,7 +106,8 @@ const menuItems = computed<object[]>(() => {
 
   result.push({
     label: 'Скопировать',
-    icon: 'pi pi-fw pi-copy'
+    icon: 'pi pi-fw pi-copy',
+    command: nodesStore.copyNodes
   });
 
   if (nodesStore.selectedNodes.length === 1) {
