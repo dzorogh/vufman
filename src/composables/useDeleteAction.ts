@@ -5,11 +5,22 @@ export function useDeleteAction() {
   const confirmStore = useConfirmStore();
 
   return {
-    show(nodes: Node[]) {
+    show(nodes: Node[], isForced?: true) {
+      // TODO: Message about 30 days in trash
       confirmStore.header = 'Подтвердите удаление';
 
+      if (isForced) {
+        confirmStore.header = 'Подтвердите удаление навсегда';
+      } else {
+        confirmStore.header = 'Подтвердите удаление';
+      }
+
       if (nodes.length > 1) {
-        confirmStore.content = 'Переместить файлы/папки в корзину?';
+        if (isForced) {
+          confirmStore.content = 'Переместить файлы/папки в корзину?';
+        } else {
+          confirmStore.content = 'Удалить файлы/папки навсегда?';
+        }
 
         confirmStore.list = nodes.map(item => {
           return {
@@ -18,9 +29,13 @@ export function useDeleteAction() {
           };
         });
       } else {
-        confirmStore.content =
-          (nodes[0].isFolder ? `Удалить папку ` : `Удалить файл `)
-          + `«` + (nodes[0].extension ? `${nodes[0].name}.${nodes[0].extension}` : nodes[0].name) + `»?`;
+        if (isForced) {
+          confirmStore.content = (nodes[0].isFolder ? `Удалить навсегда со всем содержимым папку ` : `Удалить навсегда файл `);
+        } else {
+          confirmStore.content = (nodes[0].isFolder ? `Переместить в корзину папку ` : `Переместить в корзину файл `);
+        }
+
+        confirmStore.content += `«` + (nodes[0].extension ? `${nodes[0].name}.${nodes[0].extension}` : nodes[0].name) + `»?`;
 
         confirmStore.list = [];
       }

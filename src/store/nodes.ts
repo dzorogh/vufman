@@ -74,28 +74,57 @@ export const useNodesStore = defineStore('nodes', {
       const result = await deleteAction.show(this.selectedNodes);
 
       if (result === true) {
-        this.nodes.forEach((node, nodeIndex) => {
+        // TODO: API - save changes
+
+        this.selectedNodes.forEach((selectedNode) => {
+          this.nodes.splice(this.nodes.indexOf(selectedNode), 1);
+        });
+
+        this.selectedNodes = [];
+      }
+    },
+
+    async destroyNodes() {
+      const deleteAction = useDeleteAction();
+
+      // TODO: Show message about delete without recovery
+      const result = await deleteAction.show(this.selectedNodes, true);
+
+      if (result === true) {
+        // TODO: API - save changes
+
+        this.nodes.forEach(() => {
           this.selectedNodes.forEach((selectedNode) => {
-            // if (node.id === selectedNode.id) {
-            //   this.nodes.splice(nodeIndex, 1);
-            // }
             this.nodes.splice(this.nodes.indexOf(selectedNode), 1);
           });
         });
 
-        // TODO: API - save changes
+        this.selectedNodes = [];
       }
     },
 
-    copyNodes() {
+    async downloadNodes() {
+      return alert('download');
+    },
+
+    async copyNodes() {
       this.copiedNodes = this.selectedNodes;
     },
 
-    pasteNodes() {
+    async pasteNodes() {
       this.selectedNodes = [];
 
       // TODO: API - save changes
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
+    },
+
+    async moveNodes() {
+      // TODO: Make interface
+      alert('move nodes');
+    },
+
+    async makeFolder() {
+      alert('make folder and set name for it');
     }
   },
 

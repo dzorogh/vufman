@@ -101,7 +101,8 @@ const menuItems = computed<object[]>(() => {
 
   result.push({
     label: 'Переместить',
-    icon: 'pi pi-fw pi-folder-open'
+    icon: 'pi pi-fw pi-folder-open',
+    command: nodesStore.moveNodes
   });
 
   result.push({
@@ -121,15 +122,19 @@ const menuItems = computed<object[]>(() => {
   result.push({
     label: 'Скачать',
     icon: 'pi pi-fw pi-download',
-    command() {
-      alert('Скачивание');
-    }
+    command: nodesStore.downloadNodes
   });
 
   result.push({
-    label: 'Удалить',
+    label: 'В корзину',
     icon: 'pi pi-fw pi-trash text-danger',
     command: nodesStore.deleteNodes
+  });
+
+  result.push({
+    label: 'Удалить навсегда',
+    icon: 'pi pi-fw pi-trash !text-red-500',
+    command: nodesStore.destroyNodes
   });
 
   return result;
