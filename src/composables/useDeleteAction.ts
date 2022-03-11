@@ -9,7 +9,7 @@ export function useDeleteAction() {
       confirmStore.header = 'Подтвердите удаление';
 
       if (nodes.length > 1) {
-        confirmStore.content = 'Удалить файлы/папки?';
+        confirmStore.content = 'Переместить файлы/папки в корзину?';
 
         confirmStore.list = nodes.map(item => {
           return item.extension ? `${item.name}.${item.extension}` : item.name;

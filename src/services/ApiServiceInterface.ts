@@ -5,6 +5,6 @@ export interface ApiServiceInterface {
 
   getNavigator: () => Promise<Node[]>;
 
-  getNodes: (request: NodesRequest) => Promise<Node[] | null>;
+  getNodes: (request: NodesRequest) => Promise<Node[] | []>;
 
 }

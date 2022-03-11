@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="confirmStore.show"
     :header="confirmStore.header"
-    :style="{width: '350px'}"
+    :style="{width: '550px'}"
     :modal="true"
     @hide="confirmStore.decline"
   >
@@ -21,10 +21,11 @@
     </div>
 
     <div v-if="confirmStore.list.length">
-      <ul>
+      <ul class="grid-cols-1 divide-y border mt-5">
         <li
           v-for="(item, index) in confirmStore.list"
           :key="index"
+          class="py-2 px-3"
         >
           {{ item }}
         </li>
