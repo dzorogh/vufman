@@ -1,5 +1,5 @@
 <template>
-  breadcrumbs
+  Корневая папка
 </template>
 
 <script setup lang="ts">
