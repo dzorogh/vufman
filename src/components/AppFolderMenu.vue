@@ -4,6 +4,7 @@
       v-tooltip.bottom="'Новая папка'"
       class="p-button-success p-button-text"
       icon="pi pi-folder"
+      @click="nodesStore.makeFolder"
     />
 
     <Button
@@ -11,6 +12,7 @@
       v-tooltip.bottom="'Переместить'"
       class="p-button-secondary p-button-text"
       icon="pi pi-folder-open"
+      @click="nodesStore.moveNodes"
     />
 
     <Button
