@@ -1,3 +1,3 @@
 export interface NodesRequest {
-  id: number | null,
+  id: number | null;
 }

@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
 import ContextMenu from 'primevue/contextmenu';
+import { MenuItem } from "primevue/menuitem";
 
 import Api from '@/services/Api';
 import AppNode from "@/components/AppNode.vue";
@@ -57,16 +58,19 @@ const selectNodeShift = (node: Node) => {
     if (nodes.value) {
 
       const firstNodeIndex = nodes.value.indexOf(selectedNodes.value[0]);
+      const lastNodeIndex = firstNodeIndex + selectedNodes.value.length - 1;
       const selectedNodeIndex = nodes.value.indexOf(node);
 
+      selectedNodes.value = [];
+
       // Select all nodes between first and selected node
-      // Including selected one
+      // Including edge items
       nodes.value.forEach((item, index) => {
-        if (index > firstNodeIndex && index <= selectedNodeIndex) {
+        if (index >= firstNodeIndex && index <= selectedNodeIndex) {
           selectedNodes.value.push(item);
         }
 
-        if (index >= selectedNodeIndex && index < firstNodeIndex) {
+        if (index >= selectedNodeIndex && index <= lastNodeIndex) {
           selectedNodes.value.push(item);
         }
       });
@@ -106,53 +110,66 @@ const selectedNodesIcon = computed(() => {
 
   return 'pi pi-fw';
 });
-const menuItems = computed<object[]>(() => [
-  {
+const menuItems = computed<object[]>(() => {
+  const result = [] as MenuItem[];
+
+  result.push({
     label: selectedNodesLabel.value,
     icon: selectedNodesIcon.value,
     disabled: true,
-  },
-  {
+    class: 'context-menu-title',
+  });
+
+  result.push({
     separator: true,
-  },
-  {
+  });
+
+  result.push({
     label: 'Переместить',
     icon: 'pi pi-fw pi-folder-open'
-  },
-  {
+  });
+
+  result.push({
     label: 'Скопировать',
     icon: 'pi pi-fw pi-copy'
-  },
-  {
-    label: 'Переименовать',
-    icon: 'pi pi-fw pi-pencil',
-    command: async () => {
-      /*if (activeContextNode.value && nodes.value) {
-        const result = await renameAction.show(activeContextNode.value);
+  });
 
-        console.log(result);
+  if (selectedNodes.value.length === 1) {
+    const selectedNode = selectedNodes.value[0];
 
-        if (result) {
+    result.push({
+      label: 'Переименовать',
+      icon: 'pi pi-fw pi-pencil',
+      command: async () => {
+        if (selectedNode && nodes.value) {
+          const result = await renameAction.show(selectedNode);
 
-          const currentNodeIndex = nodes.value.findIndex((item) => {
-            return item.id === activeContextNode.value?.id;
-          });
+          console.log(result);
 
-          nodes.value[currentNodeIndex].name = result;
+          if (result) {
 
-          // TODO: Actually delete node
+            const currentNodeIndex = nodes.value.findIndex((item) => {
+              return item.id === selectedNode.id;
+            });
+
+            nodes.value[currentNodeIndex].name = result;
+
+            // TODO: Actually delete node
+          }
         }
-      }*/
-    }
-  },
-  {
+      }
+    });
+  }
+
+  result.push({
     label: 'Скачать',
     icon: 'pi pi-fw pi-download',
     command() {
       alert('Скачивание');
     }
-  },
-  {
+  });
+
+  result.push({
     label: 'Удалить',
     icon: 'pi pi-fw pi-trash text-danger',
     command: async () => {
@@ -170,8 +187,10 @@ const menuItems = computed<object[]>(() => [
          }
        }*/
     }
-  }
-]);
+  });
+
+  return result;
+});
 
 </script>
 

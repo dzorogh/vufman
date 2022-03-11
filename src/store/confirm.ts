@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useConfirmStore = defineStore('confirm', {
   state: () => {
@@ -8,7 +8,7 @@ export const useConfirmStore = defineStore('confirm', {
       header: '',
       content: '',
       list: [] as string[]
-    }
+    };
   },
   actions: {
     decline() {
@@ -18,4 +18,4 @@ export const useConfirmStore = defineStore('confirm', {
       this.show = false;
     }
   }
-})
+});

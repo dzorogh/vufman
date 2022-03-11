@@ -1,10 +1,10 @@
-import { Node } from '../types/Node';
-import { NodesRequest } from '../types/NodesRequest';
+import { Node } from '@/types/Node';
+import { NodesRequest } from '@/types/NodesRequest';
 
 export interface ApiServiceInterface {
 
-  getNavigator: () => Promise<Node[]>
+  getNavigator: () => Promise<Node[]>;
 
-  getNodes: (request: NodesRequest) => Promise<Node[] | null>
+  getNodes: (request: NodesRequest) => Promise<Node[] | null>;
 
 }

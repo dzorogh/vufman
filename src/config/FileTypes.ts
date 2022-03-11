@@ -56,4 +56,5 @@ export const FileTypes = {
     'video/3gpp',
     'video/3gpp2',
   ]
-}
+};
+

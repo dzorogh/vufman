@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.context-menu-title .p-menuitem-text {
+    @apply truncate;
+}
+
 .p-contextmenu {
-    @apply w-auto max-w-screen-sm !important;
+    @apply w-96 !important;
 }
 
 img[lazy=loading] {

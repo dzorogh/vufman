@@ -2,7 +2,7 @@
   <Tree
     v-model:selection-keys="selectedFolderKey"
     :selectable="false"
-    :value="navigator"
+    :value="tree"
     selection-mode="single"
     :meta-key-selection="false"
     @node-select="onNodeSelect"
@@ -10,26 +10,36 @@
 </template>
 
 <script setup lang="ts">
-import Tree from "primevue/tree";
+import Tree, { TreeNode } from "primevue/tree";
 import Api from "@/services/Api";
 import { Node } from "@/types/Node";
+import { ref } from "vue";
 
 const navigator = await Api.getNavigator();
+const tree = ref<TreeNode[]>();
 
-function updateNavigator(nodes: any) {
+function updateNavigator(nodes: Node[] | undefined) {
   if (nodes && nodes.length) {
-    for (let node of nodes) {
-      // add icon
-      node.label = node.name;
-      node.icon = 'pi pi-folder';
-      node.key = node.id;
+    let result = [] as TreeNode[];
 
-      updateNavigator(node.children);
+    for (let node of nodes) {
+      result.push(
+        {
+          label: node.name,
+          icon: 'pi pi-folder',
+          key: node.id + '',
+          children: updateNavigator(node.children)
+        }
+      );
     }
+
+    return result;
   }
+
+  return [];
 }
 
-updateNavigator(navigator);
+tree.value = updateNavigator(navigator);
 
 function onNodeSelect(node: Node) {
   console.log(node);

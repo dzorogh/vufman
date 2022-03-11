@@ -1,3 +1,3 @@
 export interface GlobalSettings {
-  mountContainer: string
+  mountContainer: string;
 }

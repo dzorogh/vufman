@@ -79,6 +79,7 @@ import IconVideo from "@/components/IconVideo.vue";
 import { FormatTimestamp } from "@/formatters/FormatTimestamp";
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
   node: Node;
 }>();

@@ -1,11 +1,11 @@
 export interface Node {
-  id: number;
+  id: string | number;
   name: string;
   isFolder: boolean;
   size: number;
 
   folderId: string | null;
-  
+
   createdAt: string | null;
   updatedAt: string | null;
   deletedAt: string | null;

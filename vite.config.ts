@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import * as path from "path";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(() => {
   return {
     plugins: [
       vue(),
@@ -13,11 +12,11 @@ export default defineConfig(({ command }) => {
         // Need when main js file used outside test server
         name: 'asset-base-url',
         enforce: 'post',
-        transform: (code, id) => {
+        transform: (code) => {
           const port = '3333';
 
           code = code.replace(
-            /(from |import\()("|'|`)(\/src|~?@|\/@fs\/@)\/(.*?)\.(svg|png|mp3|mp4|eot|woff|ttf|json)/g,
+            /(from |import\()(["'`])(\/src|~?@|\/@fs\/@)\/(.*?)\.(svg|png|mp3|mp4|eot|woff|ttf|json)/g,
             `$1$2http://localhost:${port}/src/$4.$5?import=`);
           code = code.replace(/(?<!local)(\/src|~?@|\/@fs\/@)\/(.*?)\.(svg|png|mp3|mp4|eot|woff|ttf|json)/g,
             `http://localhost:${port}/src/$2.$3`);
@@ -25,7 +24,7 @@ export default defineConfig(({ command }) => {
           code = code.replace(/'\/node_modules\//g, `'http://localhost:${port}/node_modules/`);
           code = code.replace(/"\/node_modules\//g, `"http://localhost:${port}/node_modules/`);
 
-          code = code.replace(/(axios\.get\(['|"|`])\/(.*)(.json)/gm, `$1http://localhost:${port}/$2$3`);
+          code = code.replace(/(axios\.get\(['"`])\/(.*)(.json)/gm, `$1http://localhost:${port}/$2$3`);
 
 
           // console.log(code);
