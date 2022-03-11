@@ -75,9 +75,10 @@ export const useNodesStore = defineStore('nodes', {
       if (result === true) {
         this.nodes.forEach((node, nodeIndex) => {
           this.selectedNodes.forEach((selectedNode) => {
-            if (node.id === selectedNode.id) {
-              this.nodes.splice(nodeIndex, 1);
-            }
+            // if (node.id === selectedNode.id) {
+            //   this.nodes.splice(nodeIndex, 1);
+            // }
+            this.nodes.splice(this.nodes.indexOf(selectedNode), 1);
           });
         });
 
@@ -115,7 +116,11 @@ export const useNodesStore = defineStore('nodes', {
       }
 
       return 'pi pi-fw';
-    }
+    },
+
+    isNodeSelected: (state) => {
+      return (node: Node) => state.selectedNodes.indexOf(node) >= 0;
+    },
   }
 });
 
