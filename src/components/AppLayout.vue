@@ -5,6 +5,13 @@
         Разделы
       </h3>
       <AppNavigator />
+
+      <div>
+        TODO: Корневой каталог (Общий диск)
+      </div>
+      <div>
+        TODO: Корзина
+      </div>
     </div>
 
     <div class="col-span-4 h-full overflow-hidden rounded-xl flex flex-col">
