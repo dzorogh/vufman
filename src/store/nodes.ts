@@ -6,8 +6,10 @@ import { useRenameAction } from "@/composables/useRenameAction";
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
+      currentFolder: null,
       nodes: [] as Node[],
       selectedNodes: [] as Node[],
+      copiedNodes: [] as Node[]
     };
   },
   actions: {
@@ -81,6 +83,10 @@ export const useNodesStore = defineStore('nodes', {
 
         // TODO: API - save changes
       }
+    },
+
+    copyNodes() {
+      this.copiedNodes = this.selectedNodes;
     }
   },
 
