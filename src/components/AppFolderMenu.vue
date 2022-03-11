@@ -1,22 +1,22 @@
 <template>
-  <div class="flex gap-2">
+  <div class="p-buttonset">
     <Button
       v-tooltip.bottom="'Новая папка'"
-      class="p-button-raised p-button-success p-button-text"
+      class="p-button-success p-button-text"
       icon="pi pi-folder"
     />
 
     <Button
       v-if="nodesStore.selectedNodes.length"
       v-tooltip.bottom="'Переместить'"
-      class="p-button-raised p-button-secondary p-button-text"
+      class="p-button-secondary p-button-text"
       icon="pi pi-folder-open"
     />
 
     <Button
       v-if="nodesStore.selectedNodes.length"
       v-tooltip.bottom="'Копировать'"
-      class="p-button-raised p-button-secondary p-button-text"
+      class="p-button-secondary p-button-text"
       icon="pi pi-copy"
       @click="nodesStore.copyNodes"
     />
@@ -24,7 +24,7 @@
     <Button
       v-if="nodesStore.copiedNodes.length"
       v-tooltip.bottom="'Вставить'"
-      class="p-button-raised p-button-text"
+      class="p-button-text"
       icon="pi pi-copy"
       @click="nodesStore.pasteNodes"
     />
@@ -32,7 +32,7 @@
     <Button
       v-if="nodesStore.selectedNodes.length === 1"
       v-tooltip.bottom="'Переименовать'"
-      class="p-button-raised p-button-secondary  p-button-text"
+      class="p-button-secondary  p-button-text"
       icon="pi pi-pencil"
       @click="nodesStore.renameNode"
     />
@@ -40,7 +40,7 @@
     <Button
       v-if="nodesStore.selectedNodes.length"
       v-tooltip.bottom="'Скачать'"
-      class="p-button-raised p-button-secondary  p-button-text"
+      class="p-button-secondary  p-button-text"
       icon="pi pi-download"
       @click="nodesStore.downloadNodes"
     />
@@ -48,7 +48,7 @@
     <Button
       v-if="nodesStore.selectedNodes.length"
       v-tooltip.bottom="'Переместить в корзину'"
-      class="p-button-raised p-button-secondary p-button-text"
+      class="p-button-secondary p-button-text"
       icon="pi pi-trash"
       @click="nodesStore.deleteNodes"
     />
@@ -56,7 +56,7 @@
     <Button
       v-if="nodesStore.selectedNodes.length"
       v-tooltip.bottom="'Удалить навсегда'"
-      class="p-button-raised p-button-danger p-button-text"
+      class="p-button-danger p-button-text"
       icon="pi pi-times"
       @click="nodesStore.destroyNodes"
     />
