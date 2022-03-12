@@ -66,6 +66,14 @@ export const useNodesStore = defineStore('nodes', {
 
         // TODO: API - save changes
       }
+
+      this.selectedNodes = [];
+    },
+
+    removeNodes(nodes: Node[]) {
+      nodes.forEach((node) => {
+        this.nodes.splice(this.nodes.indexOf(node), 1);
+      });
     },
 
     async deleteNodes() {
@@ -76,56 +84,53 @@ export const useNodesStore = defineStore('nodes', {
       if (result === true) {
         // TODO: API - save changes
 
-        this.selectedNodes.forEach((selectedNode) => {
-          this.nodes.splice(this.nodes.indexOf(selectedNode), 1);
-        });
-
-        this.selectedNodes = [];
+        this.removeNodes(this.selectedNodes);
       }
+
+      this.selectedNodes = [];
     },
 
     async destroyNodes() {
       const deleteAction = useDeleteAction();
 
-      // TODO: Show message about delete without recovery
       const result = await deleteAction.show(this.selectedNodes, true);
 
       if (result === true) {
         // TODO: API - save changes
 
-        this.nodes.forEach(() => {
-          this.selectedNodes.forEach((selectedNode) => {
-            this.nodes.splice(this.nodes.indexOf(selectedNode), 1);
-          });
-        });
-
-        this.selectedNodes = [];
+        this.removeNodes(this.selectedNodes);
       }
+
+      this.selectedNodes = [];
     },
 
     async downloadNodes() {
-      return alert('download');
+      alert('download');
+      this.selectedNodes = [];
     },
 
     async copyNodes() {
       this.copiedNodes = this.selectedNodes;
+
+      this.selectedNodes = [];
     },
 
     async pasteNodes() {
-      this.selectedNodes = [];
-
       // TODO: API - save changes
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
       this.copiedNodes = [];
+      this.selectedNodes = [];
     },
 
     async moveNodes() {
       // TODO: Make interface
       alert('move nodes');
+      this.selectedNodes = [];
     },
 
     async makeFolder() {
       alert('make folder and set name for it');
+      this.selectedNodes = [];
     }
   },
 
