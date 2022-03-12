@@ -129,6 +129,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async makeFolder() {
+      // TODO: Show rename order
       alert('make folder and set name for it');
       this.selectedNodes = [];
     }
