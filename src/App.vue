@@ -1,6 +1,6 @@
 <template>
   <suspense>
-    <AppLayout />
+    <router-view />
   </suspense>
 
   <DialogConfirm />

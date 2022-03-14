@@ -140,6 +140,9 @@ const menuItems = computed<object[]>(() => {
   return result;
 });
 
+const route = useRoute();
+
+console.log(route.params);
 
 </script>
 

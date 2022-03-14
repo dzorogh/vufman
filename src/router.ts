@@ -1,12 +1,32 @@
-import App from "./App.vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+import AppLayout from "@/components/AppLayout.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import { settings } from "./setup";
 
 const routes = [
-  { path: '/', component: App },
+  {
+    name: 'root',
+    path: '/',
+    component: AppLayout,
+  },
+  {
+    name: 'folder',
+    path: '/folder/:folderId',
+    component: AppLayout
+  },
+  {
+    name: 'file',
+    path: '/file/:fileId',
+    component: AppLayout
+  },
+  {
+    name: 'trash',
+    path: '/trash',
+    component: AppLayout
+  },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(settings.basePath),
   routes,
 });
 

@@ -1,11 +1,13 @@
 import { GlobalSettings } from "./types/GlobalSettings";
 
 let settings = {
-  mountContainer: '#app'
-} as GlobalSettings;
+  mountContainer: '#app',
+  basePath: '/',
+  apiPrefix: '/data/'
+};
 
 if (window.wufmanSetup && typeof window.wufmanSetup === 'function') {
-  settings = window.wufmanSetup(settings);
+  settings = window.wufmanSetup(settings) as typeof settings;
 }
 
 const root = document.querySelector(settings.mountContainer);
