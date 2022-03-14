@@ -4,7 +4,14 @@
       <h3 class="text-slate-900 mb-2 font-bold px-4">
         Разделы
       </h3>
-      <AppNavigator />
+
+      <suspense>
+        <AppNavigator />
+
+        <template #fallback>
+          <ProgressSpinner class="w-10" />
+        </template>
+      </suspense>
     </div>
 
     <div class="col-span-4 h-full overflow-hidden rounded-xl flex flex-col">
@@ -12,12 +19,20 @@
         <AppBreadCrumbs />
 
         <div class="ml-auto">
-          <AppFolderMenu />
+          <suspense>
+            <AppFolderMenu />
+
+            <template #fallback>
+              <ProgressSpinner class="w-10 h-10 m-10" />
+            </template>
+          </suspense>
         </div>
       </div>
 
       <div class="grow bg-white shadow-sm rounded-b-xl p-4 overflow-auto">
-        <AppFolderView />
+        <suspense>
+          <AppFolderView />
+        </suspense>
       </div>
     </div>
   </div>
@@ -29,6 +44,7 @@ import AppFolderView from "@/components/AppFolderView.vue";
 import AppBreadCrumbs from "@/components/AppBreadCrumbs.vue";
 import AppFolderMenu from "@/components/AppFolderMenu.vue";
 import { useNodesStore } from "@/store/nodes";
+import ProgressSpinner from 'primevue/progressspinner';
 
 const nodesStore = useNodesStore();
 
