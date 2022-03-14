@@ -1,5 +1,5 @@
 export interface Node {
-  id: string | number;
+  id: string;
   name: string;
   isFolder: boolean;
   size: number;
