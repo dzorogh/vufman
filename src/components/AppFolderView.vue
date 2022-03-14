@@ -1,10 +1,16 @@
 <template>
-  <div class="grid grid-cols-1 overflow-x-hidden">
-    <TransitionGroup
-      name="list"
+  <template v-if="!isLoading">
+    <div
+      v-if="nodesStore.sortedNodes.length > 0"
+      class="grid grid-cols-1 overflow-x-hidden"
     >
+      <!--    <TransitionGroup-->
+      <!--      name="list"-->
+      <!--    >-->
+
       <AppNode
         v-for="(child) in nodesStore.sortedNodes"
+
         :key="child.id"
         :node="child"
         class="border border-transparent hover:bg-slate-50"
@@ -14,32 +20,62 @@
         @click.shift="nodesStore.selectNodeRange(child)"
         @click.exact="nodesStore.selectNodeSingle(child)"
         @contextmenu="showContextMenu(child, $event)"
+        @dblclick="handleDoubleClick(child)"
       />
-    </TransitionGroup>
 
-    <ContextMenu
-      ref="menu"
-      :model="menuItems"
-    />
-  </div>
+      <!--    </TransitionGroup>-->
+
+      <ContextMenu
+        ref="menu"
+        :model="menuItems"
+      />
+    </div>
+    <div
+      v-else
+      class="p-4"
+    >
+      Папка пуста
+    </div>
+  </template>
+
+  <ProgressSpinner
+    v-else
+    class="w-10 h-10 m-10"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import ContextMenu from 'primevue/contextmenu';
 import { MenuItem } from 'primevue/menuitem';
+import ProgressSpinner from 'primevue/progressspinner';
 
-import Api from '@/services/Api';
+import Api from '@/services/api';
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
 
 import { Node } from "@/types/Node";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const nodesStore = useNodesStore();
+const route = useRoute();
+const router = useRouter();
 
+// console.log(route.params.folderId);
 
-nodesStore.nodes = await Api.getNodes({ id: null });
+const isLoading = ref(false);
+
+watch(() => {
+  return route.params.folderId;
+}, async (folderId) => {
+  isLoading.value = true;
+  nodesStore.nodes = await Api.getNodes({ folderId: folderId as string || null });
+  isLoading.value = false;
+}, {
+  immediate: true
+});
+
+// console.log(nodesStore.nodes);
 
 const menu = ref();
 const showContextMenu = (node: Node, event: unknown) => {
@@ -104,9 +140,27 @@ const menuItems = computed<object[]>(() => {
   return result;
 });
 
-const route = useRoute();
+// console.log(route.params);
 
-console.log(route.params);
+const handleDoubleClick = function (node: Node) {
+  // navigate to folder or file
+
+  if (node.isFolder) {
+    router.push({
+      name: 'folder',
+      params: {
+        folderId: node.id
+      },
+    });
+  } else {
+    router.push({
+      name: 'file',
+      params: {
+        fileId: node.id
+      },
+    });
+  }
+};
 
 </script>
 
