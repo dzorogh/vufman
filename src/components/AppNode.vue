@@ -58,7 +58,7 @@
         v-if="node.createdAt"
         class="text-sm text-slate-600"
       >
-        {{ FormatTimestamp(node.createdAt) }}
+        {{ formatTimestamp(node.createdAt) }}
       </div>
 
       <div v-if="node.author">
@@ -76,7 +76,7 @@ import IconFolder from "@/components/IconFolder.vue";
 import { FileTypes } from "@/config/FileTypes";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
-import { FormatTimestamp } from "@/formatters/FormatTimestamp";
+import { formatTimestamp } from "@/formatters/formatTimestamp";
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
