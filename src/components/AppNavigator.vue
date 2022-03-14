@@ -1,9 +1,10 @@
 <template data-label="AppNavigator">
   <Tree
-    v-model:selection-keys="selectedFolderKey"
+    :selection-keys="selectedFolderKey"
+    selection-mode="single"
+
     :selectable="false"
     :value="tree"
-    selection-mode="single"
     :meta-key-selection="false"
     :expanded-keys="expandedKeys"
     @node-select="onNodeSelect"
@@ -14,7 +15,11 @@
 import Tree, { TreeNode } from "primevue/tree";
 import Api from "@/services/Api";
 import { Node } from "@/types/Node";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
 
 const navigator = await Api.getNavigator();
 const tree = ref<TreeNode[]>(
@@ -57,11 +62,29 @@ function updateNavigator(nodes: Node[] | undefined) {
 
 tree.value[0].children = updateNavigator(navigator);
 
-function onNodeSelect(node: Node) {
-  console.log(node);
+function onNodeSelect(treeNode: TreeNode) {
+  console.log(treeNode);
+
+  if (treeNode.key === 'root') {
+    return router.push({ name: 'root' });
+  }
+
+  if (treeNode.key === 'trash') {
+    return router.push({ name: 'trash' });
+  }
+
+  return router.push({ name: 'folder', params: { folderId: treeNode.key } });
 }
 
-const selectedFolderKey = null;
+const selectedFolderKey = computed(() => {
+  if (!route.params.folderId) {
+    return 'root';
+  }
+
+  if (!route.params.isTrash) {
+    return 'trash';
+  }
+});
 
 const expandedKeys = ref({
   root: true,
