@@ -7,9 +7,6 @@
       <AppNavigator />
 
       <div>
-        TODO: Корневой каталог (Общий диск)
-      </div>
-      <div>
         TODO: Корзина
       </div>
     </div>
