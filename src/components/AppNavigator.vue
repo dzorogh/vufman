@@ -1,27 +1,29 @@
 <template data-label="AppNavigator">
   <Tree
+    v-model:expanded-keys="expandedKeys"
     :selection-keys="selectedFolderKey"
-    selection-mode="single"
 
+    selection-mode="single"
     :selectable="false"
     :value="tree"
+
     :meta-key-selection="false"
-    :expanded-keys="expandedKeys"
-    @node-select="onNodeSelect"
+
+    @node-select="handleSelect"
   />
 </template>
 
 <script setup lang="ts">
 import Tree, { TreeNode } from "primevue/tree";
-import Api from "@/services/Api";
+import api from "@/services/api";
 import { Node } from "@/types/Node";
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStorage } from "@vueuse/core";
 
 const route = useRoute();
 const router = useRouter();
 
-const navigator = await Api.getNavigator();
 const tree = ref<TreeNode[]>(
   [
     {
@@ -39,17 +41,17 @@ const tree = ref<TreeNode[]>(
   ]
 );
 
-function updateNavigator(nodes: Node[] | undefined) {
+function makeTree(nodes: Node[] | undefined, folderId: Node['folderId']) {
   if (nodes && nodes.length) {
     let result = [] as TreeNode[];
 
-    for (let node of nodes) {
+    for (let node of nodes.filter((item) => item.folderId === folderId)) {
       result.push(
         {
           label: node.name,
           icon: 'pi pi-folder',
           key: node.id + '',
-          children: updateNavigator(node.children)
+          children: makeTree(nodes, node.id)
         }
       );
     }
@@ -60,10 +62,16 @@ function updateNavigator(nodes: Node[] | undefined) {
   return [];
 }
 
-tree.value[0].children = updateNavigator(navigator);
+const isLoading = ref(true);
+const nodes = await api.getNodes({ isFolder: true });
+isLoading.value = false;
 
-function onNodeSelect(treeNode: TreeNode) {
-  console.log(treeNode);
+// console.log(nodes, makeTree(nodes, null));
+
+tree.value[0].children = makeTree(nodes, null);
+
+function handleSelect(treeNode: TreeNode) {
+  // console.log(treeNode);
 
   if (treeNode.key === 'root') {
     return router.push({ name: 'root' });
@@ -86,7 +94,7 @@ const selectedFolderKey = computed(() => {
   }
 });
 
-const expandedKeys = ref({
+const expandedKeys = useStorage('my-flag', {
   root: true,
 });
 
