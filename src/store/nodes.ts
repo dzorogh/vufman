@@ -7,6 +7,7 @@ import { computed } from "vue";
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
+      nodesLoading: false,
       currentFolder: null as Node | null,
       nodes: [] as Node[],
       selectedNodes: [] as Node[],

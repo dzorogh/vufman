@@ -1,3 +1,3 @@
 export interface FolderRequest {
-  id: string;
+  id: string | null;
 }

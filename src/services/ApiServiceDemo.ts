@@ -12,7 +12,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
   async getNodes(request: NodesRequest) {
     const nodes = await axios.get('/data/nodes.json');
-    await promiseTimeout(Math.random() * 2000 + 100);
+    await promiseTimeout(Math.random() * 1000 + 100);
 
     let data = nodes.data.data as Node[];
 
@@ -34,7 +34,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
   async getFolder(request: FolderRequest) {
     const nodes = await axios.get('/data/nodes.json');
-    await promiseTimeout(Math.random() * 2000 + 100);
+    await promiseTimeout(Math.random() * 1000 + 100);
 
     const data = nodes.data.data as Node[];
 

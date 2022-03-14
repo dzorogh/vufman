@@ -9,7 +9,7 @@
 
 
 <script setup lang="ts">
-import AppLayout from "./components/AppLayout.vue";
+import AppLayout from "./components/AppFolderLayout.vue";
 import DialogConfirm from "./components/DialogConfirm.vue";
 import DialogPrompt from "@/components/DialogPrompt.vue";
 
