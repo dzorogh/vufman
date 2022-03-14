@@ -4,22 +4,44 @@
       "name": "Моторы 1",
       "id": "665eba1f-8011-4811-80da-c552df23d3a4",
       "isFolder": true,
-      "size": 13123123,
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "size": 0,
+      "length": 20,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "name": "Моторы 1-1",
+      "id": "89c92111-1872-4c6d-86b7-7593138c9a42",
+      "isFolder": true,
+      "size": 0,
+      "length": 1,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "665eba1f-8011-4811-80da-c552df23d3a4"
+    },
+    {
+      "name": "Моторы 1-1-1",
+      "id": "0144d28a-6241-4ace-b5b1-ddad1e0d65d2",
+      "isFolder": true,
+      "size": 0,
+      "length": 0,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "89c92111-1872-4c6d-86b7-7593138c9a42"
     },
     {
       "name": "All children like cooked melons in kefir and marmalade",
       "id": "121021fa-b42a-4bdb-b68a-ca5343624b7c",
       "isFolder": true,
       "size": 123412,
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "665eba1f-8011-4811-80da-c552df23d3a4"
     },
     {
       "name": "The light of emerging suns is honorable",
       "id": "1df9683b-52f5-4f3a-8e84-eaf8392cccae",
       "isFolder": true,
       "size": 0,
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -30,7 +52,8 @@
       "size": 1231823019823901809238109283,
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "application/pdf",
@@ -40,7 +63,8 @@
       "extension": "pdf",
       "size": 1231,
       "src": "/data/dummy.pdf",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "application/pdf",
@@ -50,7 +74,8 @@
       "extension": "pdf",
       "size": 31415345,
       "src": "/data/dummy.pdf",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "createdAt": "2019-02-01T03:45:27+00:00",
@@ -60,7 +85,8 @@
       "mimetype": "video/mp4",
       "name": "Yamaha 30 из румпеля в дистанцию. Блог сервисного центра",
       "size": 5645643456636,
-      "src": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      "src": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -71,7 +97,8 @@
       "size": 593049539,
       "thumbnail": "https://placekitten.com/1000/100",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "src": "https://placekitten.com/100/4000"
+      "src": "https://placekitten.com/100/4000",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -82,7 +109,8 @@
       "size": 4353636,
       "thumbnail": "https://placekitten.com/1000/10",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "src": "https://placekitten.com/30000/300"
+      "src": "https://placekitten.com/30000/300",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -93,7 +121,8 @@
       "size": 9040539845093849053,
       "thumbnail": "https://placekitten.com/1000/1000",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "src": "https://placekitten.com/30000/30000"
+      "src": "https://placekitten.com/30000/30000",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -103,7 +132,8 @@
       "extension": "png",
       "size": 5435,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -113,7 +143,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -123,7 +154,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -133,7 +165,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -143,7 +176,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -153,7 +187,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
     },
     {
       "mimetype": "image/png",
@@ -163,7 +198,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -173,7 +209,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -183,7 +220,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -193,7 +231,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -203,7 +242,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -213,7 +253,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     },
     {
       "mimetype": "image/png",
@@ -223,7 +264,8 @@
       "extension": "png",
       "size": 100000000,
       "thumbnail": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00"
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "121021fa-b42a-4bdb-b68a-ca5343624b7c"
     }
   ]
 }
