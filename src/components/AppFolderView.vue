@@ -31,12 +31,10 @@ import { MenuItem } from 'primevue/menuitem';
 
 import Api from '@/services/Api';
 import AppNode from "@/components/AppNode.vue";
-import AppBreadCrumbs from "@/components/AppBreadCrumbs.vue";
 import { useNodesStore } from "@/store/nodes";
 
 import { Node } from "@/types/Node";
-import { useDeleteAction } from "@/composables/useDeleteAction";
-import { useRenameAction } from "@/composables/useRenameAction";
+import { useRoute } from "vue-router";
 
 const nodesStore = useNodesStore();
 
