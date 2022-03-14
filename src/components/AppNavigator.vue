@@ -5,6 +5,7 @@
     :value="tree"
     selection-mode="single"
     :meta-key-selection="false"
+    :expanded-keys="expandedKeys"
     @node-select="onNodeSelect"
   />
 </template>
@@ -16,7 +17,16 @@ import { Node } from "@/types/Node";
 import { ref } from "vue";
 
 const navigator = await Api.getNavigator();
-const tree = ref<TreeNode[]>();
+const tree = ref<TreeNode[]>(
+  [
+    {
+      label: 'Диск',
+      icon: 'pi pi-home',
+      key: 'root',
+      children: []
+    }
+  ]
+);
 
 function updateNavigator(nodes: Node[] | undefined) {
   if (nodes && nodes.length) {
@@ -39,13 +49,17 @@ function updateNavigator(nodes: Node[] | undefined) {
   return [];
 }
 
-tree.value = updateNavigator(navigator);
+tree.value[0].children = updateNavigator(navigator);
 
 function onNodeSelect(node: Node) {
   console.log(node);
 }
 
 const selectedFolderKey = null;
+
+const expandedKeys = ref({
+  root: true,
+});
 
 </script>
 
