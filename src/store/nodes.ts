@@ -7,7 +7,7 @@ import { computed } from "vue";
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
-      currentFolder: null,
+      currentFolder: null as Node | null,
       nodes: [] as Node[],
       selectedNodes: [] as Node[],
       copiedNodes: [] as Node[]
@@ -167,6 +167,10 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     sortedNodes: (state) => {
+      if (!state.nodes) {
+        return [];
+      }
+
       return [ ...state.nodes ]
         .sort((a: Node, b: Node) => {
           if (a.name > b.name) {
