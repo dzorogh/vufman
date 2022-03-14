@@ -1,15 +1,15 @@
 import ApiServiceDemo from './ApiServiceDemo';
 import { ApiServiceInterface } from './ApiServiceInterface';
 
-let Api : ApiServiceInterface;
+let api: ApiServiceInterface;
 
-if (import.meta.env.MODE) {
-  Api = new ApiServiceDemo();
+if (import.meta.env.MODE === 'local') {
+  api = new ApiServiceDemo();
 } else {
   // realApiService
 
   // maybe will get global api endpoints from window object or other way
-  Api = new ApiServiceDemo();
+  api = new ApiServiceDemo();
 }
 
-export default Api;
+export default api;
