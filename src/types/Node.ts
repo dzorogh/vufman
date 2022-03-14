@@ -1,4 +1,5 @@
 export interface Node {
+  isTrashed: boolean;
   id: string;
   name: string;
   isFolder: boolean;

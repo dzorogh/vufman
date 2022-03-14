@@ -20,6 +20,10 @@ export default class ApiServiceDemo implements ApiServiceInterface {
       return [];
     }
 
+    if (!request.isTrashed) {
+      data = data.filter((node) => !node.isTrashed);
+    }
+
     if (request.isFolder !== undefined) {
       data = data.filter((node) => node.isFolder === request.isFolder);
     }

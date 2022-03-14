@@ -36,6 +36,62 @@
       "folderId": "665eba1f-8011-4811-80da-c552df23d3a4"
     },
     {
+      "name": "Trashed folder 1",
+      "id": "0d23e585-c133-4777-8445-d3d77ef18f7a",
+      "isFolder": true,
+      "size": 123412,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null,
+      "isTrashed": true
+    },
+    {
+      "name": "Trashed folder 1-1",
+      "id": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
+      "isFolder": true,
+      "size": 123412,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null,
+      "isTrashed": "0d23e585-c133-4777-8445-d3d77ef18f7a"
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "265982ab-a0fc-4d85-9117-93f2bdafa85b",
+      "name": "Trashed File 1",
+      "extension": "png",
+      "size": 1231823019823901809238109283,
+      "thumbnail": "https://placekitten.com/10/10",
+      "src": "https://placekitten.com/1000/300",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "265982ab-a0fc-4d85-9117-93f2bdafa85b",
+      "name": "Trashed File in trashed folder 1-1",
+      "extension": "png",
+      "size": 123313131,
+      "thumbnail": "https://placekitten.com/10/10",
+      "src": "https://placekitten.com/1000/300",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
+      "isTrashed": true
+    },
+    {
+      "mimetype": "image/png",
+      "isFolder": false,
+      "id": "0a914bc0-24e4-4a35-9f06-2ababf911964",
+      "name": "Active file is trashed folder 1-1",
+      "extension": "png",
+      "size": 23123123,
+      "thumbnail": "https://placekitten.com/10/10",
+      "src": "https://placekitten.com/1000/300",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
+      "isTrashed": true
+    },
+    {
       "name": "The light of emerging suns is honorable",
       "id": "1df9683b-52f5-4f3a-8e84-eaf8392cccae",
       "isFolder": true,

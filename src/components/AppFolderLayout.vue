@@ -15,7 +15,7 @@
     </suspense>
 
     <div class="col-span-4 h-full overflow-hidden rounded-xl flex flex-col">
-      <div class="bg-white rounded-t-xl p-4 border-b flex items-center">
+      <div class="bg-white rounded-t-xl p-4 border-b flex items-center h-20">
         <template v-if="!nodesStore.nodesLoading">
           <AppBreadCrumbs />
 
@@ -25,16 +25,22 @@
         </template>
         <ProgressSpinner
           v-else
-          class="!w-12 !h-12 !m-0 !ml-2"
+          class="!w-7 !h-7 !m-0 !ml-2"
         />
       </div>
 
       <div class="grow bg-white shadow-sm rounded-b-xl p-4 overflow-auto">
         <AppFolderView v-if="!nodesStore.nodesLoading" />
-        <ProgressSpinner
+        <div
           v-else
-          class="!w-12 !h-12 !m-2"
-        />
+          class="flex item-center justify-center h-full min-h-full"
+        >
+          <div class="flex items-center justify-center">
+            <ProgressSpinner
+              class="!w-24 !h-24 !m-4"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
