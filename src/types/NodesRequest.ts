@@ -1,3 +1,4 @@
 export interface NodesRequest {
-  id: number | null;
+  folderId?: string | null;
+  isFolder?: boolean;
 }
