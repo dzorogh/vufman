@@ -24,6 +24,12 @@ const tree = ref<TreeNode[]>(
       icon: 'pi pi-home',
       key: 'root',
       children: []
+    },
+    {
+      label: 'Корзина',
+      icon: 'pi pi-trash',
+      key: 'trash',
+      children: []
     }
   ]
 );
