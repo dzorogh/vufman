@@ -28,8 +28,7 @@ img[lazy=loaded] {
     transition: all .3s ease;
 }
 
-.list-enter-from,
-.list-leave-to {
+.list-enter-from, .list-leave-to {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(30px);
 }
