@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
     name: 'trash',
     path: '/trash',
     component: AppFolderLayout,
-    meta: {
+    props: {
       isTrashed: true
     }
   },

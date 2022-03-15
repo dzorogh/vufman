@@ -14,7 +14,7 @@
         {{ nodesStore.currentFolder.name }}
       </div>
     </div>
-    <div v-else-if="!nodesStore.currentFolder && !route.meta.isTrashed">
+    <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
       <div class="font-bold opacity-50 px-4">
         Диск
       </div>
@@ -35,6 +35,10 @@ import { useRoute, useRouter } from "vue-router";
 const nodesStore = useNodesStore();
 const router = useRouter();
 const route = useRoute();
+
+const props = defineProps<{
+  isTrashed?: boolean;
+}>();
 
 const handleClickBack = function () {
   if (nodesStore.currentFolder) {
