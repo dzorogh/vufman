@@ -61,8 +61,11 @@ const route = useRoute();
 const nodesStore = useNodesStore();
 
 watch(() => {
-  return route.params.folderId;
-}, async (folderId) => {
+  return [
+    route.params.folderId,
+    route.meta.isTrashed
+  ];
+}, async ([ folderId, isTrashed ]) => {
   nodesStore.nodesLoading = true;
 
   [
@@ -70,7 +73,10 @@ watch(() => {
     nodesStore.nodes
   ] = await Promise.all([
     api.getFolder({ id: folderId as string }),
-    api.getNodes({ folderId: folderId as string || null })
+    api.getNodes({
+      folderId: folderId as string || null,
+      isTrashed: isTrashed ? true : undefined
+    })
   ]);
 
   nodesStore.nodesLoading = false;
