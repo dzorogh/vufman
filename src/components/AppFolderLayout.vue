@@ -14,8 +14,11 @@
       </template>
     </suspense>
 
-    <div class="col-span-4 h-full overflow-hidden rounded-xl flex flex-col">
-      <div class="bg-white rounded-t-xl p-4 border-b flex items-center h-20">
+    <div
+      class="h-full overflow-hidden rounded-l-xl flex flex-col"
+      :class="{'col-span-3': nodesStore.currentFolder, 'col-span-4': !nodesStore.currentFolder}"
+    >
+      <div class="bg-white rounded-tl-xl p-4 border-b flex items-center h-20">
         <template v-if="!nodesStore.nodesLoading">
           <AppBreadCrumbs />
 
@@ -29,7 +32,7 @@
         />
       </div>
 
-      <div class="grow bg-white shadow-sm rounded-b-xl p-4 overflow-auto">
+      <div class="grow bg-white shadow-sm rounded-bl-xl p-4 overflow-auto">
         <AppFolderView v-if="!nodesStore.nodesLoading" />
         <div
           v-else
@@ -42,6 +45,37 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div
+      v-if="nodesStore.currentFolder"
+      class="bg-white border-l p-6"
+    >
+      <h3 class="text-slate-900 mb-2 font-bold">
+        Текущая папка
+      </h3>
+
+      {{ nodesStore.currentFolder.name }}
+
+      <h3 class="text-slate-900 mb-2 mt-4 font-bold">
+        Дата создания
+      </h3>
+
+      {{ formatTimestamp(nodesStore.currentFolder.createdAt) }}
+
+      <template v-if="nodesStore.currentFolder.author">
+        <h3 class="text-slate-900 mb-2 mt-4 font-bold">
+          Создал
+        </h3>
+
+        {{ nodesStore.currentFolder.author.fullName }}
+      </template>
+
+      <h3 class="text-slate-900 mb-2 mt-4 font-bold">
+        Объем
+      </h3>
+
+      {{ filesize(nodesStore.currentFolder.size || 0, {locale: 'ru-RU'}) }}
     </div>
   </div>
 </template>
@@ -56,6 +90,8 @@ import ProgressSpinner from 'primevue/progressspinner';
 import api from "@/services/api";
 import { useRoute } from "vue-router";
 import { watch } from "vue";
+import { formatTimestamp } from '@/formatters/formatTimestamp';
+import filesize from 'filesize';
 
 const route = useRoute();
 const nodesStore = useNodesStore();

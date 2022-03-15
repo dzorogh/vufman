@@ -7,7 +7,10 @@
       "size": 0,
       "length": 20,
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "folderId": null
+      "folderId": null,
+      "author": {
+        "fullName": "Иванов Иван"
+      }
     },
     {
       "name": "Моторы 1-1",
