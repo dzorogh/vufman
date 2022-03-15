@@ -1,35 +1,34 @@
 <template>
-  <h3 class="text-slate-900 mb-2 font-bold">
-    Текущая папка
-  </h3>
+  <div class="flex flex-col gap-4">
+    <AppNodeInfoItem
+      title="Текущая папка"
+      :content="nodesStore.currentFolder.name"
+    />
 
-  {{ nodesStore.currentFolder.name }}
+    <AppNodeInfoItem
+      title="Дата создания"
+      :content="formatTimestamp(nodesStore.currentFolder.createdAt)"
+    />
 
-  <h3 class="text-slate-900 mb-2 mt-4 font-bold">
-    Дата создания
-  </h3>
+    <AppNodeInfoItem
+      v-if="nodesStore.currentFolder.author"
+      title="Создал"
+      :content="nodesStore.currentFolder.author.fullName"
+    />
 
-  {{ formatTimestamp(nodesStore.currentFolder.createdAt) }}
-
-  <template v-if="nodesStore.currentFolder.author">
-    <h3 class="text-slate-900 mb-2 mt-4 font-bold">
-      Создал
-    </h3>
-
-    {{ nodesStore.currentFolder.author.fullName }}
-  </template>
-
-  <h3 class="text-slate-900 mb-2 mt-4 font-bold">
-    Объем
-  </h3>
-
-  {{ filesize(nodesStore.currentFolder.size || 0, {locale: 'ru-RU'}) }}
+    <AppNodeInfoItem
+      v-if="nodesStore.currentFolder.author"
+      title="Размер"
+      :content="filesize(nodesStore.currentFolder.size || 0, {locale: 'ru-RU'})"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import filesize from 'filesize';
 import { formatTimestamp } from '@/formatters/formatTimestamp';
 import { useNodesStore } from "@/store/nodes";
+import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 
 const nodesStore = useNodesStore();
 
