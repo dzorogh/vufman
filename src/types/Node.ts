@@ -1,4 +1,5 @@
 export interface Node {
+  ancestors: Node[];
   isTrashed: boolean;
   id: string;
   name: string;

@@ -1,4 +1,5 @@
 import AppFolderLayout from "@/components/AppFolderLayout.vue";
+import AppFileLayout from "@/components/AppFileLayout.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { settings } from "./setup";
 import api from "@/services/api";
@@ -19,7 +20,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'file',
     path: '/file/:fileId',
-    component: AppFolderLayout,
+    component: AppFileLayout,
   },
   {
     name: 'trash',

@@ -7,6 +7,23 @@ import { Node } from "@/types/Node";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { promiseTimeout } from '@vueuse/core';
+import { FileRequest } from "@/types/FileRequest";
+
+const getAncestors = (currentNode: Node, allNodes: Node[]): Node[] => {
+  let ancestors = [] as Node[];
+
+  if (currentNode.folderId) {
+    const parents = allNodes.filter((node) => node.id === currentNode.folderId);
+
+    if (parents.length === 1) {
+      const parent = parents[0];
+
+      ancestors = [ parent, ...getAncestors(parent, allNodes) ];
+    }
+  }
+
+  return ancestors;
+};
 
 export default class ApiServiceDemo implements ApiServiceInterface {
 
@@ -42,15 +59,34 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     const nodes = await axios.get('/data/nodes.json');
     await promiseTimeout(Math.random() * 1000 + 100);
 
-    const data = nodes.data.data as Node[];
+    let data = nodes.data.data as Node[];
 
-    const filtered = data.filter((node) => node.id === request.id);
+    data = data.filter((node) => node.isFolder);
+    data = data.filter((node) => node.id === request.id);
 
-    if (filtered.length) {
-      return filtered[0];
+    if (data.length) {
+      return data[0];
     }
 
     return null;
   }
 
+  async getFile(request: FileRequest) {
+    const nodes = await axios.get('/data/nodes.json');
+    await promiseTimeout(Math.random() * 1000 + 100);
+    const data = nodes.data.data as Node[];
+
+    const files = data.filter((node) => !node.isFolder);
+    const filesFiltered = files.filter((node) => node.id === request.id);
+
+    if (filesFiltered.length === 1) {
+      const file = filesFiltered[0];
+
+      file.ancestors = getAncestors(file, data);
+
+      return file;
+    }
+
+    return null;
+  }
 }

@@ -1,18 +1,12 @@
 <template>
   <div class="grid grid-cols-5 h-full min-h-full grow rounded-xl overflow-hidden bg-gray-300">
-    <suspense>
-      <div class="col-span-1 flex flex-col px-4 py-6">
-        <h3 class="text-slate-900 mb-2 font-bold px-4">
-          Разделы
-        </h3>
+    <div class="col-span-1 flex flex-col px-4 py-6">
+      <h3 class="text-slate-900 mb-2 font-bold px-4">
+        Разделы
+      </h3>
 
-        <AppNavigator />
-      </div>
-
-      <template #fallback>
-        <ProgressSpinner class="!w-12 !h-12 !my-10" />
-      </template>
-    </suspense>
+      <AppNavigator />
+    </div>
 
     <div
       class="h-full overflow-hidden rounded-l-xl flex flex-col"
@@ -20,7 +14,7 @@
     >
       <div class="bg-white rounded-tl-xl p-4 border-b flex items-center h-20">
         <template v-if="!nodesStore.nodesLoading">
-          <AppBreadCrumbs />
+          <AppBreadCrumbs :is-trashed="props.isTrashed" />
 
           <div class="ml-auto">
             <AppFolderMenu />
@@ -65,7 +59,7 @@
 <script setup lang="ts">
 import AppNavigator from "@/components/AppNavigator.vue";
 import AppFolderView from "@/components/AppFolderList.vue";
-import AppBreadCrumbs from "@/components/AppBreadCrumbs.vue";
+import AppBreadCrumbs from "@/components/AppFolderBreadCrumbs.vue";
 import AppFolderMenu from "@/components/AppFolderMenu.vue";
 import AppFolderInfo from "@/components/AppFolderInfo.vue";
 import { useNodesStore } from "@/store/nodes";
@@ -77,10 +71,14 @@ import { watch } from "vue";
 const route = useRoute();
 const nodesStore = useNodesStore();
 
+const props = defineProps<{
+  isTrashed?: boolean;
+}>();
+
 watch(() => {
   return [
     route.params.folderId,
-    route.meta.isTrashed
+    props.isTrashed
   ];
 }, async ([ folderId, isTrashed ]) => {
   nodesStore.nodesLoading = true;

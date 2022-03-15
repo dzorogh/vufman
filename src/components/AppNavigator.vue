@@ -1,5 +1,6 @@
 <template data-label="AppNavigator">
   <Tree
+    v-if="!isLoading"
     v-model:expanded-keys="expandedKeys"
     :selection-keys="selectedFolderKey"
 
@@ -11,18 +12,31 @@
 
     @node-select="handleSelect"
   />
+  <ProgressSpinner
+    v-else
+    class="!w-12 !h-12 !my-10"
+  />
 </template>
 
 <script setup lang="ts">
 import Tree, { TreeNode } from "primevue/tree";
 import api from "@/services/api";
 import { Node } from "@/types/Node";
-import { computed, ref } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStorage } from "@vueuse/core";
+import ProgressSpinner from 'primevue/progressspinner';
 
 const route = useRoute();
 const router = useRouter();
+
+const isLoading = ref(true);
+
+onBeforeMount(async () => {
+  const nodes = await api.getNodes({ isFolder: true });
+  tree.value[0].children = makeTree(nodes, null);
+  isLoading.value = false;
+});
 
 const tree = ref<TreeNode[]>(
   [
@@ -62,13 +76,8 @@ function makeTree(nodes: Node[] | undefined, folderId: Node['folderId']) {
   return [];
 }
 
-const isLoading = ref(true);
-const nodes = await api.getNodes({ isFolder: true });
-isLoading.value = false;
-
 // console.log(nodes, makeTree(nodes, null));
 
-tree.value[0].children = makeTree(nodes, null);
 
 function handleSelect(treeNode: TreeNode) {
   // console.log(treeNode);
