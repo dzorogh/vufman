@@ -54,15 +54,16 @@
         {{ filesize(node.size || 0, {locale: 'ru-RU'}) }}
       </div>
 
-      <div
-        v-if="node.createdAt"
-        class="text-sm text-slate-600"
-      >
-        {{ formatTimestamp(node.createdAt) }}
-      </div>
+      <div class="flex items-center text-sm text-slate-600 gap-2">
+        <div
+          v-if="node.createdAt"
+        >
+          {{ formatTimestamp(node.createdAt) }}
+        </div>
 
-      <div v-if="node.author">
-        {{ node.author.fullName }}
+        <div v-if="node.author">
+          {{ node.author.fullName }}
+        </div>
       </div>
     </div>
   </div>
