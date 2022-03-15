@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { Node } from "@/types/Node";
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
 import { INodeClass } from "@/types/INodeClass";
