@@ -33,7 +33,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const file = ref();
+const file = ref<INodeClass | null>();
 const isLoading = ref(false);
 
 onBeforeMount(async () => {

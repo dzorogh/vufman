@@ -1,11 +1,11 @@
 import { useConfirmStore } from "@/store/confirm";
-import { Node } from "@/types/Node";
+import { INodeClass } from "@/types/INodeClass";
 
 export function useDeleteAction() {
   const confirmStore = useConfirmStore();
 
   return {
-    show(nodes: Node[], isForced?: true) {
+    show(nodes: INodeClass[], isForced?: true) {
       // TODO: Message about 30 days in trash
       confirmStore.header = 'Подтвердите удаление';
 

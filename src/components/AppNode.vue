@@ -78,11 +78,11 @@ import { FileTypes } from "@/config/FileTypes";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
-
+import { INodeClass } from "@/types/INodeClass";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
-  node: Node;
+  node: INodeClass;
 }>();
 
 function getFileType(node: Node): keyof typeof FileTypes | null {

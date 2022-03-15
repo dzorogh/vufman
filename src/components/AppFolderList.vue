@@ -49,8 +49,8 @@ import Api from '@/services/api';
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
 
-import { Node } from "@/types/Node";
-import { useRoute, useRouter } from "vue-router";
+import { INodeClass } from "@/types/INodeClass";
+import { useRouter } from "vue-router";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
@@ -62,7 +62,7 @@ const isLoading = ref(false);
 // console.log(nodesStore.nodes);
 
 const menu = ref();
-const showContextMenu = (node: Node, event: unknown) => {
+const showContextMenu = (node: INodeClass, event: unknown) => {
   if (!nodesStore.isNodeSelected(node)) {
     nodesStore.selectNodeSingle(node);
   }
@@ -126,7 +126,7 @@ const menuItems = computed<object[]>(() => {
 
 // console.log(route.params);
 
-const handleDoubleClick = function (node: Node) {
+const handleDoubleClick = function (node: INodeClass) {
   // navigate to folder or file
 
   if (node.isFolder) {

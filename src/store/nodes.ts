@@ -2,28 +2,28 @@ import { defineStore } from 'pinia';
 import { Node } from "@/types/Node";
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
-import { computed } from "vue";
+import { INodeClass } from "@/types/INodeClass";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
       nodesLoading: false,
-      currentFolder: null as Node | null,
-      nodes: [] as Node[],
-      selectedNodes: [] as Node[],
-      copiedNodes: [] as Node[]
+      currentFolder: null as INodeClass | null,
+      nodes: [] as INodeClass[],
+      selectedNodes: [] as INodeClass[],
+      copiedNodes: [] as INodeClass[]
     };
   },
   actions: {
-    selectNodeSingle(node: Node) {
+    selectNodeSingle(node: INodeClass) {
       this.selectedNodes = [ node ];
     },
 
-    selectNodeAdd(node: Node) {
+    selectNodeAdd(node: INodeClass) {
       this.selectedNodes.push(node);
     },
 
-    selectNodeRange(node: Node) {
+    selectNodeRange(node: INodeClass) {
       if (this.selectedNodes.length <= 0) {
         this.selectedNodes = [ node ];
       } else {
@@ -71,7 +71,7 @@ export const useNodesStore = defineStore('nodes', {
       this.selectedNodes = [];
     },
 
-    removeNodes(nodes: Node[]) {
+    removeNodes(nodes: INodeClass[]) {
       nodes.forEach((node) => {
         this.nodes.splice(this.nodes.indexOf(node), 1);
       });
@@ -164,7 +164,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     isNodeSelected: (state) => {
-      return (node: Node) => state.selectedNodes.indexOf(node) >= 0;
+      return (node: INodeClass) => state.selectedNodes.indexOf(node) >= 0;
     },
 
     sortedNodes: (state) => {
@@ -173,25 +173,30 @@ export const useNodesStore = defineStore('nodes', {
       }
 
       return [ ...state.nodes ]
-        .sort((a: Node, b: Node) => {
-          if (a.name > b.name) {
-            return 1;
-          }
+        .sort((a: INodeClass, b: INodeClass) => {
+          if (a.name && b.name) {
+            if (a.name > b.name) {
+              return 1;
+            }
 
-          if (a.name < b.name) {
-            return -1;
+            if (a.name < b.name) {
+              return -1;
+            }
           }
 
           return 0;
         })
-        .sort((a: Node, b: Node) => {
-          if (a.isFolder > b.isFolder) {
-            return -1;
+        .sort((a: INodeClass, b: INodeClass) => {
+          if (a.isFolder !== undefined && b.isFolder !== undefined) {
+            if (a.isFolder > b.isFolder) {
+              return -1;
+            }
+
+            if (a.isFolder < b.isFolder) {
+              return 1;
+            }
           }
 
-          if (a.isFolder < b.isFolder) {
-            return 1;
-          }
 
           return 0;
         });

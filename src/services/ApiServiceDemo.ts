@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { ApiServiceInterface } from './ApiServiceInterface';
-import { NodesRequest } from "@/types/NodesRequest";
-import { FolderRequest } from "@/types/FolderRequest";
-import { Node } from "@/types/Node";
+import { INodesRequest } from "@/types/INodesRequest";
+import { IFolderRequest } from "@/types/IFolderRequest";
+import { INode } from "@/types/INode";
+import { Node } from "@/models/Node";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { promiseTimeout } from '@vueuse/core';
-import { FileRequest } from "@/types/FileRequest";
+import { IFileRequest } from "@/types/IFileRequest";
 
-const getAncestors = (currentNode: Node, allNodes: Node[]): Node[] => {
-  let ancestors = [] as Node[];
+const getAncestors = (currentNode: INode, allNodes: INode[]): INode[] => {
+  let ancestors = [] as INode[];
 
   if (currentNode.folderId) {
     const parents = allNodes.filter((node) => node.id === currentNode.folderId);
@@ -27,11 +28,11 @@ const getAncestors = (currentNode: Node, allNodes: Node[]): Node[] => {
 
 export default class ApiServiceDemo implements ApiServiceInterface {
 
-  async getNodes(request: NodesRequest) {
+  async getNodes(request: INodesRequest) {
     const nodes = await axios.get('/data/nodes.json');
     await promiseTimeout(Math.random() * 1000 + 100);
 
-    let data = nodes.data.data as Node[];
+    let data = nodes.data.data as INode[];
 
     if (!data) {
       return [];
@@ -51,30 +52,30 @@ export default class ApiServiceDemo implements ApiServiceInterface {
       data = data.filter((node) => node.folderId === request.folderId);
     }
 
-    return data;
+    return Node.collection(data);
     // todo: how to get trash
   }
 
-  async getFolder(request: FolderRequest) {
+  async getFolder(request: IFolderRequest) {
     const nodes = await axios.get('/data/nodes.json');
     await promiseTimeout(Math.random() * 1000 + 100);
 
-    let data = nodes.data.data as Node[];
+    let data = nodes.data.data as INode[];
 
     data = data.filter((node) => node.isFolder);
     data = data.filter((node) => node.id === request.id);
 
     if (data.length) {
-      return data[0];
+      return new Node(data[0]);
     }
 
     return null;
   }
 
-  async getFile(request: FileRequest) {
+  async getFile(request: IFileRequest) {
     const nodes = await axios.get('/data/nodes.json');
     await promiseTimeout(Math.random() * 1000 + 100);
-    const data = nodes.data.data as Node[];
+    const data = nodes.data.data as INode[];
 
     const files = data.filter((node) => !node.isFolder);
     const filesFiltered = files.filter((node) => node.id === request.id);
@@ -84,7 +85,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
       file.ancestors = getAncestors(file, data);
 
-      return file;
+      return new Node(file);
     }
 
     return null;

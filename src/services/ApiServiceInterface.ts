@@ -1,11 +1,12 @@
-import { Node } from '@/types/Node';
-import { NodesRequest } from '@/types/NodesRequest';
-import { FolderRequest } from "@/types/FolderRequest";
-import { FileRequest } from "@/types/FileRequest";
+import { INode } from '@/types/INode';
+import { INodesRequest } from '@/types/INodesRequest';
+import { IFolderRequest } from "@/types/IFolderRequest";
+import { IFileRequest } from "@/types/IFileRequest";
+import { Node } from "@/models/Node";
 
 export interface ApiServiceInterface {
 
-  getNodes: (request: NodesRequest) => Promise<Node[] | []>;
-  getFolder: (request: FolderRequest) => Promise<Node | null>;
-  getFile: (request: FileRequest) => Promise<Node | null>;
+  getNodes: (request: INodesRequest) => Promise<Node[] | []>;
+  getFolder: (request: IFolderRequest) => Promise<Node | null>;
+  getFile: (request: IFileRequest) => Promise<Node | null>;
 }

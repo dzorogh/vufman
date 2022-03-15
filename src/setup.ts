@@ -1,4 +1,4 @@
-import { GlobalSettings } from "./types/GlobalSettings";
+// import { IGlobalSettings } from "./types/IGlobalSettings";
 
 let settings = {
   mountContainer: '#app',

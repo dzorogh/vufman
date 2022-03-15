@@ -1,5 +1,5 @@
-export interface Node {
-  ancestors: Node[];
+export interface INode {
+  ancestors: INode[];
   isTrashed: boolean;
   id: string;
   name: string;
@@ -26,6 +26,6 @@ export interface Node {
   extension?: string;
 
   // For folder
-  children?: Node[];
+  children?: INode[];
 
 }

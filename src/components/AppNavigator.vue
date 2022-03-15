@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import Tree, { TreeNode } from "primevue/tree";
 import api from "@/services/api";
-import { Node } from "@/types/Node";
+import { INodeClass } from "@/types/INodeClass";
 import { computed, onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStorage } from "@vueuse/core";
@@ -55,7 +55,7 @@ const tree = ref<TreeNode[]>(
   ]
 );
 
-function makeTree(nodes: Node[] | undefined, folderId: Node['folderId']) {
+function makeTree(nodes: INodeClass[] | undefined, folderId: INodeClass['folderId']) {
   if (nodes && nodes.length) {
     let result = [] as TreeNode[];
 

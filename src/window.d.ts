@@ -1,7 +1,7 @@
-import { GlobalSettings } from "./types/GlobalSettings";
+import { IGlobalSettings } from "./types/IGlobalSettings";
 
 declare global {
   interface Window {
-    wufmanSetup: (settings: GlobalSettings) => GlobalSettings;
+    wufmanSetup: (settings: IGlobalSettings) => IGlobalSettings;
   }
 }
