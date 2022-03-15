@@ -14,9 +14,14 @@
         {{ nodesStore.currentFolder.name }}
       </div>
     </div>
-    <div v-else>
+    <div v-else-if="!nodesStore.currentFolder && !route.meta.isTrashed">
       <div class="font-bold opacity-50 px-4">
         Диск
+      </div>
+    </div>
+    <div v-else>
+      <div class="font-bold opacity-50 px-4">
+        Корзина
       </div>
     </div>
   </div>
@@ -25,10 +30,11 @@
 <script setup lang="ts">
 import { useNodesStore } from "@/store/nodes";
 import Button from "primevue/button";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
+const route = useRoute();
 
 const handleClickBack = function () {
   if (nodesStore.currentFolder) {
