@@ -10,7 +10,7 @@
         :key="child.id"
         :node="child"
         class="border border-transparent hover:bg-slate-50"
-        :class="{'!bg-slate-100': nodesStore.selectedNodes.includes(child)}"
+        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child)}"
         @click.ctrl="nodesStore.selectNodeAdd(child)"
         @click.meta="nodesStore.selectNodeAdd(child)"
         @click.shift="nodesStore.selectNodeRange(child)"
@@ -40,12 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import ContextMenu from 'primevue/contextmenu';
 import { MenuItem } from 'primevue/menuitem';
 import ProgressSpinner from 'primevue/progressspinner';
 
-import Api from '@/services/api';
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
 
@@ -117,7 +116,7 @@ const menuItems = computed<object[]>(() => {
 
   result.push({
     label: 'Удалить навсегда',
-    icon: 'pi pi-fw pi-trash !text-red-500',
+    icon: 'pi pi-fw pi-trash text-red-500',
     command: nodesStore.destroyNodes
   });
 

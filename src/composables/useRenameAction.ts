@@ -1,4 +1,3 @@
-import { Node } from "@/types/Node";
 import { usePromptStore } from "@/store/prompt";
 import isValidFilename from "valid-filename";
 import { INodeClass } from "@/types/INodeClass";
@@ -11,8 +10,8 @@ export function useRenameAction() {
 
       promptStore.errors = [];
       promptStore.header = 'Введите новое название';
-      promptStore.oldValue = node.name;
-      promptStore.newValue = node.name;
+      promptStore.oldValue = node.name || '';
+      promptStore.newValue = node.name || '';
       promptStore.show = true;
 
       if (node.extension) {

@@ -16,7 +16,7 @@
 
       <template v-if="!node.isFolder">
         <img
-          v-if="getFileType(node) === 'image'"
+          v-if="node.getFileType() === 'image'"
           v-lazy="node.thumbnail"
           class="rounded object-scale-down bg-slate-300"
           :alt="node.name"
@@ -24,14 +24,14 @@
         >
 
         <IconDocument
-          v-if="getFileType(node) === 'document'"
+          v-if="node.getFileType() === 'document'"
           :extension="node.extension"
           class="text-slate-300"
           :class="iconSizeClasses"
         />
 
         <IconVideo
-          v-if="getFileType(node) === 'video'"
+          v-if="node.getFileType() === 'video'"
           :extension="node.extension"
           class="text-slate-300"
           :class="iconSizeClasses"
@@ -72,9 +72,7 @@
 <script setup lang="ts">
 import filesize from "filesize";
 
-import { Node } from "@/types/Node";
 import IconFolder from "@/components/IconFolder.vue";
-import { FileTypes } from "@/config/FileTypes";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
@@ -84,22 +82,6 @@ import { INodeClass } from "@/types/INodeClass";
 const props = defineProps<{
   node: INodeClass;
 }>();
-
-function getFileType(node: Node): keyof typeof FileTypes | null {
-  if (!node.mimetype) {
-    return null;
-  }
-
-  let result = null;
-
-  for (let [ type, mimes ] of Object.entries(FileTypes)) {
-    if (mimes.includes(node.mimetype)) {
-      result = type as keyof typeof FileTypes;
-    }
-  }
-
-  return result;
-}
 
 const iconSizeClasses = 'w-20 h-20';
 

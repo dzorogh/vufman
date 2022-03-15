@@ -1,28 +1,28 @@
 <template>
-  <div class="">
-    <div
-      v-if="nodesStore.currentFolder"
-      class="flex gap-4 items-center"
-    >
-      <Button
-        class=" p-button-text"
-        icon="pi pi-arrow-left"
-        @click="handleClickBack"
-      />
+  <div
+    v-if="nodesStore.currentFolder"
+    class="flex gap-4 items-center"
+  >
+    <Button
+      class=" p-button-text"
+      icon="pi pi-arrow-left"
+      @click="handleClickBack"
+    />
 
-      <div class="font-bold opacity-50">
-        {{ nodesStore.currentFolder.name }}
-      </div>
+    <div class="font-bold opacity-50">
+      {{ nodesStore.currentFolder.name }}
     </div>
-    <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
-      <div class="font-bold opacity-50 px-4">
-        Диск
-      </div>
+  </div>
+
+  <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
+    <div class="font-bold opacity-50 px-4">
+      Диск
     </div>
-    <div v-else>
-      <div class="font-bold opacity-50 px-4">
-        Корзина
-      </div>
+  </div>
+
+  <div v-else>
+    <div class="font-bold opacity-50 px-4">
+      Корзина
     </div>
   </div>
 </template>

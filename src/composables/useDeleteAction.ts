@@ -24,7 +24,7 @@ export function useDeleteAction() {
 
         confirmStore.list = nodes.map(item => {
           return {
-            label: item.extension ? `${item.name}.${item.extension}` : item.name,
+            label: item.getFullName(),
             icon: item.isFolder ? 'pi pi-fw pi-folder' : 'pi pi-fw pi-file'
           };
         });
@@ -35,7 +35,7 @@ export function useDeleteAction() {
           confirmStore.content = (nodes[0].isFolder ? `Переместить в корзину папку ` : `Переместить в корзину файл `);
         }
 
-        confirmStore.content += `«` + (nodes[0].extension ? `${nodes[0].name}.${nodes[0].extension}` : nodes[0].name) + `»?`;
+        confirmStore.content += `«` + nodes[0].getFullName() + `»?`;
 
         confirmStore.list = [];
       }
