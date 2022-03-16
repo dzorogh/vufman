@@ -59,4 +59,28 @@ export class NodeModel implements INodeModel {
   public getSize() {
     return filesize(this.node.size || 0, { locale: 'ru-RU' });
   }
+
+  public getParentRoute() {
+    if (this.node.folderId) {
+      return { name: 'folder', params: { folderId: this.node.folderId } };
+    } else {
+      if (this.node.isTrashed) {
+        return { name: 'trash' };
+      } else {
+        return { name: 'root' };
+      }
+    }
+  }
+
+  public getParentName() {
+    if (this.node.folderId && this.node.ancestors[0]) {
+      return this.node.ancestors[0].name;
+    } else {
+      if (this.node.isTrashed) {
+        return 'Корзина';
+      } else {
+        return 'Диск';
+      }
+    }
+  }
 }

@@ -21,13 +21,16 @@
       </div>
     </div>
 
-    <div
-
-      class="bg-white border-l p-6"
-    >
+    <div class="bg-white flex flex-col border-l p-6 overflow-auto">
       <template v-if="!nodesStore.nodesLoading">
         <AppFolderInfo v-if="nodesStore.currentFolder" />
+        <AppNodeMenu
+          v-if="nodesStore.currentFolder"
+          class="mt-auto"
+          :node="nodesStore.currentFolder"
+        />
       </template>
+
       <ProgressSpinner
         v-else
         class="!w-7 !h-7 !m-0 !ml-2"
@@ -39,6 +42,7 @@
 <script setup lang="ts">
 import AppFolderView from "@/components/AppFolderList.vue";
 import AppFolderInfo from "@/components/AppFolderInfo.vue";
+import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 import ProgressSpinner from 'primevue/progressspinner';
 import api from "@/services/api";
