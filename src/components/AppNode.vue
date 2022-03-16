@@ -16,12 +16,19 @@
 
       <template v-if="!node.isFolder">
         <img
-          v-if="node.getFileType() === 'image'"
+          v-if="node.getFileType() === 'image' && node.thumbnail"
           v-lazy="node.thumbnail"
           class="rounded object-scale-down bg-slate-300"
           :alt="node.name"
           :class="iconSizeClasses"
         >
+
+        <IconImage
+          v-if="node.getFileType() === 'image' && !node.thumbnail"
+          :extension="node.extension"
+          class="text-slate-300"
+          :class="iconSizeClasses"
+        />
 
         <IconDocument
           v-if="node.getFileType() === 'document'"
@@ -39,6 +46,13 @@
 
         <IconAudio
           v-if="node.getFileType() === 'audio'"
+          :extension="node.extension"
+          class="text-slate-300"
+          :class="iconSizeClasses"
+        />
+
+        <IconFont
+          v-if="node.getFileType() === 'font'"
           :extension="node.extension"
           class="text-slate-300"
           :class="iconSizeClasses"
@@ -85,6 +99,8 @@ import IconVideo from "@/components/IconVideo.vue";
 import IconAudio from "@/components/IconAudio.vue";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeClass } from "@/types/INodeClass";
+import IconFont from "@/components/IconFont.vue";
+import IconImage from "@/components/IconImage.vue";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{

@@ -60,7 +60,7 @@ onBeforeMount(async () => {
 
   file.value = await api.getFile({ id: route.params.fileId as string });
 
-  console.log(file.value);
+  // console.log(file.value);
 
   isLoading.value = false;
 });

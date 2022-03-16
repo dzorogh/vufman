@@ -54,7 +54,7 @@
       "size": 123412,
       "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null,
-      "isTrashed": "0d23e585-c133-4777-8445-d3d77ef18f7a"
+      "isTrashed": true
     },
     {
       "mimetype": "image/png",
@@ -66,12 +66,13 @@
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "folderId": null
+      "folderId": null,
+      "isTrashed": true
     },
     {
       "mimetype": "image/png",
       "isFolder": false,
-      "id": "265982ab-a0fc-4d85-9117-93f2bdafa85b",
+      "id": "1b407d6a-4118-4425-b25e-5186790af166",
       "name": "Trashed File in trashed folder 1-1",
       "extension": "png",
       "size": 123313131,
@@ -118,21 +119,54 @@
       "mimetype": "application/pdf",
       "isFolder": false,
       "id": "0a7fabde-5a6e-423d-b8f5-fdf956dc9f36",
-      "name": "Особенности под печать 2020 (вылеты-кривые)",
+      "name": "Sample pdf",
       "extension": "pdf",
-      "size": 1231,
-      "src": "/data/dummy.pdf",
+      "size": 100,
+      "src": "https://filesamples.com/samples/document/pdf/sample3.pdf",
       "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null
     },
     {
-      "mimetype": "application/pdf",
+      "mimetype": "application/octet-stream",
       "isFolder": false,
-      "id": "e5679602-fbe8-425c-82d2-1e39f633085b",
-      "name": "Особенности под печать 2020 (вылеты-кривые) version 2",
-      "extension": "pdf",
-      "size": 31415345,
-      "src": "/data/dummy.pdf",
+      "id": "7f261095-f48c-4378-9b6f-24ebcf88e0c7",
+      "name": "Sample 3gp",
+      "extension": "3gp",
+      "size": 100,
+      "src": "https://filesamples.com/samples/video/3gp/sample_1920x1080.3gp",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "application/octet-stream",
+      "isFolder": false,
+      "id": "c4484553-7fb5-45d4-b8e5-251fe4e63125",
+      "name": "Sample hevc",
+      "extension": "hevc",
+      "size": 100,
+      "src": "https://filesamples.com/samples/video/hevc/sample_3840x2160.hevc",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "video/x-matroska",
+      "isFolder": false,
+      "id": "77918fce-032d-4d76-a727-270134b24852",
+      "name": "Sample mkv",
+      "extension": "mkv",
+      "size": 100,
+      "src": "https://filesamples.com/samples/video/mkv/sample_3840x2160.mkv",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "video/x-msvideo",
+      "isFolder": false,
+      "id": "23ff5abe-fb19-4b0b-bb8e-90aab41f3015",
+      "name": "Sample avi",
+      "extension": "avi",
+      "size": 100,
+      "src": "https://filesamples.com/samples/video/avi/sample_640x360.avi",
       "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null
     },
@@ -142,21 +176,97 @@
       "id": "9ee86aec-0739-422a-9b9e-6f14b470d75f",
       "isFolder": false,
       "mimetype": "video/mp4",
-      "name": "Yamaha 30 из румпеля в дистанцию. Блог сервисного центра",
+      "name": "Sample mp4 video",
       "size": 5645643456636,
       "src": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "folderId": null
     },
     {
-      "mimetype": "image/png",
+      "mimetype": "application/msword",
       "isFolder": false,
       "id": "0932b73a-57e9-4970-b389-582d2fa52e57",
-      "name": "Sing awkwardly like a big pegleg",
-      "extension": "png",
+      "name": "Sample doc file",
+      "extension": "doc",
       "size": 593049539,
-      "thumbnail": "https://placekitten.com/1000/100",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "src": "https://placekitten.com/100/4000",
+      "src": "https://filesamples.com/samples/document/doc/sample2.doc",
+      "folderId": null
+    },
+    {
+      "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "isFolder": false,
+      "id": "aba94d14-75aa-402f-b1d3-6983880f0978",
+      "name": "Sample docx file",
+      "extension": "docx",
+      "size": 9040539845093849053,
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "src": "https://filesamples.com/samples/document/docx/sample4.docx",
+      "folderId": null
+    },
+    {
+      "mimetype": "audio/mpeg",
+      "isFolder": false,
+      "id": "3717d273-ca7b-4c18-9089-11f6b3610373",
+      "name": "Sample mp3",
+      "extension": "mp3",
+      "size": 5435,
+      "src": "https://download.samplelib.com/mp3/sample-15s.mp3",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "application/epub+zip",
+      "isFolder": false,
+      "id": "2ce007e2-6c3a-4d31-b953-6e5617c605cf",
+      "name": "Sample epub",
+      "extension": "epub",
+      "size": 5435,
+      "src": "https://filesamples.com/samples/ebook/epub/Around%20the%20World%20in%2028%20Languages.epub",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "audio/x-flac",
+      "isFolder": false,
+      "id": "433355fe-4d9f-4398-a393-cc3c5702a670",
+      "name": "Sample flac",
+      "extension": "flac",
+      "size": 5435,
+      "src": "https://filesamples.com/samples/audio/flac/sample3.flac",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "application/x-font-ttf",
+      "isFolder": false,
+      "id": "28ec07e7-edbe-413c-b586-e8374aaf2344",
+      "name": "Sample ttf",
+      "extension": "ttf",
+      "size": 5435,
+      "src": "https://filesamples.com/samples/font/ttf/OpenSans-Regular.ttf",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "text/html",
+      "isFolder": false,
+      "id": "d087f1ce-0938-41ba-9ae1-d1ae07da1cd7",
+      "name": "Sample html",
+      "extension": "html",
+      "size": 5435,
+      "src": "https://filesamples.com/samples/code/html/sample1.html",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
+      "mimetype": "image/tiff",
+      "isFolder": false,
+      "id": "8e225f03-5589-4714-8b54-c45ecccb3776",
+      "name": "Sample tiff",
+      "extension": "tiff",
+      "size": 5435,
+      "src": "https://filesamples.com/samples/image/tiff/sample_1920%C3%971280.tiff",
+      "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null
     },
     {
@@ -169,30 +279,6 @@
       "thumbnail": "https://placekitten.com/1000/10",
       "createdAt": "2019-02-01T03:45:27+00:00",
       "src": "https://placekitten.com/600/600",
-      "folderId": null
-    },
-    {
-      "mimetype": "image/png",
-      "isFolder": false,
-      "id": "aba94d14-75aa-402f-b1d3-6983880f0978",
-      "name": "Amicitias unda, tanquam camerarius abaculus",
-      "extension": "png",
-      "size": 9040539845093849053,
-      "thumbnail": "https://placekitten.com/1000/1000",
-      "createdAt": "2019-02-01T03:45:27+00:00",
-      "src": "https://placekitten.com/3000/3000",
-      "folderId": null
-    },
-    {
-      "mimetype": "image/png",
-      "isFolder": false,
-      "id": "3717d273-ca7b-4c18-9089-11f6b3610373",
-      "name": "мотор2",
-      "extension": "png",
-      "size": 5435,
-      "thumbnail": "https://placekitten.com/100/100",
-      "src": "https://placekitten.com/100/100",
-      "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null
     },
     {

@@ -1,15 +1,47 @@
-export const FileTypes = {
+export const FileTypes: {
+  [key: string]: string[];
+} = {
+  font: [
+    'otf',
+    'ttf',
+    'woff',
+    'application/x-font-ttf',
+    'application/vnd.ms-opentype',
+  ],
+
   archive: [
+    'zip',
+    'gz',
+    'tar.gz',
+    'rar',
     'application/zip',
     'application/gzip',
     'application/x-rar-compressed',
   ],
 
   document: [
+    'doc',
+    'docx',
+    'csv',
+    'djvu',
+    'odp',
+    'ods',
+    'odt',
+    'ott',
+    'pdf',
+    'ppt',
+    'rtf',
+    'txt',
+    'xls',
+    'xlsx',
+    'fm2',
+    'mobi',
+    'application/epub+zip',
     'application/pdf',
     'application/json',
     'application/msword',
     'application/html',
+    'text/html',
     'application/plain',
     'application/csv',
     'application/vnd.oasis.opendocument.text',
@@ -22,10 +54,17 @@ export const FileTypes = {
     'application/vnd.ms-powerpoint',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/x-font-ttf',
   ],
 
   audio: [
+    'aac',
+    'ac3',
+    'flac',
+    'm4a',
+    'mp3',
+    'ogg',
+    'wav',
+    'audio/webm',
     'audio/mp4',
     'audio/aac',
     'audio/mpeg',
@@ -42,6 +81,16 @@ export const FileTypes = {
     'image/tiff',
     'image/vnd.microsoft.icon',
     'image/webp',
+    'bmp',
+    'cur',
+    'gif',
+    'hdr',
+    'heic',
+    'heif',
+    'ico',
+    'jfif',
+    'jfif',
+
   ],
 
   video: [
@@ -55,6 +104,18 @@ export const FileTypes = {
     'video/x-msvideo',
     'video/3gpp',
     'video/3gpp2',
+    'video/x-matroska',
+    '3gp',
+    'asf',
+    'avi',
+    'flv',
+    'mp4',
+    'mpeg',
+    'wmv',
+    'hevc',
+    'mkv',
+    'mov',
+    'mpg',
   ]
 };
 
