@@ -3,12 +3,12 @@ import { ApiServiceInterface } from './ApiServiceInterface';
 import { INodesRequest } from "@/types/INodesRequest";
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { INode } from "@/types/INode";
-import { NodeModel } from "@/models/NodeModel";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { promiseTimeout } from '@vueuse/core';
 import { IFileRequest } from "@/types/IFileRequest";
+import { NodeModel } from "@/models/NodeModel";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): INode[] => {
   let ancestors = [] as INode[];
@@ -32,8 +32,9 @@ export default class ApiServiceDemo implements ApiServiceInterface {
   private getNodesController: AbortController | undefined;
 
   async getNodes(request: INodesRequest, cancelable?: boolean) {
-    if (this.getNodesController && cancelable)
+    if (this.getNodesController && cancelable) {
       this.getNodesController.abort();
+    }
 
     this.getNodesController = new AbortController();
 
