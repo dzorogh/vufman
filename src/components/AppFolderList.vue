@@ -110,7 +110,7 @@ const menuItems = computed<object[]>(() => {
 
   result.push({
     label: 'В корзину',
-    icon: 'pi pi-fw pi-trash text-danger',
+    icon: 'pi pi-fw pi-trash text-red-500',
     command: nodesStore.deleteNodes
   });
 
