@@ -96,13 +96,13 @@ import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
 import IconAudio from "@/components/IconAudio.vue";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import IconFont from "@/components/IconFont.vue";
 import IconImage from "@/components/IconImage.vue";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
-  node: INodeClass;
+  node: INodeModel;
 }>();
 
 const iconSizeClasses = 'w-20 h-20';

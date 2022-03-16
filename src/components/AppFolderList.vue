@@ -48,7 +48,7 @@ import ProgressSpinner from 'primevue/progressspinner';
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
 
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import { useRouter } from "vue-router";
 
 const nodesStore = useNodesStore();
@@ -61,7 +61,7 @@ const isLoading = ref(false);
 // console.log(nodesStore.nodes);
 
 const menu = ref();
-const showContextMenu = (node: INodeClass, event: unknown) => {
+const showContextMenu = (node: INodeModel, event: unknown) => {
   if (!nodesStore.isNodeSelected(node)) {
     nodesStore.selectNodeSingle(node);
   }
@@ -125,7 +125,7 @@ const menuItems = computed<object[]>(() => {
 
 // console.log(route.params);
 
-const handleDoubleClick = function (node: INodeClass) {
+const handleDoubleClick = function (node: INodeModel) {
   // navigate to folder or file
 
   if (node.isFolder) {

@@ -48,11 +48,11 @@ import AppFileContentArchive from "@/components/AppFileContentArchive.vue";
 import AppFileContentAudio from "@/components/AppFileContentAudio.vue";
 import AppFileInfo from "@/components/AppFileInfo.vue";
 import AppFileClose from "@/components/AppFileClose.vue";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 
 const route = useRoute();
 
-const file = ref<INodeClass | null>();
+const file = ref<INodeModel | null>();
 const isLoading = ref(false);
 
 onBeforeMount(async () => {

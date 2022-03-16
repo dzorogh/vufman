@@ -1,28 +1,28 @@
 import { defineStore } from 'pinia';
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
       nodesLoading: false,
-      currentFolder: null as INodeClass | null,
-      nodes: [] as INodeClass[],
-      selectedNodes: [] as INodeClass[],
-      copiedNodes: [] as INodeClass[]
+      currentFolder: null as INodeModel | null,
+      nodes: [] as INodeModel[],
+      selectedNodes: [] as INodeModel[],
+      copiedNodes: [] as INodeModel[]
     };
   },
   actions: {
-    selectNodeSingle(node: INodeClass) {
+    selectNodeSingle(node: INodeModel) {
       this.selectedNodes = [ node ];
     },
 
-    selectNodeAdd(node: INodeClass) {
+    selectNodeAdd(node: INodeModel) {
       this.selectedNodes.push(node);
     },
 
-    selectNodeRange(node: INodeClass) {
+    selectNodeRange(node: INodeModel) {
       if (this.selectedNodes.length <= 0) {
         this.selectedNodes = [ node ];
       } else {
@@ -70,7 +70,7 @@ export const useNodesStore = defineStore('nodes', {
       this.selectedNodes = [];
     },
 
-    removeNodes(nodes: INodeClass[]) {
+    removeNodes(nodes: INodeModel[]) {
       nodes.forEach((node) => {
         this.nodes.splice(this.nodes.indexOf(node), 1);
       });
@@ -163,7 +163,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     isNodeSelected: (state) => {
-      return (node: INodeClass) => state.selectedNodes.indexOf(node) >= 0;
+      return (node: INodeModel) => state.selectedNodes.indexOf(node) >= 0;
     },
 
     sortedNodes: (state) => {
@@ -172,7 +172,7 @@ export const useNodesStore = defineStore('nodes', {
       }
 
       return [ ...state.nodes ]
-        .sort((a: INodeClass, b: INodeClass) => {
+        .sort((a: INodeModel, b: INodeModel) => {
           if (a.name && b.name) {
             if (a.name > b.name) {
               return 1;
@@ -185,7 +185,7 @@ export const useNodesStore = defineStore('nodes', {
 
           return 0;
         })
-        .sort((a: INodeClass, b: INodeClass) => {
+        .sort((a: INodeModel, b: INodeModel) => {
           if (a.isFolder !== undefined && b.isFolder !== undefined) {
             if (a.isFolder > b.isFolder) {
               return -1;

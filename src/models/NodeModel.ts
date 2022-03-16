@@ -1,17 +1,17 @@
 import { INode } from "@/types/INode";
 import { FileTypes } from "@/config/FileTypes";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import filesize from "filesize";
 
-export class Node implements INodeClass {
+export class NodeModel implements INodeModel {
 
   private node: INode;
 
   public constructor(node: INode) {
     this.node = node;
 
-    return new Proxy<Node>(this, {
-      get: (model, field: keyof INode & keyof Node) => {
+    return new Proxy<NodeModel>(this, {
+      get: (model, field: keyof INode & keyof NodeModel) => {
         if (field in node) return model.node[field];
         if (field in model) return model[field];
       }
@@ -20,7 +20,7 @@ export class Node implements INodeClass {
 
   public static collection(nodes: INode[]) {
     return nodes.map(node => {
-      return new Node(node);
+      return new NodeModel(node);
     });
   }
 

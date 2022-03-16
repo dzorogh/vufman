@@ -31,10 +31,10 @@
 <script setup lang="ts">
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { defineProps } from "vue";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 
 defineProps<{
-  file: INodeClass;
+  file: INodeModel;
 }>();
 
 </script>

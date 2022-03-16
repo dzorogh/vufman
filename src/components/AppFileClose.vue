@@ -16,10 +16,10 @@
 
 <script setup lang="ts">
 import Button from "primevue/button";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 
 defineProps<{
-  file: INodeClass;
+  file: INodeModel;
 }>();
 
 </script>

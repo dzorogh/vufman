@@ -1,6 +1,6 @@
 import { INode } from "@/types/INode";
 
-export interface INodeClass extends Partial<INode> {
+export interface INodeModel extends Partial<INode> {
   getFullName: () => string;
   getFileType: () => string | null;
   getSize: () => string | null;

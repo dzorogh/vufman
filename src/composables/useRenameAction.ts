@@ -1,12 +1,12 @@
 import { usePromptStore } from "@/store/prompt";
 import isValidFilename from "valid-filename";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 
 export function useRenameAction() {
   const promptStore = usePromptStore();
 
   return {
-    show(node: INodeClass) {
+    show(node: INodeModel) {
 
       promptStore.errors = [];
       promptStore.header = 'Введите новое название';

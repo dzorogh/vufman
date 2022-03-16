@@ -32,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import IconImage from "@/components/IconImage.vue";
 import { onMounted, ref } from "vue";
 
 const props = defineProps<{
-  file: INodeClass;
+  file: INodeModel;
 }>();
 
 const mediaElement = ref();

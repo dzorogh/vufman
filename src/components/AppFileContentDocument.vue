@@ -29,14 +29,14 @@
 </template>
 
 <script setup lang="ts">
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import IconDocument from "@/components/IconDocument.vue";
 
 // TODO: And some better PDF api
 // Like abobe pdf or mozilla pdf.js
 
 defineProps<{
-  file: INodeClass;
+  file: INodeModel;
 }>();
 </script>
 

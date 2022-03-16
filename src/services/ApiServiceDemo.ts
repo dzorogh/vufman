@@ -3,7 +3,7 @@ import { ApiServiceInterface } from './ApiServiceInterface';
 import { INodesRequest } from "@/types/INodesRequest";
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { INode } from "@/types/INode";
-import { Node } from "@/models/Node";
+import { NodeModel } from "@/models/NodeModel";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -64,7 +64,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
       data = data.filter((node) => node.folderId === request.folderId);
     }
 
-    return Node.collection(data);
+    return NodeModel.collection(data);
     // todo: how to get trash
   }
 
@@ -78,7 +78,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     data = data.filter((node) => node.id === request.id);
 
     if (data.length) {
-      return new Node(data[0]);
+      return new NodeModel(data[0]);
     }
 
     return null;
@@ -97,7 +97,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
       file.ancestors = getAncestors(file, data);
 
-      return new Node(file);
+      return new NodeModel(file);
     }
 
     return null;

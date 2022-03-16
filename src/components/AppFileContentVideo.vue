@@ -39,13 +39,13 @@
 <script setup lang="ts">
 import Plyr from 'plyr';
 import "plyr/dist/plyr.css";
-import { INodeClass } from "@/types/INodeClass";
+import { INodeModel } from "@/types/INodeModel";
 import { onMounted, ref } from "vue";
 import IconVideo from "@/components/IconVideo.vue";
 import Button from "primevue/button";
 
 const props = defineProps<{
-  file: INodeClass;
+  file: INodeModel;
 }>();
 
 const mediaLoadingFailed = ref(false);
