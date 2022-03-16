@@ -14,4 +14,4 @@
 
 - [ ] Video poster generation
 - [ ] Some videos with identical format have different encoders and one can be
-  played in browser, some not. What to do with it?
+  played in browser, one not. What to do with it?
