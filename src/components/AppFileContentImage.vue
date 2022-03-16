@@ -12,11 +12,22 @@
   </div>
   <div
     v-if="mediaLoadingFailed"
-    class="flex items-center justify-center h-full"
+    class="flex flex-col items-center justify-center h-full"
   >
     <IconImage
       class="fill-gray-200 w-64 h-64"
     />
+
+    <div class="text-white">
+      Изображение нельзя показать в браузере
+    </div>
+
+    <div>
+      <Button
+        label="Скачать"
+        @click="file.download()"
+      />
+    </div>
   </div>
 </template>
 

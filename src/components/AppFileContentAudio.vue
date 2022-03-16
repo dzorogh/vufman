@@ -21,6 +21,17 @@
     <IconAudio
       class="fill-gray-200 w-64 h-64"
     />
+
+    <div class="text-white">
+      Аудио не воспроизводится в браузере
+    </div>
+
+    <div>
+      <Button
+        label="Скачать"
+        @click="file.download()"
+      />
+    </div>
   </div>
 </template>
 

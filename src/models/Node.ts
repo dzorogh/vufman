@@ -50,4 +50,8 @@ export class Node implements INodeClass {
 
     return result;
   }
+
+  public download() {
+    alert('download file');
+  }
 }

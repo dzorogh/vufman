@@ -17,11 +17,22 @@
   </div>
   <div
     v-if="mediaLoadingFailed"
-    class="flex items-center justify-center h-full"
+    class="flex items-center justify-center h-full flex-col gap-12"
   >
     <IconVideo
       class="fill-gray-200 w-64 h-64"
+      @click="handleDownloadClick"
     />
+
+    <div class="text-white">
+      Видео не воспроизводится в браузере
+    </div>
+    <div>
+      <Button
+        label="Скачать"
+        @click="file.download()"
+      />
+    </div>
   </div>
 </template>
 
@@ -31,6 +42,7 @@ import "plyr/dist/plyr.css";
 import { INodeClass } from "@/types/INodeClass";
 import { onMounted, ref } from "vue";
 import IconVideo from "@/components/IconVideo.vue";
+import Button from "primevue/button";
 
 const props = defineProps<{
   file: INodeClass;

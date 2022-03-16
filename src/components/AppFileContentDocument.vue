@@ -8,12 +8,23 @@
   >
   <div
     v-else
-    class="flex items-center justify-center h-full"
+    class="flex flex-col items-center justify-center h-full"
   >
     <IconDocument
       :extension="file.extension"
       class="fill-gray-200 w-64 h-64"
     />
+
+    <div class="text-white">
+      Документ не поддерживается в браузере
+    </div>
+
+    <div>
+      <Button
+        label="Скачать"
+        @click="file.download()"
+      />
+    </div>
   </div>
 </template>
 
