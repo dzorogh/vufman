@@ -1,6 +1,7 @@
 import { INode } from "@/types/INode";
 import { FileTypes } from "@/config/FileTypes";
 import { INodeClass } from "@/types/INodeClass";
+import filesize from "filesize";
 
 export class Node implements INodeClass {
 
@@ -53,5 +54,9 @@ export class Node implements INodeClass {
 
   public download() {
     alert('download file');
+  }
+
+  public getSize() {
+    return filesize(this.node.size || 0, { locale: 'ru-RU' });
   }
 }

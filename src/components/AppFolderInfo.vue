@@ -19,13 +19,12 @@
     <AppNodeInfoItem
       v-if="nodesStore.currentFolder.author"
       title="Размер"
-      :content="filesize(nodesStore.currentFolder.size || 0, {locale: 'ru-RU'})"
+      :content="nodesStore.currentFolder.getSize()"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import filesize from 'filesize';
 import { formatTimestamp } from '@/formatters/formatTimestamp';
 import { useNodesStore } from "@/store/nodes";
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";

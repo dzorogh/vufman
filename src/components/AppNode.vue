@@ -72,7 +72,7 @@
       </div>
 
       <div class="text-sm text-slate-600">
-        {{ filesize(node.size || 0, {locale: 'ru-RU'}) }}
+        {{ node.getSize() }}
       </div>
 
       <div class="flex items-center text-sm text-slate-600 gap-2">
@@ -91,8 +91,6 @@
 </template>
 
 <script setup lang="ts">
-import filesize from "filesize";
-
 import IconFolder from "@/components/IconFolder.vue";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
