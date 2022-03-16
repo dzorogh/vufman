@@ -3,7 +3,7 @@
     <div
       class="h-full overflow-hidden rounded-l-xl flex flex-col col-span-3"
     >
-      <AppFolderHeading :is-trashed="props.isTrashed" />
+      <AppFolderHeading :is-trashed="isTrashed" />
 
       <div class="grow bg-white shadow-sm rounded-bl-xl p-4 overflow-auto">
         <AppFolderView v-if="!nodesStore.nodesLoading" />
@@ -43,39 +43,38 @@ import { useNodesStore } from "@/store/nodes";
 import ProgressSpinner from 'primevue/progressspinner';
 import api from "@/services/api";
 import { useRoute } from "vue-router";
-import { watch } from "vue";
+import { ref, watch } from "vue";
 import AppFolderHeading from "@/components/AppFolderHeading.vue";
 
 const route = useRoute();
 const nodesStore = useNodesStore();
 
 const props = defineProps<{
-  isTrashed?: boolean;
+  isTrashed: boolean;
+  folderId: string | null;
 }>();
 
-watch(() => {
-  return [
-    route.params.folderId,
-    props.isTrashed
-  ];
-}, async ([ folderId, isTrashed ]) => {
-  nodesStore.nodesLoading = true;
+watch(() => [ props.isTrashed, props.folderId ],
+  async ([ isTrashed, folderId ]) => {
+    console.log(isTrashed, folderId);
 
-  [
-    nodesStore.currentFolder,
-    nodesStore.nodes
-  ] = await Promise.all([
-    api.getFolder({ id: folderId as string }),
-    api.getNodes({
-      folderId: folderId as string || null,
-      isTrashed: isTrashed ? true : undefined
-    })
-  ]);
+    nodesStore.nodesLoading = true;
 
-  nodesStore.nodesLoading = false;
-}, {
-  immediate: true
-});
+    [
+      nodesStore.currentFolder,
+      nodesStore.nodes
+    ] = await Promise.all([
+      api.getFolder({ id: folderId as string }),
+      api.getNodes({
+        folderId: folderId as string || null,
+        isTrashed: isTrashed ? true : undefined
+      }, true)
+    ]);
+
+    nodesStore.nodesLoading = false;
+  }, {
+    immediate: true
+  });
 
 
 </script>

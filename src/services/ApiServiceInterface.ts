@@ -6,7 +6,7 @@ import { Node } from "@/models/Node";
 
 export interface ApiServiceInterface {
 
-  getNodes: (request: INodesRequest) => Promise<Node[] | []>;
+  getNodes: (request: INodesRequest, cancelable?: boolean) => Promise<Node[] | []>;
   getFolder: (request: IFolderRequest) => Promise<Node | null>;
   getFile: (request: IFileRequest) => Promise<Node | null>;
 }

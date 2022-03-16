@@ -21,11 +21,19 @@ const routes: RouteRecordRaw[] = [
         name: 'root',
         path: '/',
         component: AppFolderLayout,
+        props: route => ({
+          isTrashed: false,
+          folderId: null
+        })
       },
       {
         name: 'folder',
         path: '/folder/:folderId',
         component: AppFolderLayout,
+        props: route => ({
+          isTrashed: false,
+          folderId: route.params.folderId || null
+        })
       },
       {
         name: 'file',
@@ -36,9 +44,10 @@ const routes: RouteRecordRaw[] = [
         name: 'trash',
         path: '/trash',
         component: AppFolderLayout,
-        props: {
-          isTrashed: true
-        }
+        props: route => ({
+          isTrashed: true,
+          folderId: null
+        })
       },
     ]
   }

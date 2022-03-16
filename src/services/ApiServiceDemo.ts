@@ -26,10 +26,22 @@ const getAncestors = (currentNode: INode, allNodes: INode[]): INode[] => {
   return ancestors;
 };
 
+
 export default class ApiServiceDemo implements ApiServiceInterface {
 
-  async getNodes(request: INodesRequest) {
-    const nodes = await axios.get('/data/nodes.json');
+  private getNodesController: AbortController | undefined;
+
+  async getNodes(request: INodesRequest, cancelable?: boolean) {
+    if (this.getNodesController && cancelable)
+      this.getNodesController.abort();
+
+    this.getNodesController = new AbortController();
+
+    const nodes = await axios.get(
+      '/data/nodes.json', {
+        signal: cancelable ? this.getNodesController.signal : undefined
+      });
+
     await promiseTimeout(Math.random() * 1000 + 100);
 
     let data = nodes.data.data as INode[];
