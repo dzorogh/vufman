@@ -46,7 +46,6 @@ import { useRoute } from "vue-router";
 import { ref, watch } from "vue";
 import AppFolderHeading from "@/components/AppFolderHeading.vue";
 
-const route = useRoute();
 const nodesStore = useNodesStore();
 
 const props = defineProps<{
@@ -59,6 +58,7 @@ watch(() => [ props.isTrashed, props.folderId ],
     console.log(isTrashed, folderId);
 
     nodesStore.nodesLoading = true;
+    nodesStore.selectedNodes = [];
 
     [
       nodesStore.currentFolder,
