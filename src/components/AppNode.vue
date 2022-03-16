@@ -36,6 +36,13 @@
           class="text-slate-300"
           :class="iconSizeClasses"
         />
+
+        <IconAudio
+          v-if="node.getFileType() === 'audio'"
+          :extension="node.extension"
+          class="text-slate-300"
+          :class="iconSizeClasses"
+        />
       </template>
     </div>
 
@@ -75,6 +82,7 @@ import filesize from "filesize";
 import IconFolder from "@/components/IconFolder.vue";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
+import IconAudio from "@/components/IconAudio.vue";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeClass } from "@/types/INodeClass";
 
