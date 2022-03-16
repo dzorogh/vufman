@@ -22,7 +22,8 @@
 
     <AppNodeInfoItem
       title="Размер"
-      :content="`${file.size}b (${file.getFileType()})`"
+      :content="`${file.getSize()}`"
+      :description="file.size >= 1000 ?`${file.size} B` : null"
     />
   </div>
 </template>

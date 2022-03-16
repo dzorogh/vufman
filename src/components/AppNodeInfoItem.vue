@@ -4,14 +4,24 @@
       {{ props.title }}
     </h3>
 
-    {{ props.content }}
+    <div v-if="content">
+      {{ props.content }}
+    </div>
+
+    <div
+      v-if="description"
+      class="text-xs opacity-50"
+    >
+      {{ props.description }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   title: string;
-  content: string | number | null;
+  content?: string | number | null;
+  description?: string | number | null;
 }>();
 </script>
 
