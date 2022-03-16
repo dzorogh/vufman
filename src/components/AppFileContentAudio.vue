@@ -16,7 +16,7 @@
   </div>
   <div
     v-if="mediaLoadingFailed"
-    class="flex items-center justify-center h-full"
+    class="flex items-center justify-center h-full gap-12"
   >
     <IconAudio
       class="fill-gray-200 w-64 h-64"
@@ -41,6 +41,8 @@ import "plyr/dist/plyr.css";
 import { INodeModel } from "@/types/INodeModel";
 import { onMounted, ref } from "vue";
 import IconAudio from "@/components/IconAudio.vue";
+import Button from "primevue/button";
+
 
 const props = defineProps<{
   file: INodeModel;

@@ -12,7 +12,7 @@
   </div>
   <div
     v-if="mediaLoadingFailed"
-    class="flex flex-col items-center justify-center h-full"
+    class="flex flex-col items-center justify-center h-full gap-12"
   >
     <IconImage
       class="fill-gray-200 w-64 h-64"
@@ -35,6 +35,8 @@
 import { INodeModel } from "@/types/INodeModel";
 import IconImage from "@/components/IconImage.vue";
 import { onMounted, ref } from "vue";
+import Button from "primevue/button";
+
 
 const props = defineProps<{
   file: INodeModel;

@@ -8,7 +8,7 @@
   >
   <div
     v-else
-    class="flex flex-col items-center justify-center h-full"
+    class="flex flex-col items-center justify-center h-full gap-12"
   >
     <IconDocument
       :extension="file.extension"
@@ -31,6 +31,8 @@
 <script setup lang="ts">
 import { INodeModel } from "@/types/INodeModel";
 import IconDocument from "@/components/IconDocument.vue";
+import Button from "primevue/button";
+
 
 // TODO: And some better PDF api
 // Like abobe pdf or mozilla pdf.js
