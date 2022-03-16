@@ -23,8 +23,12 @@
           </div>
         </div>
 
-        <div class="border-l p-4 ">
-          <AppFileInfo :file="file" />
+        <div class="border-l p-4 flex flex-col gap-10">
+          <AppNodeInfo :file="file" />
+          <AppNodeMenu
+            :node="file"
+            class="mt-auto"
+          />
         </div>
       </div>
     </template>
@@ -46,9 +50,10 @@ import AppFileContentVideo from "@/components/AppFileContentVideo.vue";
 import AppFileContentDocument from "@/components/AppFileContentDocument.vue";
 import AppFileContentArchive from "@/components/AppFileContentArchive.vue";
 import AppFileContentAudio from "@/components/AppFileContentAudio.vue";
-import AppFileInfo from "@/components/AppFileInfo.vue";
+import AppNodeInfo from "@/components/AppFileInfo.vue";
 import AppFileClose from "@/components/AppFileClose.vue";
 import { INodeModel } from "@/types/INodeModel";
+import AppNodeMenu from "@/components/AppNodeMenu.vue";
 
 const route = useRoute();
 

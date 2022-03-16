@@ -73,7 +73,7 @@ export class NodeModel implements INodeModel {
   }
 
   public getParentName() {
-    if (this.node.folderId && this.node.ancestors[0]) {
+    if (this.node.folderId && this.node.ancestors && this.node.ancestors[0]) {
       return this.node.ancestors[0].name;
     } else {
       if (this.node.isTrashed) {
