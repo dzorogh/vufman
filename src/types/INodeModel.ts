@@ -3,8 +3,8 @@ import { RouteLocationRaw } from "vue-router";
 
 export interface INodeModel extends Partial<INode> {
   getFullName: () => string;
-  getFileType: () => string | null;
-  getSize: () => string | null;
+  getFileType: () => string;
+  getSize: () => string;
   download: () => void;
   getParentRoute: () => RouteLocationRaw | null;
   getParentName: () => string;
