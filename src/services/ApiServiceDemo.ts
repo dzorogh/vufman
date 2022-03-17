@@ -14,11 +14,9 @@ const getAncestors = (currentNode: INode, allNodes: INode[]): INode[] => {
   let ancestors = [] as INode[];
 
   if (currentNode.folderId) {
-    const parents = allNodes.filter((node) => node.id === currentNode.folderId);
+    const parent = allNodes.find((node) => node.id === currentNode.folderId);
 
-    if (parents.length === 1) {
-      const parent = parents[0];
-
+    if (parent) {
       ancestors = [ parent, ...getAncestors(parent, allNodes) ];
     }
   }
