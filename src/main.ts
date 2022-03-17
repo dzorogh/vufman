@@ -12,7 +12,7 @@ import 'primeicons/primeicons.css';
 import { settings } from "./setup";
 import router from "./router";
 import VueLazyLoad from 'vue3-lazyload';
-import ConfirmationService from 'primevue/confirmationservice';
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -20,7 +20,7 @@ const pinia = createPinia();
 app.use(router);
 app.use(pinia);
 app.use(PrimeVue);
-app.use(ConfirmationService);
+app.use(ToastService);
 app.use(VueLazyLoad);
 
 app.mount(settings.mountContainer);

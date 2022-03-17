@@ -19,8 +19,16 @@ export const useNodesStore = defineStore('nodes', {
       this.selectedNodes = [ node ];
     },
 
-    selectNodeAdd(node: INodeModel) {
-      this.selectedNodes.push(node);
+    selectNodeAdd(node: INodeModel, toggle = true) {
+      const index = this.selectedNodes.indexOf(node);
+
+      if (index < 0) {
+        this.selectedNodes.push(node);
+      } else {
+        if (toggle) {
+          this.selectedNodes.splice(index, 1);
+        }
+      }
     },
 
     selectNodeRange(node: INodeModel) {
