@@ -3,6 +3,7 @@ import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
 import { useMoveAction } from "@/composables/useMoveAction";
 import { INodeModel } from "@/types/INodeModel";
+import { useToast } from "primevue/usetoast";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -11,7 +12,8 @@ export const useNodesStore = defineStore('nodes', {
       currentFolder: null as INodeModel | null,
       nodes: [] as INodeModel[],
       selectedNodes: [] as INodeModel[],
-      copiedNodes: [] as INodeModel[]
+      copiedNodes: [] as INodeModel[],
+      isCutNodes: false
     };
   },
   actions: {
@@ -119,16 +121,38 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async copyNodes() {
+      this.isCutNodes = false;
       this.copiedNodes = this.selectedNodes;
+
+      const toast = useToast();
+      toast.add({ severity: 'success', summary: 'Скопировано', life: 2000, });
+
+      this.selectedNodes = [];
+    },
+
+    async cutNodes() {
+      this.isCutNodes = true;
+      this.copiedNodes = this.selectedNodes;
+
+      const toast = useToast();
+      toast.add({ severity: 'success', summary: 'Вырезано', life: 2000, });
 
       this.selectedNodes = [];
     },
 
     async pasteNodes() {
       // TODO: API - save changes
+
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
+
+      if (this.isCutNodes) {
+        this.removeNodes(this.copiedNodes);
+      }
+
       this.copiedNodes = [];
       this.selectedNodes = [];
+
+      this.isCutNodes = false;
     },
 
     async moveNodes() {
@@ -142,10 +166,16 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async makeFolder() {
-      // TODO: Show rename order
+      // TODO: Show rename window
       alert('make folder and set name for it');
       this.selectedNodes = [];
-    }
+    },
+
+    async makeFile() {
+      // TODO: Show rename, then redirect to file
+      alert('make file');
+      this.selectedNodes = [];
+    },
   },
 
   getters: {

@@ -1,65 +1,12 @@
 <template>
   <Button
-    v-tooltip.bottom="'Новая папка'"
-    class="p-button-success p-button-text"
-    icon="pi pi-folder"
-    @click="nodesStore.makeFolder"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length"
-    v-tooltip.bottom="'Переместить'"
-    class="p-button-secondary p-button-text"
-    icon="pi pi-folder-open"
-    @click="nodesStore.moveNodes"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length"
-    v-tooltip.bottom="'Копировать'"
-    class="p-button-secondary p-button-text"
-    icon="pi pi-copy"
-    @click="nodesStore.copyNodes"
-  />
-
-  <Button
-    v-if="nodesStore.copiedNodes.length"
-    v-tooltip.bottom="'Вставить'"
-    class="p-button-text"
-    icon="pi pi-copy"
-    @click="nodesStore.pasteNodes"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length === 1"
-    v-tooltip.bottom="'Переименовать'"
-    class="p-button-secondary  p-button-text"
-    icon="pi pi-pencil"
-    @click="nodesStore.renameNode"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length"
-    v-tooltip.bottom="'Скачать'"
-    class="p-button-secondary  p-button-text"
-    icon="pi pi-download"
-    @click="nodesStore.downloadNodes"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length"
-    v-tooltip.bottom="'Переместить в корзину'"
-    class="p-button-secondary p-button-text"
-    icon="pi pi-trash"
-    @click="nodesStore.deleteNodes"
-  />
-
-  <Button
-    v-if="nodesStore.selectedNodes.length"
-    v-tooltip.bottom="'Удалить навсегда'"
-    class="p-button-danger p-button-text"
-    icon="pi pi-times"
-    @click="nodesStore.destroyNodes"
+    v-for="(item, index) in list"
+    v-show="item.show()"
+    :key="index"
+    v-tooltip.bottom="item.tooltip"
+    :class="item.class"
+    :icon="item.icon"
+    @click="item.action"
   />
 </template>
 
@@ -69,6 +16,72 @@ import vTooltip from 'primevue/tooltip';
 import { useNodesStore } from "@/store/nodes";
 
 const nodesStore = useNodesStore();
+const list = [
+  {
+    show: () => true,
+    tooltip: 'Новая папка',
+    icon: 'pi pi-folder',
+    class: 'p-button-success p-button-text',
+    action: nodesStore.makeFolder,
+  },
+  {
+    show: () => true,
+    tooltip: 'Создать текстовый файл',
+    icon: 'pi pi-file',
+    class: 'p-button-success p-button-text',
+    action: nodesStore.makeFile,
+  },
+  {
+    show: () => nodesStore.selectedNodes.length,
+    tooltip: 'Переместить',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-folder-open',
+    action: nodesStore.moveNodes
+  },
+  {
+    show: () => nodesStore.selectedNodes.length,
+    tooltip: 'Копировать',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-copy',
+    action: nodesStore.copyNodes
+  },
+  {
+    show: () => nodesStore.copiedNodes.length,
+    tooltip: 'Вставить',
+    class: 'p-button-text',
+    icon: 'pi pi-copy',
+    action: nodesStore.pasteNodes
+  },
+  {
+    show: () => nodesStore.selectedNodes.length === 1,
+    tooltip: 'Переименовать',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-pencil',
+    action: nodesStore.renameNode
+  },
+  {
+    show: () => nodesStore.selectedNodes.length,
+    tooltip: 'Скачать',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-download',
+    action: nodesStore.downloadNodes
+  },
+  {
+    show: () => nodesStore.selectedNodes.length,
+    tooltip: 'Переместить в корзину',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-trash',
+    action: nodesStore.deleteNodes
+  },
+  {
+    show: () => nodesStore.selectedNodes.length,
+    tooltip: 'Удалить навсегда',
+    class: 'p-button-secondary p-button-text',
+    icon: 'pi pi-times',
+    action: nodesStore.destroyNodes
+  }
+];
+
 </script>
 
 <style scoped>

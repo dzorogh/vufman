@@ -26,7 +26,7 @@
         :node="child"
 
         class="border border-transparent"
-        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child)}"
+        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
 
         @click.ctrl="nodesStore.selectNodeAdd(child)"
         @click.meta="nodesStore.selectNodeAdd(child)"
@@ -231,6 +231,10 @@ const dragIconStyle = computed(() => {
     opacity: dragging.value ? '1' : '0'
   };
 });
+
+const cutClass = (node) => {
+  return 'opacity-50';
+};
 
 </script>
 
