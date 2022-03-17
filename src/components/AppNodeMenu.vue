@@ -51,6 +51,14 @@ const listItems = computed<{
   const result = [];
 
   result.push({
+    label: 'Скачать',
+    icon: 'pi pi-fw pi-download',
+    command: () => {
+      // TODO: download
+    }
+  });
+  
+  result.push({
     label: 'Переместить',
     icon: 'pi pi-fw pi-folder-open',
     command: () => {
@@ -81,14 +89,6 @@ const listItems = computed<{
       icon: 'pi pi-fw pi-pencil',
       command: () => {
         // TODO: rename
-      }
-    });
-
-    result.push({
-      label: 'Скачать',
-      icon: 'pi pi-fw pi-download',
-      command: () => {
-        // TODO: download
       }
     });
 
