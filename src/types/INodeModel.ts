@@ -8,4 +8,5 @@ export interface INodeModel extends Partial<INode> {
   download: () => void;
   getParentRoute: () => RouteLocationRaw | null;
   getParentName: () => string;
+  getPath: () => string;
 }

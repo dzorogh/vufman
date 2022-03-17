@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="promptStore.show"
     :header="promptStore.header"
-    :style="{width: '450px'}"
+    :style="{width: '650px'}"
     @hide="promptStore.cancel"
   >
     <div
@@ -14,7 +14,10 @@
       </span>
     </div>
 
-    <div class="p-inputgroup pt-3">
+    <div
+      v-if="promptStore.type === 'string'"
+      class="p-inputgroup pt-3"
+    >
       <InputText
         v-model="promptStore.newValue"
         type="text"
@@ -28,6 +31,18 @@
       >
         {{ promptStore.addon }}
       </span>
+    </div>
+
+    <div
+      v-if="promptStore.type === 'tree'"
+      class="grid"
+    >
+      <TreeSelect
+        v-model="promptStore.newValue"
+        :options="promptStore.treeNodes"
+        selection-mode="single"
+        placeholder="Выберите"
+      />
     </div>
 
     <div
@@ -60,6 +75,7 @@
 <script setup lang="ts">
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import TreeSelect from 'primevue/treeselect';
 import InputText from 'primevue/inputtext';
 import { usePromptStore } from '@/store/prompt';
 

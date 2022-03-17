@@ -16,7 +16,6 @@ import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { INodeModel } from "@/types/INodeModel";
 import { computed } from "vue";
 
-
 const props = defineProps<{
   node: INodeModel;
 }>();
@@ -48,6 +47,11 @@ const items = computed(() => {
   result.push({
     title: 'Родительская папка',
     content: props.node.getParentName()
+  });
+
+  result.push({
+    title: 'Путь',
+    content: props.node.getPath()
   });
 
   result.push({

@@ -49,6 +49,11 @@ export default class ApiServiceDemo implements ApiServiceInterface {
       return [];
     }
 
+    data.map(item => {
+      item.ancestors = getAncestors(item, data);
+      return item;
+    });
+
     if (!request.isTrashed) {
       data = data.filter((node) => !node.isTrashed);
     } else {
@@ -73,9 +78,13 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
     let data = nodes.data.data as INode[];
 
+    data.map(item => {
+      item.ancestors = getAncestors(item, data);
+    });
+
     data = data.filter((node) => node.isFolder);
     data = data.filter((node) => node.id === request.id);
-
+    
     if (data.length) {
       return new NodeModel(data[0]);
     }

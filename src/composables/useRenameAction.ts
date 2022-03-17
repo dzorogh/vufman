@@ -8,7 +8,8 @@ export function useRenameAction() {
   return {
     show(node: INodeModel) {
 
-      promptStore.errors = [];
+      promptStore.reset();
+
       promptStore.header = 'Введите новое название';
       promptStore.oldValue = node.name || '';
       promptStore.newValue = node.name || '';

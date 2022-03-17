@@ -21,11 +21,11 @@
 <script setup lang="ts">
 import Tree, { TreeNode } from "primevue/tree";
 import api from "@/services/api";
-import { INodeModel } from "@/types/INodeModel";
 import { computed, onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStorage } from "@vueuse/core";
 import ProgressSpinner from 'primevue/progressspinner';
+import { makeNavigatorTree } from "@/services/makeNavigatorTree";
 
 const route = useRoute();
 const router = useRouter();
@@ -34,7 +34,7 @@ const isLoading = ref(true);
 
 onBeforeMount(async () => {
   const nodes = await api.getNodes({ isFolder: true });
-  tree.value[0].children = makeTree(nodes, null);
+  tree.value[0].children = makeNavigatorTree(nodes, null);
   isLoading.value = false;
 });
 
@@ -54,27 +54,6 @@ const tree = ref<TreeNode[]>(
     }
   ]
 );
-
-function makeTree(nodes: INodeModel[] | undefined, folderId: INodeModel['folderId']) {
-  if (nodes && nodes.length) {
-    let result = [] as TreeNode[];
-
-    for (let node of nodes.filter((item) => item.folderId === folderId)) {
-      result.push(
-        {
-          label: node.name,
-          icon: 'pi pi-folder',
-          key: node.id + '',
-          children: makeTree(nodes, node.id)
-        }
-      );
-    }
-
-    return result;
-  }
-
-  return [];
-}
 
 // console.log(nodes, makeTree(nodes, null));
 

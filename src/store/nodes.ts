@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
+import { useMoveAction } from "@/composables/useMoveAction";
 import { INodeModel } from "@/types/INodeModel";
 
 export const useNodesStore = defineStore('nodes', {
@@ -124,7 +125,11 @@ export const useNodesStore = defineStore('nodes', {
 
     async moveNodes() {
       // TODO: Make interface
-      alert('move nodes');
+
+      const moveAction = useMoveAction();
+
+      const result = await moveAction.show(this.selectedNodes);
+
       this.selectedNodes = [];
     },
 

@@ -62,7 +62,7 @@ const props = defineProps<{
 
 watch(() => [ props.isTrashed, props.folderId ],
   async ([ isTrashed, folderId ]) => {
-    console.log(isTrashed, folderId);
+    // console.log(isTrashed, folderId);
 
     nodesStore.nodesLoading = true;
     nodesStore.selectedNodes = [];

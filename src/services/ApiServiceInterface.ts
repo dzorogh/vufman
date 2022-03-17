@@ -1,12 +1,11 @@
-import { INode } from '@/types/INode';
 import { INodesRequest } from '@/types/INodesRequest';
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { IFileRequest } from "@/types/IFileRequest";
-import { NodeModel } from "@/models/NodeModel";
+import { INodeModel } from "@/types/INodeModel";
 
 export interface ApiServiceInterface {
 
-  getNodes: (request: INodesRequest, cancelable?: boolean) => Promise<NodeModel[] | []>;
-  getFolder: (request: IFolderRequest) => Promise<NodeModel | null>;
-  getFile: (request: IFileRequest) => Promise<NodeModel | null>;
+  getNodes: (request: INodesRequest, cancelable?: boolean) => Promise<INodeModel[] | []>;
+  getFolder: (request: IFolderRequest) => Promise<INodeModel | null>;
+  getFile: (request: IFileRequest) => Promise<INodeModel | null>;
 }

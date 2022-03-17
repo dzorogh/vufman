@@ -60,6 +60,19 @@ export class NodeModel implements INodeModel {
     return filesize(this.node.size || 0, { locale: 'ru-RU' });
   }
 
+  public getPath() {
+    let path = '';
+    path += 'Диск';
+
+    if (this.node.ancestors) {
+      this.node.ancestors.forEach((ancestor) => {
+        path += '/' + ancestor.name;
+      });
+    }
+
+    return path;
+  }
+
   public getParentRoute() {
     if (this.node.folderId) {
       return { name: 'folder', params: { folderId: this.node.folderId } };
