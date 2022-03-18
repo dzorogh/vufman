@@ -52,21 +52,7 @@ export function useRenameAction() {
         return promptStore.errors.length <= 0;
       };
 
-      return new Promise<string | false>((resolve) => {
-        const unsubscribe = promptStore.$onAction(({ name, after }) => {
-          after(() => {
-            if (name === 'cancel') {
-              resolve(false);
-              unsubscribe();
-            }
-
-            if (name === 'save') {
-              resolve(promptStore.newValue);
-              unsubscribe();
-            }
-          });
-        });
-      });
+      return promptStore.promiseOnAction();
     }
   };
 }
