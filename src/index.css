@@ -22,13 +22,6 @@ img[lazy=loaded] {
     /*your style here*/
 }
 
-
-.list-enter-active,
-.list-leave-active {
-    transition: all .3s ease;
-}
-
-.list-enter-from, .list-leave-to {
-    opacity: 0;
-    transform: translateY(30px);
+.text a {
+    @apply text-blue-500 hover:text-blue-700;
 }

@@ -5,6 +5,7 @@ export interface INode {
   name: string;
   isFolder: boolean;
   size: number;
+  comment?: string;
 
   folderId: string | null;
 

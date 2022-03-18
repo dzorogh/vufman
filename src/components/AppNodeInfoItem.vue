@@ -4,9 +4,15 @@
       {{ props.title }}
     </h3>
 
-    <div v-if="content">
+    <div v-if="content && !html">
       {{ props.content }}
     </div>
+
+    <div
+      v-if="content && html"
+      class="text"
+      v-html="props.content"
+    />
 
     <div
       v-if="description"
@@ -22,6 +28,7 @@ const props = defineProps<{
   title: string;
   content?: string | number | null;
   description?: string | number | null;
+  html?: boolean;
 }>();
 </script>
 
