@@ -11,9 +11,14 @@ export class NodeModel implements INodeModel {
     this.node = node;
 
     return new Proxy<NodeModel>(this, {
-      get: (model, field: keyof INode & keyof NodeModel) => {
-        if (field in node) return model.node[field];
-        if (field in model) return model[field];
+      get: (target, field: keyof INode & keyof NodeModel) => {
+        if (field in node) return target.node[field];
+        if (field in target) return target[field];
+      },
+      set: (target, property: keyof INode, value: never) => {
+        target.node[property] = value;
+
+        return true;
       }
     });
   }
