@@ -59,7 +59,7 @@ import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 
 const route = useRoute();
-const nodeStore = useNodesStore();
+const nodesStore = useNodesStore();
 
 const file = ref<INodeModel | null>();
 const isLoading = ref(false);
@@ -69,7 +69,7 @@ onBeforeMount(async () => {
 
   file.value = await api.getFile({ id: route.params.fileId as string });
   if (file.value?.ancestors) {
-    nodeStore.currentFolder = file.value.ancestors[0];
+    nodesStore.currentFolder = file.value.ancestors[0] as INodeModel;
   }
 
   // console.log(file.value);

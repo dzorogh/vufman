@@ -45,7 +45,10 @@ export function useDeleteAction() {
       return new Promise((resolve) => {
         confirmStore.$onAction(({ name, after }) => {
           after(() => {
-            if (name === 'accept') resolve(true);
+            if (name === 'accept') {
+              resolve(true);
+            }
+            
             if (name === 'decline') resolve(false);
           });
         });

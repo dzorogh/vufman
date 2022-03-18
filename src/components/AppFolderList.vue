@@ -73,10 +73,11 @@ import { promiseTimeout, useDebounceFn, useMouse, useTimeout } from "@vueuse/cor
 import IconFile from "@/components/IconFile.vue";
 import { MenuItem } from "primevue/menuitem";
 import { useToast } from "primevue/usetoast";
+import { useMessages } from "@/composables/useMessages";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
-const toast = useToast();
+const messages = useMessages();
 
 // console.log(route.params.folderId);
 
@@ -214,7 +215,8 @@ const handleDrop = (destination: INodeModel, event: DragEvent) => {
       }
     });
 
-    toast.add({ severity: 'success', summary: 'Перемещено', life: 2000, });
+    messages.moved('folder', nodesStore.selectedNodes);
+
   }
 };
 

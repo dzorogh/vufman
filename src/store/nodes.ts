@@ -6,6 +6,7 @@ import { INodeModel } from "@/types/INodeModel";
 import { useToast } from "primevue/usetoast";
 import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
 import { NodeModel } from "@/models/NodeModel";
+// import { useMessages } from "@/composables/useMessages";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -91,6 +92,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async deleteNodes() {
+      // const messages = useMessages();
       const deleteAction = useDeleteAction();
 
       const result = await deleteAction.show(this.selectedNodes);
@@ -98,6 +100,9 @@ export const useNodesStore = defineStore('nodes', {
       if (result === true) {
         // TODO: API - save changes
 
+        const toast = useToast();
+        toast.add({ severity: 'success', summary: 'Удалено', life: 2000, });
+        // messages.moved('trash', this.selectedNodes);
         this.removeNodes(this.selectedNodes);
       }
 
@@ -127,8 +132,8 @@ export const useNodesStore = defineStore('nodes', {
       this.isCutNodes = false;
       this.copiedNodes = this.selectedNodes;
 
-      const toast = useToast();
-      toast.add({ severity: 'success', summary: 'Скопировано', life: 2000, });
+      // const toast = useToast();
+      // toast.add({ severity: 'success', summary: 'Скопировано', life: 2000, });
 
       this.deselect();
     },
@@ -137,8 +142,8 @@ export const useNodesStore = defineStore('nodes', {
       this.isCutNodes = true;
       this.copiedNodes = this.selectedNodes;
 
-      const toast = useToast();
-      toast.add({ severity: 'success', summary: 'Вырезано', life: 2000, });
+      // const toast = useToast();
+      // toast.add({ severity: 'success', summary: 'Вырезано', life: 2000, });
 
       this.deselect();
     },

@@ -30,12 +30,12 @@ import { useStorage } from "@vueuse/core";
 import ProgressSpinner from 'primevue/progressspinner';
 import { makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { useNodesStore } from "@/store/nodes";
-import { useToast } from "primevue/usetoast";
+import { useMessages } from "@/composables/useMessages";
 
 const route = useRoute();
 const router = useRouter();
 const nodesStore = useNodesStore();
-const toast = useToast();
+const messages = useMessages();
 
 const nodes = ref();
 const isLoading = ref(true);
@@ -112,53 +112,6 @@ const expandedKeys = useStorage('my-flag', {
   root: true,
 });
 
-const handleDrop = (destination: TreeNode) => {
-  if (destination && destination.key && dropAvailableByKey(destination.key)) {
-
-    if (destination.key === 'trash') {
-      toast.add({
-        severity: 'success',
-        summary: 'Объекты перемещены в корзину',
-        life: 2000,
-        detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
-      });
-
-      // TODO: API - move to trash
-
-      nodesStore.removeNodes(nodesStore.selectedNodes);
-
-      return true;
-    }
-
-    if (destination.key === 'root') {
-      toast.add({
-        severity: 'success',
-        summary: 'Объекты перемещены в корзину',
-        life: 2000,
-        detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
-      });
-
-      // TODO: API - move to root, reload navigator
-
-      nodesStore.removeNodes(nodesStore.selectedNodes);
-
-      return true;
-    }
-
-    toast.add({
-      severity: 'success',
-      summary: 'Объекты перемещены',
-      life: 2000,
-      detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
-    });
-
-    nodesStore.removeNodes(nodesStore.selectedNodes);
-
-    return true;
-
-  }
-};
-
 const dropAvailableByKey = (key: string) => {
   if (nodesStore.dragging) {
 
@@ -182,6 +135,15 @@ const dropAvailableByKey = (key: string) => {
   }
 
   return false;
+};
+
+const handleDrop = (destination: TreeNode) => {
+  if (destination && destination.key && dropAvailableByKey(destination.key)) {
+
+    messages.moved(destination.key === 'trash' ? 'trash' : destination.key === 'root' ? 'root' : 'folder', nodesStore.selectedNodes);
+
+    nodesStore.removeNodes(nodesStore.selectedNodes);
+  }
 };
 
 </script>
