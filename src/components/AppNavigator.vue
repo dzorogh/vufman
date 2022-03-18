@@ -72,14 +72,23 @@ function handleSelect(treeNode: TreeNode) {
   return router.push({ name: 'folder', params: { folderId: treeNode.key } });
 }
 
-const selectedFolderKey = computed(() => {
-  if (!route.params.folderId) {
-    return 'root';
+const selectedFolderKey = computed<{ [key: string]: true }>(() => {
+  console.log(route.params);
+
+  if (route.meta.isTrash) {
+    return { 'trash': true };
   }
 
-  if (!route.params.isTrash) {
-    return 'trash';
+  if (route.meta.isRoot) {
+    return { 'root': true };
   }
+
+
+  if (route.params.folderId && typeof route.params.folderId === 'string') {
+    return { [route.params.folderId]: true };
+  }
+
+  return { 'root': true };
 });
 
 const expandedKeys = useStorage('my-flag', {

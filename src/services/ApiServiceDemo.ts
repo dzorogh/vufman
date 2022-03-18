@@ -30,6 +30,8 @@ export default class ApiServiceDemo implements ApiServiceInterface {
   private getNodesController: AbortController | undefined;
 
   async getNodes(request: INodesRequest, cancelable?: boolean) {
+    console.log('getNodes', request, cancelable);
+
     if (this.getNodesController && cancelable) {
       this.getNodesController.abort();
     }
@@ -84,7 +86,7 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
     data = data.filter((node) => node.isFolder);
     data = data.filter((node) => node.id === request.id);
-    
+
     if (data.length) {
       return new NodeModel(data[0]);
     }
