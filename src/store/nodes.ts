@@ -4,6 +4,8 @@ import { useRenameAction } from "@/composables/useRenameAction";
 import { useMoveAction } from "@/composables/useMoveAction";
 import { INodeModel } from "@/types/INodeModel";
 import { useToast } from "primevue/usetoast";
+import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
+import { NodeModel } from "@/models/NodeModel";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -17,6 +19,10 @@ export const useNodesStore = defineStore('nodes', {
     };
   },
   actions: {
+    deselect() {
+      this.selectedNodes = [];
+    },
+
     selectNodeSingle(node: INodeModel) {
       this.selectedNodes = [ node ];
     },
@@ -43,7 +49,7 @@ export const useNodesStore = defineStore('nodes', {
           const lastNodeIndex = firstNodeIndex + this.selectedNodes.length - 1;
           const selectedNodeIndex = this.sortedNodes.indexOf(node);
 
-          this.selectedNodes = [];
+          this.deselect();
 
           // Select all nodes between first and selected node
           // Including edge items
@@ -74,7 +80,7 @@ export const useNodesStore = defineStore('nodes', {
         // TODO: API - save changes
       }
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     removeNodes(nodes: INodeModel[]) {
@@ -94,7 +100,7 @@ export const useNodesStore = defineStore('nodes', {
         this.removeNodes(this.selectedNodes);
       }
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async destroyNodes() {
@@ -108,12 +114,12 @@ export const useNodesStore = defineStore('nodes', {
         this.removeNodes(this.selectedNodes);
       }
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async downloadNodes() {
       alert('download');
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async copyNodes() {
@@ -123,7 +129,7 @@ export const useNodesStore = defineStore('nodes', {
       const toast = useToast();
       toast.add({ severity: 'success', summary: 'Скопировано', life: 2000, });
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async cutNodes() {
@@ -133,20 +139,23 @@ export const useNodesStore = defineStore('nodes', {
       const toast = useToast();
       toast.add({ severity: 'success', summary: 'Вырезано', life: 2000, });
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async pasteNodes() {
-      // TODO: API - save changes
+
 
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
 
       if (this.isCutNodes) {
+        // TODO: api - move nodes to current folder
         this.removeNodes(this.copiedNodes);
+      } else {
+        // TODO: api - copy nodes to current folder
       }
 
       this.copiedNodes = [];
-      this.selectedNodes = [];
+      this.deselect();
 
       this.isCutNodes = false;
     },
@@ -158,19 +167,41 @@ export const useNodesStore = defineStore('nodes', {
 
       const result = await moveAction.show(this.selectedNodes);
 
-      this.selectedNodes = [];
+      this.deselect();
     },
 
     async makeFolder() {
-      // TODO: Show rename window
-      alert('make folder and set name for it');
-      this.selectedNodes = [];
+      this.deselect();
+
+      const makeFolderAction = useMakeFolderAction();
+
+      const newFolderName = await makeFolderAction.show();
+
+      if (newFolderName) {
+        // TODO: api - get new folder id and ancestors, and valid unique name
+
+        this.nodes.push(new NodeModel({
+          id: "9fa314a1-bdf2-48cf-9fc1-908d49ff3c93",
+          ancestors: [],
+          authorId: 0,
+          createdAt: new Date().toDateString(),
+          deletedAt: null,
+          folderId: null,
+          isFolder: true,
+          isTrashed: false,
+          name: newFolderName,
+          size: 0,
+          updatedAt: null
+        }));
+      }
+
     },
 
     async makeFile() {
+      this.deselect();
+
       // TODO: Show rename, then redirect to file
       alert('make file');
-      this.selectedNodes = [];
     },
   },
 

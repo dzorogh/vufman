@@ -2,7 +2,7 @@ import { usePromptStore } from "@/store/prompt";
 import isValidFilename from "valid-filename";
 import { INodeModel } from "@/types/INodeModel";
 
-export function useRenameAction() {
+export function useMakeFolderAction() {
   const promptStore = usePromptStore();
 
   return {
