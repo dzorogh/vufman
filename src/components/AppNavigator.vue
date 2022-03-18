@@ -10,7 +10,10 @@
 
     :meta-key-selection="false"
 
+    :drop-available-by-key="dropAvailableByKey"
     @node-select="handleSelect"
+
+    @node-mouseup="handleDrop"
   />
   <ProgressSpinner
     v-else
@@ -19,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import Tree, { TreeNode } from "primevue/tree";
+import Tree from "@/components/tree/AppTree.vue";
 import api from "@/services/api";
 import { computed, onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -27,18 +30,28 @@ import { useStorage } from "@vueuse/core";
 import ProgressSpinner from 'primevue/progressspinner';
 import { makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { useNodesStore } from "@/store/nodes";
+import { useToast } from "primevue/usetoast";
 
 const route = useRoute();
 const router = useRouter();
+const nodesStore = useNodesStore();
+const toast = useToast();
 
+const nodes = ref();
 const isLoading = ref(true);
-const nodeStore = useNodesStore();
 
 onBeforeMount(async () => {
-  const nodes = await api.getNodes({ isFolder: true });
-  tree.value[0].children = makeNavigatorTree(nodes, null);
+  nodes.value = await api.getNodes({ isFolder: true });
+  tree.value[0].children = makeNavigatorTree(nodes.value, null);
   isLoading.value = false;
 });
+
+type TreeNode = {
+  label?: string;
+  icon?: string;
+  key?: string;
+  children?: TreeNode[];
+}
 
 const tree = ref<TreeNode[]>(
   [
@@ -46,13 +59,13 @@ const tree = ref<TreeNode[]>(
       label: 'Диск',
       icon: 'pi pi-home',
       key: 'root',
-      children: []
+      children: [],
     },
     {
       label: 'Корзина',
       icon: 'pi pi-trash',
       key: 'trash',
-      children: []
+      children: [],
     }
   ]
 );
@@ -60,7 +73,7 @@ const tree = ref<TreeNode[]>(
 // console.log(nodes, makeTree(nodes, null));
 
 
-function handleSelect(treeNode: TreeNode) {
+const handleSelect = (treeNode: TreeNode) => {
   // console.log(treeNode);
 
   if (treeNode.key === 'root') {
@@ -72,10 +85,9 @@ function handleSelect(treeNode: TreeNode) {
   }
 
   return router.push({ name: 'folder', params: { folderId: treeNode.key } });
-}
+};
 
 const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
-  console.log(route.params);
 
   if (route.meta.isTrash) {
     return { 'trash': true };
@@ -85,8 +97,12 @@ const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
     return { 'root': true };
   }
 
-  if (nodeStore.currentFolder && typeof nodeStore.currentFolder.id === 'string') {
-    return { [nodeStore.currentFolder.id]: true };
+  if (route.params.folderId && typeof route.params.folderId === "string") {
+    return { [route.params.folderId]: true };
+  }
+
+  if (nodesStore.currentFolder && typeof nodesStore.currentFolder.id === 'string') {
+    return { [nodesStore.currentFolder.id]: true };
   }
 
   return { 'root': true };
@@ -95,6 +111,78 @@ const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
 const expandedKeys = useStorage('my-flag', {
   root: true,
 });
+
+const handleDrop = (destination: TreeNode) => {
+  if (destination && destination.key && dropAvailableByKey(destination.key)) {
+
+    if (destination.key === 'trash') {
+      toast.add({
+        severity: 'success',
+        summary: 'Объекты перемещены в корзину',
+        life: 2000,
+        detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
+      });
+
+      // TODO: API - move to trash
+
+      nodesStore.removeNodes(nodesStore.selectedNodes);
+
+      return true;
+    }
+
+    if (destination.key === 'root') {
+      toast.add({
+        severity: 'success',
+        summary: 'Объекты перемещены в корзину',
+        life: 2000,
+        detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
+      });
+
+      // TODO: API - move to root, reload navigator
+
+      nodesStore.removeNodes(nodesStore.selectedNodes);
+
+      return true;
+    }
+
+    toast.add({
+      severity: 'success',
+      summary: 'Объекты перемещены',
+      life: 2000,
+      detail: nodesStore.selectedNodes.map(n => n.getFullName()).join(', ')
+    });
+
+    nodesStore.removeNodes(nodesStore.selectedNodes);
+
+    return true;
+
+  }
+};
+
+const dropAvailableByKey = (key: string) => {
+  if (nodesStore.dragging) {
+
+    console.log(key);
+
+    if (key === 'root') {
+      return !!nodesStore.currentFolder;
+    }
+
+    if (key === 'trash') {
+      return !route.meta.isTrash;
+    }
+
+    if (nodesStore.selectedNodes.find(item => item.id === key || item.folderId === key)) {
+      return false;
+    }
+
+    // TODO: Check to move selected files in self subfoldrers
+
+    return true;
+  }
+
+  return false;
+};
 
 </script>
 
@@ -111,12 +199,16 @@ const expandedKeys = useStorage('my-flag', {
   font-weight: 600;
 }
 
-::v-deep(.p-treenode) {
-  /*@apply p-0 !important;*/
+::v-deep(.p-treenode-content) {
+  @apply shadow-none !important;
 }
 
 ::v-deep(.p-treenode-content:hover) {
-  @apply bg-gray-200 !important
+  @apply bg-inherit !important;
+}
+
+::v-deep(.p-treenode-content.p-highlight) {
+  @apply bg-gray-100 !important;
 }
 
 ::v-deep(.p-treenode-icon) {
@@ -125,5 +217,9 @@ const expandedKeys = useStorage('my-flag', {
 
 ::v-deep(.p-tree-toggler) {
   @apply bg-transparent shadow-none !important;
+}
+
+::v-deep(.drop-available) {
+  @apply bg-gray-200 hover:bg-amber-50 cursor-grabbing !important;
 }
 </style>

@@ -14,6 +14,14 @@ export class NodeModel implements INodeModel {
       get: (target, field: keyof INode & keyof NodeModel) => {
         if (field in node) return target.node[field];
         if (field in target) return target[field];
+
+        if (field === 'ancestors') {
+          return target.node.ancestors ? NodeModel.collection(target.node.ancestors) : [];
+        }
+
+        if (field === 'children') {
+          return target.node.children ? NodeModel.collection(target.node.children) : [];
+        }
       },
       set: (target, property: keyof INode, value: never) => {
         target.node[property] = value;

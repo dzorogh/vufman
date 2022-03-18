@@ -56,7 +56,7 @@ export function useMoveAction() {
           const destinationFolder = folders.find(folder => folder.id === destinationId);
 
           if (destinationFolder) {
-            console.log('destinationFolder', destinationFolder);
+            // console.log('destinationFolder', destinationFolder);
 
             nodes.forEach((node) => {
               if (node.isFolder) {
@@ -65,7 +65,7 @@ export function useMoveAction() {
                 }
 
                 if (destinationFolder.ancestors) {
-                  destinationFolder.ancestors.forEach((destinationAncestor) => {
+                  destinationFolder.ancestors.forEach((destinationAncestor: INodeModel) => {
                     if (destinationAncestor.id === node.id) {
                       promptStore.errors.push(`Нельзя поместить папку ${node.name} в свою под-папку`);
                     }

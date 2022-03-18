@@ -58,7 +58,6 @@ const route = useRoute();
 
 watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId ],
   async ([ isRoot, isTrash, folderId ]) => {
-    console.log(isRoot, isTrash, folderId);
 
     nodesStore.nodesLoading = true;
     nodesStore.selectedNodes = [];

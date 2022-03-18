@@ -25,3 +25,8 @@ img[lazy=loaded] {
 .text a {
     @apply text-blue-500 hover:text-blue-700;
 }
+
+
+.p-toast .p-toast-message .p-toast-message-content {
+    @apply !border-0;
+}

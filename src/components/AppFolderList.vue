@@ -16,7 +16,7 @@
     </Teleport>
     <div
       v-if="nodesStore.sortedNodes.length > 0"
-      :class="{'cursor-grabbing': dragging}"
+      :class="{'cursor-grabbing': nodesStore.dragging}"
       class="grid grid-cols-1 overflow-x-hidden"
     >
       <AppNode
@@ -169,11 +169,8 @@ const handleDoubleClick = (node: INodeModel) => {
   }
 };
 
-const dragging = ref(false);
-
-
 const dropAvailable = (destination: INodeModel) => {
-  if (dragging.value && destination.isFolder) {
+  if (nodesStore.dragging && destination.isFolder) {
     return nodesStore.selectedNodes.indexOf(destination) < 0;
   }
 
@@ -182,7 +179,7 @@ const dropAvailable = (destination: INodeModel) => {
 
 const droppableClass = (node: INodeModel) => {
   if (dropAvailable(node)) {
-    return { 'hover:bg-amber-50': true };
+    return { 'hover:bg-amber-50': true, 'bg-gray-50': true };
   }
   return {};
 };
@@ -197,13 +194,13 @@ const handleDragStart = async (node: INodeModel, event: DragEvent) => {
   }
 
   draggingTimeout = setTimeout(() => {
-    dragging.value = true;
+    nodesStore.dragging = true;
   }, 150);
 };
 
 document.addEventListener('mouseup', (event) => {
   clearTimeout(draggingTimeout);
-  dragging.value = false;
+  nodesStore.dragging = false;
 });
 
 const handleDrop = (destination: INodeModel, event: DragEvent) => {
@@ -227,8 +224,8 @@ const dragIconStyle = computed(() => {
   return {
     top: mouseY.value + 10 + 'px',
     left: mouseX.value + 10 + 'px',
-    display: dragging.value ? 'flex !important' : 'none',
-    opacity: dragging.value ? '1' : '0'
+    display: nodesStore.dragging ? 'flex !important' : 'none',
+    opacity: nodesStore.dragging ? '1' : '0'
   };
 });
 

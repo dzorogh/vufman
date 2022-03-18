@@ -15,7 +15,8 @@ export const useNodesStore = defineStore('nodes', {
       nodes: [] as INodeModel[],
       selectedNodes: [] as INodeModel[],
       copiedNodes: [] as INodeModel[],
-      isCutNodes: false
+      isCutNodes: false,
+      dragging: false
     };
   },
   actions: {
@@ -74,7 +75,7 @@ export const useNodesStore = defineStore('nodes', {
       const result = await renameAction.show(selectedNode);
 
       if (result) {
-        console.log(this.nodes[this.nodes.indexOf(selectedNode)]);
+        // console.log(this.nodes[this.nodes.indexOf(selectedNode)]);
         this.nodes[this.nodes.indexOf(selectedNode)].name = result;
 
         // TODO: API - save changes
@@ -192,7 +193,7 @@ export const useNodesStore = defineStore('nodes', {
           name: newFolderName,
           size: 0,
           updatedAt: null
-        }));
+        }) as INodeModel);
       }
 
     },
@@ -235,6 +236,7 @@ export const useNodesStore = defineStore('nodes', {
     isNodeSelected: (state) => {
       return (node: INodeModel) => state.selectedNodes.indexOf(node) >= 0;
     },
+
 
     sortedNodes: (state) => {
       if (!state.nodes) {

@@ -1,12 +1,5 @@
 import { INode } from "@/types/INode";
-import { RouteLocationRaw } from "vue-router";
+import { NodeModel } from "@/models/NodeModel";
 
-export interface INodeModel extends Partial<INode> {
-  getFullName: () => string;
-  getFileType: () => string;
-  getSize: () => string;
-  download: () => void;
-  getParentRoute: () => RouteLocationRaw | null;
-  getParentName: () => string;
-  getPath: () => string;
-}
+export type INodeModel = Partial<INode> & Pick<NodeModel,
+  'getFullName' | 'getFileType' | 'download' | 'getSize' | 'getPath' | 'getParentName' | 'getParentRoute'>
