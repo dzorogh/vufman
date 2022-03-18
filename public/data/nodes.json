@@ -10,7 +10,8 @@
       "folderId": null,
       "author": {
         "fullName": "Иванов Иван"
-      }
+      },
+      "comment": "http://my-globaldrive.test/fm/folder/665eba1f-8011-4811-80da-c552df23d3a4 \n All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. "
     },
     {
       "name": "Моторы 1-1",
@@ -113,7 +114,8 @@
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "folderId": null
+      "folderId": null,
+      "comment": "http://my-globaldrive.test/fm/folder/665eba1f-8011-4811-80da-c552df23d3a4 \n All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. "
     },
     {
       "mimetype": "application/pdf",
