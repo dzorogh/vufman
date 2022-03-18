@@ -3,10 +3,9 @@ import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
 import { useMoveAction } from "@/composables/useMoveAction";
 import { INodeModel } from "@/types/INodeModel";
-import { useToast } from "primevue/usetoast";
 import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
 import { NodeModel } from "@/models/NodeModel";
-// import { useMessages } from "@/composables/useMessages";
+import { useMessages } from "@/composables/useMessages";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -92,7 +91,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async deleteNodes() {
-      // const messages = useMessages();
+      const messages = useMessages();
       const deleteAction = useDeleteAction();
 
       const result = await deleteAction.show(this.selectedNodes);
@@ -100,9 +99,7 @@ export const useNodesStore = defineStore('nodes', {
       if (result === true) {
         // TODO: API - save changes
 
-        const toast = useToast();
-        toast.add({ severity: 'success', summary: 'Удалено', life: 2000, });
-        // messages.moved('trash', this.selectedNodes);
+        messages.moved('trash');
         this.removeNodes(this.selectedNodes);
       }
 
@@ -111,12 +108,13 @@ export const useNodesStore = defineStore('nodes', {
 
     async destroyNodes() {
       const deleteAction = useDeleteAction();
+      const messages = useMessages();
 
       const result = await deleteAction.show(this.selectedNodes, true);
 
       if (result === true) {
         // TODO: API - save changes
-
+        messages.destroyed();
         this.removeNodes(this.selectedNodes);
       }
 

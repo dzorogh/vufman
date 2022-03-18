@@ -22,6 +22,7 @@
     "valid-filename": "^4.0.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13",
+    "vue-toastification": "^2.0.0-rc.5",
     "vue3-lazyload": "^0.2.5-beta"
   },
   "devDependencies": {

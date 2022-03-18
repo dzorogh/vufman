@@ -1,5 +1,5 @@
 import { INodeModel } from "@/types/INodeModel";
-import { useToast } from "primevue/usetoast";
+import { useToast } from "vue-toastification";
 
 const getNodesNames = (nodes: INodeModel[]) => {
   return nodes.map(n => n.getFullName()).join(', ');
@@ -12,37 +12,30 @@ export function useMessages() {
 
     moved: (
       destinationType: 'folder' | 'trash' | 'root',
-      nodes: INodeModel[]
     ) => {
       let summary = '';
+      let icon = '';
 
       if (destinationType === 'folder') {
         summary = 'Объекты перемещены';
+        icon = 'pi pi-folder';
       }
 
       if (destinationType === 'trash') {
         summary = 'Объекты перемещены в корзину';
+        icon = 'pi pi-trash';
       }
 
       if (destinationType === 'root') {
-        summary = 'Объекты перемещены';
+        summary = 'Объекты перемещены в корневой каталог';
+        icon = 'pi pi-home';
       }
 
-      toast.add({
-        severity: 'success',
-        summary: summary,
-        life: 2000,
-        detail: getNodesNames(nodes)
-      });
+      toast.success(summary, { icon });
     },
 
-    destroyed: (nodes: INodeModel[]) => {
-      toast.add({
-        severity: 'success',
-        summary: nodes.length > 1 ? 'Объекты удалены' : 'Объект удален',
-        life: 2000,
-        detail: getNodesNames(nodes)
-      });
+    destroyed: () => {
+      toast.success('Объекты удалены навсегда', { icon: 'pi pi-trash' });
     }
   };
 }
