@@ -1,5 +1,7 @@
+import { NodeModel } from "@/models/NodeModel";
+
 export interface INode {
-  ancestors: INode[];
+  ancestors: NodeModel[];
   isTrashed: boolean;
   id: string;
   name: string;

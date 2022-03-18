@@ -10,14 +10,14 @@ import { promiseTimeout } from '@vueuse/core';
 import { IFileRequest } from "@/types/IFileRequest";
 import { NodeModel } from "@/models/NodeModel";
 
-const getAncestors = (currentNode: INode, allNodes: INode[]): INode[] => {
-  let ancestors = [] as INode[];
+const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
+  let ancestors = [] as NodeModel[];
 
   if (currentNode.folderId) {
     const parent = allNodes.find((node) => node.id === currentNode.folderId);
 
     if (parent) {
-      ancestors = [ parent, ...getAncestors(parent, allNodes) ];
+      ancestors = [ new NodeModel(parent), ...getAncestors(parent, allNodes) ];
     }
   }
 

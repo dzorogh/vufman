@@ -26,11 +26,13 @@ import { useRoute, useRouter } from "vue-router";
 import { useStorage } from "@vueuse/core";
 import ProgressSpinner from 'primevue/progressspinner';
 import { makeNavigatorTree } from "@/services/makeNavigatorTree";
+import { useNodesStore } from "@/store/nodes";
 
 const route = useRoute();
 const router = useRouter();
 
 const isLoading = ref(true);
+const nodeStore = useNodesStore();
 
 onBeforeMount(async () => {
   const nodes = await api.getNodes({ isFolder: true });
@@ -72,7 +74,7 @@ function handleSelect(treeNode: TreeNode) {
   return router.push({ name: 'folder', params: { folderId: treeNode.key } });
 }
 
-const selectedFolderKey = computed<{ [key: string]: true }>(() => {
+const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
   console.log(route.params);
 
   if (route.meta.isTrash) {
@@ -83,9 +85,8 @@ const selectedFolderKey = computed<{ [key: string]: true }>(() => {
     return { 'root': true };
   }
 
-
-  if (route.params.folderId && typeof route.params.folderId === 'string') {
-    return { [route.params.folderId]: true };
+  if (nodeStore.currentFolder && typeof nodeStore.currentFolder.id === 'string') {
+    return { [nodeStore.currentFolder.id]: true };
   }
 
   return { 'root': true };
