@@ -18,6 +18,7 @@
         <img
           v-if="node.getFileType() === 'image' && node.thumbnail"
           v-lazy="node.thumbnail"
+          draggable="false"
           class="rounded object-scale-down bg-slate-300"
           :alt="node.name"
           :class="iconSizeClasses"
