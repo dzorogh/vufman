@@ -39,6 +39,23 @@ export const usePromptStore = defineStore('prompt', {
       } else {
         this.save();
       }
+    },
+    promiseOnAction() {
+      return new Promise<string | false>((resolve) => {
+        const unsubscribe = this.$onAction(({ name, after }) => {
+          after(() => {
+            if (name === 'cancel') {
+              resolve(false);
+              unsubscribe();
+            }
+
+            if (name === 'save') {
+              resolve(this.newValue);
+              unsubscribe();
+            }
+          });
+        });
+      });
     }
   }
 });
