@@ -12,7 +12,7 @@
 
     <div>
       <Button
-        class="p-button-sm"
+        class="p-button-sm p-button-outlined"
         label="Изменить комментарий"
         @click="handleEditComment"
       />
@@ -27,7 +27,6 @@ import { INodeModel } from "@/types/INodeModel";
 import { computed } from "vue";
 import linkifyHtml from 'linkify-html';
 import Button from 'primevue/button';
-
 
 const props = defineProps<{
   node: INodeModel;
