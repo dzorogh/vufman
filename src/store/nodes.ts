@@ -7,6 +7,8 @@ import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
 import { NodeModel } from "@/models/NodeModel";
 import { useMessages } from "@/composables/useMessages";
 
+const messages = useMessages();
+
 export const useNodesStore = defineStore('nodes', {
   state: () => {
     return {
@@ -79,6 +81,8 @@ export const useNodesStore = defineStore('nodes', {
         this.nodes[this.nodes.indexOf(selectedNode)].name = result;
 
         // TODO: API - save changes
+
+        messages.nodeRenamed();
       }
 
       this.deselect();
@@ -91,7 +95,6 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async deleteNodes() {
-      const messages = useMessages();
       const deleteAction = useDeleteAction();
 
       const result = await deleteAction.show(this.selectedNodes);
@@ -108,7 +111,6 @@ export const useNodesStore = defineStore('nodes', {
 
     async destroyNodes() {
       const deleteAction = useDeleteAction();
-      const messages = useMessages();
 
       const result = await deleteAction.show(this.selectedNodes, true);
 
@@ -123,6 +125,8 @@ export const useNodesStore = defineStore('nodes', {
 
     async downloadNodes() {
       alert('download');
+      messages.downloadStarted();
+
       this.deselect();
     },
 
@@ -130,8 +134,7 @@ export const useNodesStore = defineStore('nodes', {
       this.isCutNodes = false;
       this.copiedNodes = this.selectedNodes;
 
-      // const toast = useToast();
-      // toast.add({ severity: 'success', summary: 'Скопировано', life: 2000, });
+      messages.nodesCopied();
 
       this.deselect();
     },
@@ -140,15 +143,12 @@ export const useNodesStore = defineStore('nodes', {
       this.isCutNodes = true;
       this.copiedNodes = this.selectedNodes;
 
-      // const toast = useToast();
-      // toast.add({ severity: 'success', summary: 'Вырезано', life: 2000, });
+      messages.nodesWereCut();
 
       this.deselect();
     },
 
     async pasteNodes() {
-
-
       this.nodes = [ ...this.copiedNodes, ...this.nodes ];
 
       if (this.isCutNodes) {
@@ -157,6 +157,8 @@ export const useNodesStore = defineStore('nodes', {
       } else {
         // TODO: api - copy nodes to current folder
       }
+
+      messages.pasted();
 
       this.copiedNodes = [];
       this.deselect();
@@ -170,6 +172,8 @@ export const useNodesStore = defineStore('nodes', {
       const moveAction = useMoveAction();
 
       const result = await moveAction.show(this.selectedNodes);
+
+      messages.moved('folder');
 
       this.deselect();
     },
@@ -197,6 +201,8 @@ export const useNodesStore = defineStore('nodes', {
           size: 0,
           updatedAt: null
         }) as INodeModel);
+
+        messages.folderCreated();
       }
 
     },
@@ -206,6 +212,8 @@ export const useNodesStore = defineStore('nodes', {
 
       // TODO: Show rename, then redirect to file
       alert('make file');
+
+      messages.fileCreated();
     },
   },
 

@@ -36,6 +36,34 @@ export function useMessages() {
 
     destroyed: () => {
       toast.success('Объекты удалены навсегда', { icon: 'pi pi-trash' });
+    },
+
+    folderCreated: () => {
+      toast.success('Создана папка', { icon: 'pi pi-folder' });
+    },
+
+    fileCreated: () => {
+      toast.success('Создан файл', { icon: 'pi pi-file' });
+    },
+
+    nodeRenamed: () => {
+      toast.success('Новое название сохранено');
+    },
+
+    downloadStarted: () => {
+      toast.success('Скачивание началось');
+    },
+
+    nodesCopied: () => {
+      toast.success('Скопировано');
+    },
+
+    nodesWereCut: () => {
+      toast.success('Вырезано');
+    },
+
+    pasted: () => {
+      toast.success('Вставлено');
     }
   };
 }
