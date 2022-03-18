@@ -68,12 +68,8 @@ export const useNodesStore = defineStore('nodes', {
       const result = await renameAction.show(selectedNode);
 
       if (result) {
-
-        const currentNodeIndex = this.nodes.findIndex((item) => {
-          return item.id === selectedNode.id;
-        });
-
-        this.nodes[currentNodeIndex].name = result;
+        console.log(this.nodes[this.nodes.indexOf(selectedNode)]);
+        this.nodes[this.nodes.indexOf(selectedNode)].name = result;
 
         // TODO: API - save changes
       }
