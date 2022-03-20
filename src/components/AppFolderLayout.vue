@@ -62,16 +62,19 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId ],
     nodesStore.nodesLoading = true;
     nodesStore.selectedNodes = [];
 
-    [
-      nodesStore.currentFolder,
-      nodesStore.nodes
-    ] = await Promise.all([
+    const [ currentFolder, nodes ] = await Promise.all([
       api.getFolder({ id: folderId as string }),
       api.getNodes({
         folderId: folderId as string || null,
         isTrashed: isTrash ? true : undefined
       }, true)
     ]);
+
+    if (currentFolder) {
+      nodesStore.currentFolder = currentFolder;
+    }
+
+    nodesStore.nodes = nodes;
 
     nodesStore.nodesLoading = false;
   }, {

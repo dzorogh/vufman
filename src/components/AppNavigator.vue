@@ -89,6 +89,7 @@ const handleSelect = (treeNode: TreeNode) => {
 
 const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
 
+  console.log(route.meta.isRoot, route.params.folderId, nodesStore.currentFolder);
   if (route.meta.isTrash) {
     return { 'trash': true };
   }
