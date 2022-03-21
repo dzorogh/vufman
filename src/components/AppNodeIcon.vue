@@ -55,10 +55,19 @@
 
 <script setup lang="ts">
 import { INodeModel } from "@/types/INodeModel";
+import IconFolder from "@/components/IconFolder.vue";
+import IconDocument from "@/components/IconDocument.vue";
+import IconVideo from "@/components/IconVideo.vue";
+import IconAudio from "@/components/IconAudio.vue";
+import IconFont from "@/components/IconFont.vue";
+import IconImage from "@/components/IconImage.vue";
 
 defineProps<{
   node: INodeModel;
 }>();
+
+const iconSizeClasses = 'w-20 h-20';
+
 </script>
 
 <style scoped>

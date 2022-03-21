@@ -41,9 +41,11 @@
 </template>
 
 <script setup lang="ts">
+
 import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeModel } from "@/types/INodeModel";
 import AppNodeIcon from "@/components/AppNodeIcon.vue";
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
