@@ -61,7 +61,7 @@ const route = useRoute();
 watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, route.name ],
   async ([ isRoot, isTrash, folderId, routeName ]) => {
 
-    console.log(isRoot, isTrash, folderId, routeName);
+    // console.log(isRoot, isTrash, folderId, routeName);
 
     if (routeName === 'folder' || routeName === 'root' || routeName === 'trash') {
       nodesStore.nodesLoading = true;
