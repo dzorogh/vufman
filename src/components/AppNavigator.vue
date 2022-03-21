@@ -89,7 +89,7 @@ const handleSelect = (treeNode: TreeNode) => {
 
 const selectedFolderKey = computed<{ [key: string]: true | unknown }>(() => {
 
-  console.log(route.meta.isRoot, route.params.folderId, nodesStore.currentFolder);
+  // console.log(route.meta.isRoot, route.params.folderId, nodesStore.currentFolder);
   if (route.meta.isTrash) {
     return { 'trash': true };
   }
@@ -116,7 +116,7 @@ const expandedKeys = useStorage('my-flag', {
 const dropAvailableByKey = (key: string) => {
   if (nodesStore.dragging) {
 
-    console.log(key);
+    // console.log(key);
 
     if (key === 'root') {
       return !!nodesStore.currentFolder;
