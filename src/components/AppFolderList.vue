@@ -61,7 +61,7 @@
           :node="child"
 
           :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
-          
+
           @click.ctrl="nodesStore.selectNodeAdd(child)"
           @click.meta="nodesStore.selectNodeAdd(child)"
           @click.shift="nodesStore.selectNodeRange(child)"
@@ -97,7 +97,6 @@ import { INodeModel } from "@/types/INodeModel";
 import { useRouter } from "vue-router";
 import { promiseTimeout, useDebounceFn, useMouse, useTimeout } from "@vueuse/core";
 import IconFile from "@/components/IconFile.vue";
-import { MenuItem } from "primevue/menuitem";
 import { useMessages } from "@/composables/useMessages";
 import AppFolderTableRow from "@/components/AppFolderTableRow.vue";
 import AppFolderTableHeader from "@/components/AppFolderTableHeader.vue";
@@ -114,8 +113,15 @@ const showContextMenu = (node: INodeModel, event: unknown) => {
 
   menu.value.show(event);
 };
-const menuItems = computed<object[]>(() => {
-  const result = [] as MenuItem[];
+const menuItems = computed(() => {
+  const result = [] as {
+    label?: string;
+    icon?: string;
+    disabled?: boolean;
+    command?: () => unknown;
+    separator?: boolean;
+    class?: string;
+  }[];
 
   result.push({
     label: nodesStore.selectedNodesLabel,
