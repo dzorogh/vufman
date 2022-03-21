@@ -1,16 +1,19 @@
 <template>
-  <div class="bg-white rounded-tl-xl p-4 border-b flex items-center h-20">
+  <div class="bg-white rounded-tl-xl p-4 border-b flex flex-wrap items-center">
     <template v-if="!nodesStore.nodesLoading">
-      <AppBreadCrumbs :is-trashed="props.isTrashed" />
+      <AppBreadCrumbs
+        class="mr-auto"
+        :is-trashed="props.isTrashed"
+      />
 
-      <div class="ml-auto">
+      <div>
         <AppFolderMenu />
       </div>
     </template>
 
     <ProgressSpinner
       v-else
-      class="!w-7 !h-7 !m-0 !ml-2"
+      class="!w-6 !h-6 !ml-2 !my-3"
     />
   </div>
 </template>

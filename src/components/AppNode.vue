@@ -3,6 +3,7 @@
     :class="{'flex-col': nodesStore.layout === 'grid', 'flex-row': nodesStore.layout === 'list'}"
     class="flex items-center p-3 rounded select-none gap-4"
     aria-haspopup="true"
+    @click.prevent="handleClick"
   >
     <AppNodeIcon :node="node" />
 
@@ -47,6 +48,7 @@ import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeModel } from "@/types/INodeModel";
 import AppNodeIcon from "@/components/AppNodeIcon.vue";
 import { useNodesStore } from "@/store/nodes";
+import { ref } from "vue";
 
 const nodesStore = useNodesStore();
 
@@ -55,8 +57,22 @@ const props = defineProps<{
   node: INodeModel;
 }>();
 
-const listLayoutMainClasses = 'flex-row';
-const gridLayoutMainClasses = 'flex-col';
+const emit = defineEmits<{
+  (e: 'doubletap'): void;
+}>();
+
+
+let doubleTap = false;
+const handleClick = () => {
+  if (!doubleTap) {
+    doubleTap = true;
+    setTimeout(() => {
+      doubleTap = false;
+    }, 500);
+  } else {
+    emit('doubletap');
+  }
+};
 
 </script>
 

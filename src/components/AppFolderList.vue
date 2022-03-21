@@ -16,27 +16,29 @@
 
   <div
     v-if="nodesStore.sortedNodes.length > 0"
-    :class="{'cursor-grabbing': nodesStore.dragging, 'grid-cols-1' : nodesStore.layout === 'list', 'grid-cols-5 gap-4' : nodesStore.layout === 'grid'}"
+    :class="{'cursor-grabbing': nodesStore.dragging, 'grid-cols-1' : nodesStore.layout === 'list', 'xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'}"
     class="grid overflow-x-hidden"
+    @click.self="nodesStore.deselect()"
   >
     <AppNode
       v-for="(child) in nodesStore.sortedNodes"
 
       :key="child.id"
+
       :node="child"
 
       :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
-
       @click.ctrl="nodesStore.selectNodeAdd(child)"
       @click.meta="nodesStore.selectNodeAdd(child)"
       @click.shift="nodesStore.selectNodeRange(child)"
       @click.exact="nodesStore.selectNodeSingle(child)"
+
       @mousedown.exact="handleDragStart(child, $event)"
-
       @mouseup.exact="handleDrop(child, $event)"
-      @contextmenu="showContextMenu(child, $event)"
 
+      @contextmenu="showContextMenu(child, $event)"
       @dblclick="handleDoubleClick(child)"
+      @doubletap="handleDoubleClick(child)"
     />
 
     <ContextMenu

@@ -46,12 +46,12 @@ const items: {
   {
     title: 'Расширение файла',
     content: props.node.extension || '(нет)',
-    show: () => !!props.node.isFolder
+    show: () => !props.node.isFolder
   },
   {
     title: 'Тип данных',
     content: props.node.mimetype || 'Неизвестно',
-    show: () => !!props.node.isFolder
+    show: () => !props.node.isFolder
   },
   {
     title: 'Путь',

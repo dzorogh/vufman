@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center gap-4">
-    <div>
+    <div class="flex">
       <Button
         v-for="(item, index) in list"
         v-show="item.show()"
@@ -12,7 +12,7 @@
       />
     </div>
 
-    <span class="p-buttonset">
+    <span class="p-buttonset flex">
       <Button
         v-for="(item, index) in layoutOptions"
         :key="index"

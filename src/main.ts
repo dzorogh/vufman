@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import Toast, { PluginOptions, POSITION } from "vue-toastification";
+import VueClick from 'vue-click';
 
 import App from './App.vue';
 import PrimeVue from 'primevue/config';
@@ -25,6 +26,7 @@ app.use(router);
 app.use(pinia);
 app.use(PrimeVue);
 app.use(VueLazyLoad);
+app.use(VueClick);
 
 app.mount(settings.mountContainer);
 
