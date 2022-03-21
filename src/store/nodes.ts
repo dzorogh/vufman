@@ -6,6 +6,7 @@ import { INodeModel } from "@/types/INodeModel";
 import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
 import { NodeModel } from "@/models/NodeModel";
 import { useMessages } from "@/composables/useMessages";
+import { useStorage } from "@vueuse/core";
 
 const messages = useMessages();
 
@@ -18,7 +19,8 @@ export const useNodesStore = defineStore('nodes', {
       selectedNodes: [] as INodeModel[],
       copiedNodes: [] as INodeModel[],
       isCutNodes: false,
-      dragging: false
+      dragging: false,
+      layout: useStorage('nodesLayout', 'list')
     };
   },
   actions: {

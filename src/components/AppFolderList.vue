@@ -13,10 +13,11 @@
       </div>
     </div>
   </Teleport>
+
   <div
     v-if="nodesStore.sortedNodes.length > 0"
-    :class="{'cursor-grabbing': nodesStore.dragging}"
-    class="grid grid-cols-1 overflow-x-hidden"
+    :class="{'cursor-grabbing': nodesStore.dragging, 'grid-cols-1' : nodesStore.layout === 'list', 'grid-cols-5 gap-4' : nodesStore.layout === 'grid'}"
+    class="grid overflow-x-hidden"
   >
     <AppNode
       v-for="(child) in nodesStore.sortedNodes"
@@ -24,7 +25,6 @@
       :key="child.id"
       :node="child"
 
-      class="border border-transparent"
       :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
 
       @click.ctrl="nodesStore.selectNodeAdd(child)"
@@ -32,9 +32,10 @@
       @click.shift="nodesStore.selectNodeRange(child)"
       @click.exact="nodesStore.selectNodeSingle(child)"
       @mousedown.exact="handleDragStart(child, $event)"
-      @mouseup.exact="handleDrop(child, $event)"
 
+      @mouseup.exact="handleDrop(child, $event)"
       @contextmenu="showContextMenu(child, $event)"
+
       @dblclick="handleDoubleClick(child)"
     />
 
@@ -55,7 +56,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import ContextMenu from 'primevue/contextmenu';
-import ProgressSpinner from 'primevue/progressspinner';
 
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
@@ -65,18 +65,11 @@ import { useRouter } from "vue-router";
 import { promiseTimeout, useDebounceFn, useMouse, useTimeout } from "@vueuse/core";
 import IconFile from "@/components/IconFile.vue";
 import { MenuItem } from "primevue/menuitem";
-import { useToast } from "primevue/usetoast";
 import { useMessages } from "@/composables/useMessages";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
 const messages = useMessages();
-
-// console.log(route.params.folderId);
-
-// const isLoading = ref(false);
-
-// console.log(nodesStore.nodes);
 
 const menu = ref();
 const showContextMenu = (node: INodeModel, event: unknown) => {
@@ -173,7 +166,7 @@ const dropAvailable = (destination: INodeModel) => {
 
 const droppableClass = (node: INodeModel) => {
   if (dropAvailable(node)) {
-    return { 'hover:bg-amber-50': true, 'bg-gray-50': true };
+    return { 'hover:bg-amber-50': true, 'bg-gray-50': true, 'node-drop-available': true };
   }
   return {};
 };

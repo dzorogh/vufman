@@ -1,11 +1,14 @@
 <template data-label="AppNode">
   <div
-    class="flex flex-row items-center p-3 rounded select-none gap-4"
+    :class="{'flex-col': nodesStore.layout === 'grid', 'flex-row': nodesStore.layout === 'list'}"
+    class="flex items-center p-3 rounded select-none gap-4"
     aria-haspopup="true"
   >
     <AppNodeIcon :node="node" />
 
-    <div>
+    <div
+      :class="{'text-center': nodesStore.layout === 'grid'}"
+    >
       <div class="font-bold">
         <template v-if="node.extension">
           {{ `${node.name}.${node.extension}` }}
@@ -20,7 +23,10 @@
         {{ node.getSize() }}
       </div>
 
-      <div class="flex items-center text-sm text-slate-600 gap-2">
+      <div
+        class="flex items-center text-sm text-slate-600 gap-2"
+        :class="{'flex-col': nodesStore.layout === 'grid'}"
+      >
         <div
           v-if="node.createdAt"
         >
@@ -40,12 +46,17 @@
 import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeModel } from "@/types/INodeModel";
 import AppNodeIcon from "@/components/AppNodeIcon.vue";
+import { useNodesStore } from "@/store/nodes";
 
+const nodesStore = useNodesStore();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
   node: INodeModel;
 }>();
+
+const listLayoutMainClasses = 'flex-row';
+const gridLayoutMainClasses = 'flex-col';
 
 </script>
 

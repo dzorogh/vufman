@@ -4,7 +4,7 @@
   >
     <template v-if="node.isFolder">
       <IconFolder
-        class="text-slate-700"
+        class="text-slate-700 node-folder"
         :class="iconSizeClasses"
       />
     </template>
@@ -75,5 +75,7 @@ const iconSizeClasses = 'w-20 h-20';
 </script>
 
 <style scoped>
-
+.node-drop-available .node-folder {
+  @apply animate-pulse;
+}
 </style>

@@ -52,6 +52,8 @@ import api from "@/services/api";
 import { useRoute } from "vue-router";
 import { ref, watch } from "vue";
 import AppFolderHeading from "@/components/AppFolderHeading.vue";
+import { useStorage } from "@vueuse/core";
+import { FolderLayoutType } from "@/types/FolderLayoutType";
 
 const nodesStore = useNodesStore();
 const route = useRoute();
@@ -80,7 +82,6 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId ],
   }, {
     immediate: true
   });
-
 
 </script>
 

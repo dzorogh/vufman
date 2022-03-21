@@ -1,19 +1,37 @@
 <template>
-  <Button
-    v-for="(item, index) in list"
-    v-show="item.show()"
-    :key="index"
-    v-tooltip.bottom="item.tooltip"
-    :class="item.class"
-    :icon="item.icon"
-    @click="item.action"
-  />
+  <div class="flex items-center gap-4">
+    <div>
+      <Button
+        v-for="(item, index) in list"
+        v-show="item.show()"
+        :key="index"
+        v-tooltip.bottom="item.tooltip"
+        :class="item.class"
+        :icon="item.icon"
+        @click="item.action"
+      />
+    </div>
+
+    <span class="p-buttonset">
+      <Button
+        v-for="(item, index) in layoutOptions"
+        :key="index"
+        v-tooltip.bottom="item.title"
+        :icon="item.icon"
+        class="p-button-secondary p-button-sm	"
+        :class="{'p-button-outlined' : item.value !== nodesStore.layout}"
+        @click="selectLayout(item.value)"
+      />
+    </span>
+  </div>
 </template>
 
 <script setup lang="ts">
 import Button from 'primevue/button';
 import vTooltip from 'primevue/tooltip';
 import { useNodesStore } from "@/store/nodes";
+import { ref } from "vue";
+import { FolderLayoutType } from "@/types/FolderLayoutType";
 
 const nodesStore = useNodesStore();
 const list = [
@@ -81,6 +99,19 @@ const list = [
     action: nodesStore.destroyNodes
   }
 ];
+
+const layoutOptions = ref<{
+  icon: string;
+  value: FolderLayoutType;
+  title: string;
+}[]>([
+  { icon: 'pi pi-list', value: 'list', title: 'В виде списка' },
+  { icon: 'pi pi-th-large', value: 'grid', title: 'В виде сетки' },
+]);
+
+const selectLayout = (value: FolderLayoutType) => {
+  nodesStore.layout = value;
+};
 
 </script>
 
