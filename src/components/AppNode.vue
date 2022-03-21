@@ -10,7 +10,10 @@
     <div
       :class="{'text-center': nodesStore.layout === 'grid'}"
     >
-      <div class="font-bold">
+      <div
+        class="font-bold"
+        :class="{'mb-1': nodesStore.layout === 'grid'}"
+      >
         <template v-if="node.extension">
           {{ `${node.name}.${node.extension}` }}
         </template>

@@ -7,6 +7,8 @@ import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
 import { NodeModel } from "@/models/NodeModel";
 import { useMessages } from "@/composables/useMessages";
 import { useStorage } from "@vueuse/core";
+import { useMakeFileAction } from "@/composables/useMakeFileAction";
+import { useRouter } from "vue-router";
 
 const messages = useMessages();
 
@@ -196,7 +198,7 @@ export const useNodesStore = defineStore('nodes', {
           authorId: 0,
           createdAt: new Date().toDateString(),
           deletedAt: null,
-          folderId: null,
+          folderId: this.currentFolder && this.currentFolder.id ? this.currentFolder.id : null,
           isFolder: true,
           isTrashed: false,
           name: newFolderName,
@@ -212,10 +214,33 @@ export const useNodesStore = defineStore('nodes', {
     async makeFile() {
       this.deselect();
 
-      // TODO: Show rename, then redirect to file
-      alert('make file');
+      const makeFileAction = useMakeFileAction();
 
-      messages.fileCreated();
+      const newFileName = await makeFileAction.show();
+
+      if (newFileName) {
+        // TODO: api - get new folder id and ancestors, and valid unique name
+
+        this.nodes.push(new NodeModel({
+          id: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee",
+          ancestors: [],
+          authorId: 0,
+          createdAt: new Date().toDateString(),
+          deletedAt: null,
+          folderId: this.currentFolder && this.currentFolder.id ? this.currentFolder.id : null,
+          isFolder: false,
+          isTrashed: false,
+          name: newFileName,
+          extension: 'txt',
+          mimetype: 'text/plain',
+          size: 0,
+          updatedAt: null
+        }) as INodeModel);
+
+        messages.fileCreated();
+
+        await this.router.push({ name: 'file', params: { fileId: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee" } });
+      }
     },
   },
 

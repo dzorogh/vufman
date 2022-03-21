@@ -1,7 +1,6 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
+import { createApp, markRaw } from 'vue';
+import { createPinia, PiniaPluginContext } from 'pinia';
 import Toast, { PluginOptions, POSITION } from "vue-toastification";
-import VueClick from 'vue-click';
 
 import App from './App.vue';
 import PrimeVue from 'primevue/config';
@@ -21,13 +20,18 @@ import VueLazyLoad from 'vue3-lazyload';
 const app = createApp(App);
 const pinia = createPinia();
 
+pinia.use(({ store }: PiniaPluginContext) => {
+  store.router = markRaw(router);
+});
+
 app.use(Toast, { position: POSITION.TOP_RIGHT } as PluginOptions);
 app.use(router);
 app.use(pinia);
 app.use(PrimeVue);
 app.use(VueLazyLoad);
-app.use(VueClick);
 
 app.mount(settings.mountContainer);
 
 console.log(`env.mode = ${import.meta.env.MODE}`);
+
+
