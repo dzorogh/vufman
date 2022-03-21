@@ -49,7 +49,7 @@ const list = [
   },
   {
     show: () => true,
-    tooltip: 'Создать текстовый файл',
+    tooltip: 'Создать текстовый файл <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>F</kbd>',
     icon: 'pi pi-file',
     class: 'p-button-success p-button-text',
     action: nodesStore.makeFile,
