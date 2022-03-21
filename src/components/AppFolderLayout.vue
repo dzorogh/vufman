@@ -58,27 +58,26 @@ import { FolderLayoutType } from "@/types/FolderLayoutType";
 const nodesStore = useNodesStore();
 const route = useRoute();
 
-watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId ],
-  async ([ isRoot, isTrash, folderId ]) => {
+watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, route.name ],
+  async ([ isRoot, isTrash, folderId, routeName ]) => {
 
-    nodesStore.nodesLoading = true;
-    nodesStore.selectedNodes = [];
+    console.log(isRoot, isTrash, folderId, routeName);
 
-    const [ currentFolder, nodes ] = await Promise.all([
-      api.getFolder({ id: folderId as string }),
-      api.getNodes({
-        folderId: folderId as string || null,
-        isTrashed: isTrash ? true : undefined
-      }, true)
-    ]);
+    if (routeName === 'folder' || routeName === 'root' || routeName === 'trash') {
+      nodesStore.nodesLoading = true;
+      nodesStore.selectedNodes = [];
 
-    if (currentFolder) {
-      nodesStore.currentFolder = currentFolder;
+      [ nodesStore.currentFolder, nodesStore.nodes ] = await Promise.all([
+        api.getFolder({ id: folderId as string }),
+        api.getNodes({
+          folderId: folderId as string || null,
+          isTrashed: isTrash ? true : undefined
+        }, true)
+      ]);
+
+      nodesStore.nodesLoading = false;
     }
 
-    nodesStore.nodes = nodes;
-
-    nodesStore.nodesLoading = false;
   }, {
     immediate: true
   });
