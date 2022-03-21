@@ -105,6 +105,17 @@
       "folderId": null
     },
     {
+      "mimetype": "text/plain",
+      "isFolder": false,
+      "id": "580c51b4-3087-475c-b5d8-9d0ff4bb831f",
+      "name": "Demo text 1",
+      "extension": "txt",
+      "size": 100,
+      "content": "All sea-dogs endure clear, \n shiny gibbets. All sea-dogs endure clear, shiny gibbets. \n All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. ",
+      "createdAt": "2019-02-01T03:45:27+00:00",
+      "folderId": null
+    },
+    {
       "mimetype": "image/png",
       "isFolder": false,
       "id": "3bcfbfe9-2bb8-41fc-a16d-169a99084323",
