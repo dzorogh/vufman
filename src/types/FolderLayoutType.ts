@@ -1,1 +1,1 @@
-export type FolderLayoutType = 'grid' | 'list';
+export type FolderLayoutType = 'grid' | 'list' | 'table';

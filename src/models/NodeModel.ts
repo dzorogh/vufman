@@ -2,6 +2,7 @@ import { INode } from "@/types/INode";
 import { FileTypes } from "@/config/FileTypes";
 import { INodeModel } from "@/types/INodeModel";
 import filesize from "filesize";
+import { formatTimestamp } from "@/formatters/formatTimestamp";
 
 export class NodeModel implements INodeModel {
 
@@ -107,6 +108,14 @@ export class NodeModel implements INodeModel {
       } else {
         return 'Диск';
       }
+    }
+  }
+
+  public getCreatedAt() {
+    if (this.node.createdAt) {
+      return formatTimestamp(this.node.createdAt);
+    } else {
+      return "";
     }
   }
 }

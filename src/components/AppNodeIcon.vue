@@ -75,9 +75,10 @@ import IconText from "@/components/IconText.vue";
 
 defineProps<{
   node: INodeModel;
+  iconSizeClasses: string[];
 }>();
 
-const iconSizeClasses = 'w-20 h-20';
+// const iconSizeClasses = 'w-20 h-20';
 
 </script>
 

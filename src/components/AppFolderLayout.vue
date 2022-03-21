@@ -6,7 +6,7 @@
       <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
 
       <div
-        class="grow bg-white shadow-sm rounded-bl-xl p-4 overflow-auto"
+        class="grow bg-white shadow-sm rounded-bl-xl overflow-auto"
         @click.self="nodesStore.deselect()"
       >
         <AppFolderView v-if="!nodesStore.nodesLoading" />

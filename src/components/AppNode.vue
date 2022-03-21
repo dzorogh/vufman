@@ -1,11 +1,14 @@
 <template data-label="AppNode">
   <div
     :class="{'flex-col': nodesStore.layout === 'grid', 'flex-row': nodesStore.layout === 'list'}"
-    class="flex items-center p-3 rounded select-none gap-4"
+    class="flex items-center p-3 rounded select-none gap-4 break-inside-avoid"
     aria-haspopup="true"
     @click.prevent="handleClick"
   >
-    <AppNodeIcon :node="node" />
+    <AppNodeIcon
+      :icon-size-classes="nodesStore.layout === 'grid' ? ['w-32', 'h-32'] : nodesStore.layout === 'list' ? ['w-14', 'h-14'] : []"
+      :node="node"
+    />
 
     <div
       :class="{'text-center': nodesStore.layout === 'grid'}"

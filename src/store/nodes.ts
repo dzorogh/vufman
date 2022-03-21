@@ -34,6 +34,10 @@ export const useNodesStore = defineStore('nodes', {
       this.selectedNodes = [ node ];
     },
 
+    selectAllNodes() {
+      this.selectedNodes = [ ...this.nodes ];
+    },
+
     selectNodeAdd(node: INodeModel, toggle = true) {
       const index = this.selectedNodes.indexOf(node);
 

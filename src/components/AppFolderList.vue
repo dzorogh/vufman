@@ -14,38 +14,69 @@
     </div>
   </Teleport>
 
-  <div
-    v-if="nodesStore.sortedNodes.length > 0"
-    :class="{'cursor-grabbing': nodesStore.dragging, 'grid-cols-1' : nodesStore.layout === 'list', 'xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'}"
-    class="grid overflow-x-hidden"
-    @click.self="nodesStore.deselect()"
-  >
-    <AppNode
-      v-for="(child) in nodesStore.sortedNodes"
+  <template v-if="nodesStore.sortedNodes.length > 0">
+    <div
+      v-if="['grid', 'list'].includes(nodesStore.layout)"
+      :class="{'cursor-grabbing': nodesStore.dragging, 'grid lg:grid-cols-2 gap-2 ' : nodesStore.layout === 'list', 'grid xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'}"
+      class="overflow-x-hidden p-4"
+      @click.self="nodesStore.deselect()"
+    >
+      <AppNode
+        v-for="(child) in nodesStore.sortedNodes"
 
-      :key="child.id"
+        :key="child.id"
 
-      :node="child"
+        :node="child"
 
-      :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
-      @click.ctrl="nodesStore.selectNodeAdd(child)"
-      @click.meta="nodesStore.selectNodeAdd(child)"
-      @click.shift="nodesStore.selectNodeRange(child)"
-      @click.exact="nodesStore.selectNodeSingle(child)"
+        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
+        @click.ctrl="nodesStore.selectNodeAdd(child)"
+        @click.meta="nodesStore.selectNodeAdd(child)"
+        @click.shift="nodesStore.selectNodeRange(child)"
+        @click.exact="nodesStore.selectNodeSingle(child)"
 
-      @mousedown.exact="handleDragStart(child, $event)"
-      @mouseup.exact="handleDrop(child, $event)"
+        @mousedown.exact="handleDragStart(child, $event)"
+        @mouseup.exact="handleDrop(child, $event)"
 
-      @contextmenu="showContextMenu(child, $event)"
-      @dblclick="handleDoubleClick(child)"
-      @doubletap="handleDoubleClick(child)"
-    />
+        @contextmenu="showContextMenu(child, $event)"
+        @dblclick="handleDoubleClick(child)"
+        @doubletap="handleDoubleClick(child)"
+      />
 
-    <ContextMenu
-      ref="menu"
-      :model="menuItems"
-    />
-  </div>
+      <ContextMenu
+        ref="menu"
+        :model="menuItems"
+      />
+    </div>
+    <table
+      v-if="nodesStore.layout === 'table'"
+      class="w-full border-t-0 table border-x-0"
+    >
+      <thead>
+        <AppFolderTableHeader />
+      </thead>
+      <tbody>
+        <AppFolderTableRow
+          v-for="(child) in nodesStore.sortedNodes"
+          :key="child.id"
+          :node="child"
+
+          :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
+          
+          @click.ctrl="nodesStore.selectNodeAdd(child)"
+          @click.meta="nodesStore.selectNodeAdd(child)"
+          @click.shift="nodesStore.selectNodeRange(child)"
+          @click.exact="nodesStore.selectNodeSingle(child)"
+
+          @mousedown.exact="handleDragStart(child, $event)"
+          @mouseup.exact="handleDrop(child, $event)"
+
+          @contextmenu="showContextMenu(child, $event)"
+          @dblclick="handleDoubleClick(child)"
+          @doubletap="handleDoubleClick(child)"
+        />
+      </tbody>
+    </table>
+  </template>
 
   <div
     v-else
@@ -68,6 +99,8 @@ import { promiseTimeout, useDebounceFn, useMouse, useTimeout } from "@vueuse/cor
 import IconFile from "@/components/IconFile.vue";
 import { MenuItem } from "primevue/menuitem";
 import { useMessages } from "@/composables/useMessages";
+import AppFolderTableRow from "@/components/AppFolderTableRow.vue";
+import AppFolderTableHeader from "@/components/AppFolderTableHeader.vue";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
