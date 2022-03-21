@@ -1,62 +1,55 @@
 <template>
-  <template v-if="!isLoading">
-    <Teleport to="body">
-      <div
-        class="z-10 py-0.5 pr-2 pl-1 shadow-2xl rounded bg-red-800 text-white hidden absolute opacity-0 transition-all ease-linear font-bold text-sm flex items-center gap-1"
-        :style="dragIconStyle"
-      >
-        <IconFile
-          class="w-3 h-3 text-white"
-        />
+  <Teleport to="body">
+    <div
+      class="z-10 py-0.5 pr-2 pl-1 shadow-2xl rounded bg-red-800 text-white hidden absolute opacity-0 transition-all ease-linear font-bold text-sm flex items-center gap-1"
+      :style="dragIconStyle"
+    >
+      <IconFile
+        class="w-3 h-3 text-white"
+      />
 
-        <div>
-          {{ nodesStore.selectedNodes.length }}
-        </div>
+      <div>
+        {{ nodesStore.selectedNodes.length }}
       </div>
-    </Teleport>
-    <div
-      v-if="nodesStore.sortedNodes.length > 0"
-      :class="{'cursor-grabbing': nodesStore.dragging}"
-      class="grid grid-cols-1 overflow-x-hidden"
-    >
-      <AppNode
-        v-for="(child) in nodesStore.sortedNodes"
-
-        :key="child.id"
-        :node="child"
-
-        class="border border-transparent"
-        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
-
-        @click.ctrl="nodesStore.selectNodeAdd(child)"
-        @click.meta="nodesStore.selectNodeAdd(child)"
-        @click.shift="nodesStore.selectNodeRange(child)"
-        @click.exact="nodesStore.selectNodeSingle(child)"
-        @mousedown.exact="handleDragStart(child, $event)"
-        @mouseup.exact="handleDrop(child, $event)"
-
-        @contextmenu="showContextMenu(child, $event)"
-        @dblclick="handleDoubleClick(child)"
-      />
-
-      <ContextMenu
-        ref="menu"
-        :model="menuItems"
-      />
     </div>
+  </Teleport>
+  <div
+    v-if="nodesStore.sortedNodes.length > 0"
+    :class="{'cursor-grabbing': nodesStore.dragging}"
+    class="grid grid-cols-1 overflow-x-hidden"
+  >
+    <AppNode
+      v-for="(child) in nodesStore.sortedNodes"
 
-    <div
-      v-else
-      class="p-4"
-    >
-      Папка пуста. Перетащите файлы, чтобы загрузить.
-    </div>
-  </template>
+      :key="child.id"
+      :node="child"
 
-  <ProgressSpinner
+      class="border border-transparent"
+      :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
+
+      @click.ctrl="nodesStore.selectNodeAdd(child)"
+      @click.meta="nodesStore.selectNodeAdd(child)"
+      @click.shift="nodesStore.selectNodeRange(child)"
+      @click.exact="nodesStore.selectNodeSingle(child)"
+      @mousedown.exact="handleDragStart(child, $event)"
+      @mouseup.exact="handleDrop(child, $event)"
+
+      @contextmenu="showContextMenu(child, $event)"
+      @dblclick="handleDoubleClick(child)"
+    />
+
+    <ContextMenu
+      ref="menu"
+      :model="menuItems"
+    />
+  </div>
+
+  <div
     v-else
-    class="w-10 h-10 m-10"
-  />
+    class="p-4"
+  >
+    Папка пуста. Перетащите файлы, чтобы загрузить.
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -81,7 +74,7 @@ const messages = useMessages();
 
 // console.log(route.params.folderId);
 
-const isLoading = ref(false);
+// const isLoading = ref(false);
 
 // console.log(nodesStore.nodes);
 
