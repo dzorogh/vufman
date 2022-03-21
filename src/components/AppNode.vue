@@ -1,14 +1,9 @@
 <template data-label="AppNode">
   <div
-    class="flex flex-row items-center p-3 rounded select-none"
+    class="flex flex-row items-center p-3 rounded select-none gap-4"
     aria-haspopup="true"
   >
-    <div
-      :class="iconSizeClasses"
-      class="mr-4"
-    >
-      <AppNodeIcon :node="node" />
-    </div>
+    <AppNodeIcon :node="node" />
 
     <div>
       <div class="font-bold">
@@ -51,8 +46,6 @@ import AppNodeIcon from "@/components/AppNodeIcon.vue";
 const props = defineProps<{
   node: INodeModel;
 }>();
-
-const iconSizeClasses = 'w-20 h-20';
 
 </script>
 
