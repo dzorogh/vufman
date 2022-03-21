@@ -46,17 +46,17 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
+import { useRoute } from "vue-router";
+import { useKeypress, } from 'vue3-keypress';
+import ProgressSpinner from 'primevue/progressspinner';
+import AppFolderHeading from "@/components/AppFolderHeading.vue";
 import AppFolderView from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import ProgressSpinner from 'primevue/progressspinner';
 import api from "@/services/api";
-import { useRoute } from "vue-router";
-import { ref, watch } from "vue";
-import AppFolderHeading from "@/components/AppFolderHeading.vue";
-import { useStorage } from "@vueuse/core";
-import { FolderLayoutType } from "@/types/FolderLayoutType";
+
 
 const nodesStore = useNodesStore();
 const route = useRoute();
@@ -84,6 +84,93 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, rout
   }, {
     immediate: true
   });
+
+
+useKeypress({
+  keyEvent: "keydown",
+  keyBinds: [
+    {
+      keyCode: 65, // A
+      modifiers: [ "metaKey" ], // cmd
+      success: () => {
+        nodesStore.selectAllNodes();
+      },
+    },
+    {
+      keyCode: 65, // or keyCode as integer, e.g. 37
+      modifiers: [ "ctrlKey" ],
+      success: () => {
+        nodesStore.selectAllNodes();
+      },
+    },
+    {
+      keyCode: 46, // delete
+      // modifiers: [ "ctrlKey" ],
+      success: () => {
+        nodesStore.deleteNodes();
+      },
+    },
+    {
+      keyCode: 8, // backspace
+      modifiers: [ "metaKey" ], // + cmd
+      success: () => {
+        nodesStore.deleteNodes();
+      },
+    },
+    {
+      keyCode: 8, // backspace
+      modifiers: [ "ctrlKey" ], // + ctrl
+      success: () => {
+        nodesStore.deleteNodes();
+      },
+    },
+    {
+      keyCode: 78, // N
+      modifiers: [ "shiftKey", "altKey" ],
+      success: () => {
+        nodesStore.makeFolder();
+      },
+    },
+    {
+      keyCode: 70, // F
+      modifiers: [ "shiftKey", "altKey" ],
+      success: () => {
+        nodesStore.makeFile();
+      },
+    },
+    {
+      keyCode: 67, // C
+      modifiers: [ "ctrlKey" ],
+      success: () => {
+        nodesStore.copyNodes();
+      },
+    },
+    {
+      keyCode: 67, // C
+      modifiers: [ "metaKey" ],
+      success: () => {
+        nodesStore.copyNodes();
+      },
+    },
+    {
+      keyCode: 86, // V
+      modifiers: [ "ctrlKey" ],
+      success: () => {
+        nodesStore.pasteNodes();
+      },
+    },
+    {
+      keyCode: 86, // V
+      modifiers: [ "metaKey" ],
+      success: () => {
+        nodesStore.pasteNodes();
+      },
+    },
+  ],
+  // onWrongKey: someWrongKeyCallback,
+  // onAnyKey: someAnyKeyCallback,
+  // isActive: isActiveRef,
+});
 
 </script>
 

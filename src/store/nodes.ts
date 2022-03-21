@@ -35,7 +35,10 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     selectAllNodes() {
-      this.selectedNodes = [ ...this.nodes ];
+      if (this.selectedNodes.length < this.nodes.length) {
+        this.selectedNodes = [ ...this.nodes ];
+        messages.selectedAll();
+      }
     },
 
     selectNodeAdd(node: INodeModel, toggle = true) {
@@ -139,39 +142,46 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async copyNodes() {
-      this.isCutNodes = false;
-      this.copiedNodes = this.selectedNodes;
 
-      messages.nodesCopied();
+      if (this.selectedNodes.length) {
+        this.isCutNodes = false;
+        this.copiedNodes = this.selectedNodes;
+        messages.nodesCopied();
 
-      this.deselect();
+        this.deselect();
+      }
+
     },
 
     async cutNodes() {
-      this.isCutNodes = true;
-      this.copiedNodes = this.selectedNodes;
+      if (this.selectedNodes.length) {
+        this.isCutNodes = true;
+        this.copiedNodes = this.selectedNodes;
 
-      messages.nodesWereCut();
+        messages.nodesWereCut();
 
-      this.deselect();
+        this.deselect();
+      }
     },
 
     async pasteNodes() {
-      this.nodes = [ ...this.copiedNodes, ...this.nodes ];
+      if (this.copiedNodes.length) {
+        this.nodes = [ ...this.copiedNodes, ...this.nodes ];
 
-      if (this.isCutNodes) {
-        // TODO: api - move nodes to current folder
-        this.removeNodes(this.copiedNodes);
-      } else {
-        // TODO: api - copy nodes to current folder
+        if (this.isCutNodes) {
+          // TODO: api - move nodes to current folder
+          this.removeNodes(this.copiedNodes);
+          this.copiedNodes = [];
+        } else {
+          // TODO: api - copy nodes to current folder
+        }
+
+        messages.pasted();
+
+        this.deselect();
+
+        this.isCutNodes = false;
       }
-
-      messages.pasted();
-
-      this.copiedNodes = [];
-      this.deselect();
-
-      this.isCutNodes = false;
     },
 
     async moveNodes() {

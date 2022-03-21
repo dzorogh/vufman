@@ -42,7 +42,7 @@ const nodesStore = useNodesStore();
 const list = [
   {
     show: () => true,
-    tooltip: 'Новая папка',
+    tooltip: 'Новая папка <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>N</kbd>',
     icon: 'pi pi-folder',
     class: 'p-button-success p-button-text',
     action: nodesStore.makeFolder,
@@ -56,7 +56,7 @@ const list = [
   },
   {
     show: () => nodesStore.nodes.length,
-    tooltip: 'Выделить все',
+    tooltip: 'Выделить все <kbd>СTRL/CMD</kbd>+<kbd>A</kbd>',
     icon: 'pi pi-check-square',
     class: 'p-button-secondary p-button-text',
     action: nodesStore.selectAllNodes,
@@ -70,14 +70,14 @@ const list = [
   },
   {
     show: () => nodesStore.selectedNodes.length,
-    tooltip: 'Копировать',
+    tooltip: 'Копировать <kbd>СTRL/CMD</kbd>+<kbd>C</kbd>',
     class: 'p-button-secondary p-button-text',
     icon: 'pi pi-copy',
     action: nodesStore.copyNodes
   },
   {
     show: () => nodesStore.copiedNodes.length,
-    tooltip: 'Вставить',
+    tooltip: 'Вставить <kbd>СTRL/CMD</kbd>+<kbd>V</kbd>',
     class: 'p-button-text',
     icon: 'pi pi-copy',
     action: nodesStore.pasteNodes

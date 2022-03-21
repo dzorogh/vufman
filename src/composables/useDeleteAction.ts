@@ -17,9 +17,9 @@ export function useDeleteAction() {
 
       if (nodes.length > 1) {
         if (isForced) {
-          confirmStore.content = 'Переместить файлы/папки в корзину?';
-        } else {
           confirmStore.content = 'Удалить файлы/папки навсегда?';
+        } else {
+          confirmStore.content = 'Переместить файлы/папки в корзину?';
         }
 
         confirmStore.list = nodes.map(item => {
@@ -48,7 +48,7 @@ export function useDeleteAction() {
             if (name === 'accept') {
               resolve(true);
             }
-            
+
             if (name === 'decline') resolve(false);
           });
         });

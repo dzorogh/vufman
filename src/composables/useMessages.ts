@@ -68,6 +68,10 @@ export function useMessages() {
 
     fileSaved: () => {
       toast.success('Файл сохранен');
+    },
+
+    selectedAll: () => {
+      toast.success('Выбраны все объекты');
     }
   };
 }
