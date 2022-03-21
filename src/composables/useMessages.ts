@@ -64,6 +64,10 @@ export function useMessages() {
 
     pasted: () => {
       toast.success('Вставлено');
+    },
+
+    fileSaved: () => {
+      toast.success('Файл сохранен');
     }
   };
 }

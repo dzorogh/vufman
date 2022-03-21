@@ -111,7 +111,7 @@
       "name": "Demo text 1",
       "extension": "txt",
       "size": 100,
-      "content": "All sea-dogs endure clear, \n shiny gibbets. All sea-dogs endure clear, shiny gibbets. \n All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. ",
+      "content": "All sea-dogs endure clear, \nshiny gibbets. All sea-dogs endure clear, shiny gibbets. \nAll sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. ",
       "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null
     },
