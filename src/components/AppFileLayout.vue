@@ -50,6 +50,7 @@ import AppFileBreadCrumbs from "@/components/AppFileBreadCrumbs.vue";
 import AppFileContentImage from "@/components/AppFileContentImage.vue";
 import AppFileContentVideo from "@/components/AppFileContentVideo.vue";
 import AppFileContentDocument from "@/components/AppFileContentDocument.vue";
+import AppFileContentText from "@/components/AppFileContentText.vue";
 import AppFileContentArchive from "@/components/AppFileContentArchive.vue";
 import AppFileContentAudio from "@/components/AppFileContentAudio.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
@@ -72,7 +73,7 @@ onBeforeMount(async () => {
   if (file.value && file.value.ancestors && file.value.ancestors[0]) {
     nodesStore.currentFolder = file.value.ancestors[0] as INodeModel;
   }
-  
+
   isLoading.value = false;
 });
 
@@ -81,6 +82,7 @@ const fileContentComponents = {
   image: AppFileContentImage,
   video: AppFileContentVideo,
   document: AppFileContentDocument,
+  text: AppFileContentText,
   archive: AppFileContentArchive,
   audio: AppFileContentAudio
 };

@@ -33,6 +33,12 @@
         :class="iconSizeClasses"
       />
 
+      <IconText
+        v-if="node.getFileType() === 'text'"
+        class="text-slate-300"
+        :class="iconSizeClasses"
+      />
+
       <IconVideo
         v-if="node.getFileType() === 'video'"
         :extension="node.extension"
@@ -65,6 +71,7 @@ import IconVideo from "@/components/IconVideo.vue";
 import IconAudio from "@/components/IconAudio.vue";
 import IconFont from "@/components/IconFont.vue";
 import IconImage from "@/components/IconImage.vue";
+import IconText from "@/components/IconText.vue";
 
 defineProps<{
   node: INodeModel;

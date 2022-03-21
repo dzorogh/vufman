@@ -19,6 +19,11 @@ export const FileTypes: {
     'application/x-rar-compressed',
   ],
 
+  text: [
+    'txt',
+    'text/plain'
+  ],
+
   document: [
     'doc',
     'docx',
@@ -31,7 +36,6 @@ export const FileTypes: {
     'pdf',
     'ppt',
     'rtf',
-    'txt',
     'xls',
     'xlsx',
     'fm2',
