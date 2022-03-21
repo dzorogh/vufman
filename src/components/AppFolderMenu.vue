@@ -23,6 +23,8 @@
         @click="selectLayout(item.value)"
       />
     </span>
+
+    [sort]
   </div>
 </template>
 
@@ -115,9 +117,9 @@ const layoutOptions = ref<{
   value: FolderLayoutType;
   title: string;
 }[]>([
-  { icon: 'pi pi-list', value: 'list', title: 'В виде списка' },
   { icon: 'pi pi-th-large', value: 'grid', title: 'В виде сетки' },
-  { icon: 'pi pi-table', value: 'table', title: 'В виде таблицы' },
+  { icon: 'pi pi-align-justify', value: 'list', title: 'В виде списка' },
+  { icon: 'pi pi-list', value: 'table', title: 'В виде таблицы' },
 ]);
 
 const selectLayout = (value: FolderLayoutType) => {
