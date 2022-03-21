@@ -34,12 +34,16 @@
 </template>
 
 <script setup lang="ts">
-import { INodeModel } from "@/types/INodeModel";
-import { useNodesStore } from "@/store/nodes";
 import Button from "primevue/button";
-import { computed } from "vue";
 import vTooltip from 'primevue/tooltip';
+import router from "@/router";
+import { INodeModel } from "@/types/INodeModel";
+import { useMessages } from "@/composables/useMessages";
+import { useMoveAction } from "@/composables/useMoveAction";
+import { useDeleteAction } from "@/composables/useDeleteAction";
+import { useRenameAction } from "@/composables/useRenameAction";
 
+const messages = useMessages();
 
 const props = defineProps<{
   node: INodeModel;
@@ -55,24 +59,28 @@ const items: {
   {
     label: 'Скачать',
     icon: 'pi pi-fw pi-download',
-    command: () => {
-      // TODO: download
+    command: async () => {
+      // TODO: Api download
+
+      messages.downloadStarted();
     }
   },
   {
     label: 'Переместить',
     icon: 'pi pi-fw pi-folder-open',
-    command: () => {
-      // TODO: move
-    }
-  },
-  {
-    show: () => !!props.node.isTrashed,
-    label: 'Удалить навсегда',
-    icon: 'pi pi-fw pi-times',
-    class: 'p-button-danger',
-    command: () => {
-      // TODO: destroy
+    command: async () => {
+      const moveAction = useMoveAction();
+
+      const result = await moveAction.show([ props.node ]);
+
+      if (result) {
+        messages.moved('folder');
+        console.log('Moved to ', result);
+
+        router.go(0);
+        // TODO: api move
+      }
+
     }
   },
   {
@@ -86,8 +94,16 @@ const items: {
   {
     label: 'Переименовать',
     icon: 'pi pi-fw pi-pencil',
-    command: () => {
-      // TODO: rename
+    command: async () => {
+      const renameAction = useRenameAction();
+
+      const result = await renameAction.show(props.node);
+
+      if (result) {
+        // TODO: api - rename file
+        router.go(0);
+        // props.node.name = result;
+      }
     },
     show: () => !props.node.isTrashed,
 
@@ -96,11 +112,34 @@ const items: {
     label: 'В корзину',
     icon: 'pi pi-fw pi-trash',
     class: 'p-button-danger',
-    command: () => {
-      // TODO: delete
+    command: async () => {
+      const deleteAction = useDeleteAction();
+
+      const result = await deleteAction.show([ props.node ]);
+
+      if (result) {
+        // TODO: api - delete file
+        router.go(0);
+      }
     },
     show: () => !props.node.isTrashed,
-  }
+  },
+  {
+    show: () => !!props.node.isTrashed,
+    label: 'Удалить навсегда',
+    icon: 'pi pi-fw pi-times',
+    class: 'p-button-danger',
+    command: async () => {
+      const deleteAction = useDeleteAction();
+
+      const result = await deleteAction.show([ props.node ], true);
+
+      if (result) {
+        // TODO: api - destroy file
+        await router.push({ name: 'trash' });
+      }
+    }
+  },
 ];
 
 </script>

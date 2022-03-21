@@ -76,65 +76,10 @@ export function useMoveAction() {
           }
         }
 
-        // if (promptStore.newValue.length <= 0) {
-        //   promptStore.errors.push('Название обязательно');
-        //   return false;
-        // }
-        //
-        // if (!isValidFilename(promptStore.newValue)) {
-        //   promptStore.errors.push('Название должно быть настоящим названием файла');
-        // }
-
         return promptStore.errors.length <= 0;
       };
 
-      // TODO:
-      //  Select new folder, then validate each node: (only folders) if new destination === folder or includes
-      //  this folder in ancestors, then fail (Can't move folder "NAME" in itself). Except moving to root.
-
-
-      // promptStore.errors = [];
-      // promptStore.header = 'Введите новое название';
-      // promptStore.oldValue = node.name || '';
-      // promptStore.newValue = node.name || '';
-      // promptStore.show = true;
-
-      // if (node.extension) {
-      //   promptStore.addon = `.${node.extension}`;
-      // } else {
-      //   promptStore.addon = null;
-      // }
-
-      // promptStore.validateCallback = () => {
-      //   promptStore.errors = [];
-      //
-      //   if (promptStore.newValue.length <= 0) {
-      //     promptStore.errors.push('Название обязательно');
-      //     return false;
-      //   }
-      //
-      //   if (!isValidFilename(promptStore.newValue)) {
-      //     promptStore.errors.push('Название должно быть настоящим названием файла');
-      //   }
-      //
-      //   return promptStore.errors.length <= 0;
-      // };
-
-      // return new Promise<string | false>((resolve) => {
-      //   const unsubscribe = promptStore.$onAction(({ name, after }) => {
-      //     after(() => {
-      //       if (name === 'cancel') {
-      //         resolve(false);
-      //         unsubscribe();
-      //       }
-      //
-      //       if (name === 'save') {
-      //         resolve(promptStore.newValue);
-      //         unsubscribe();
-      //       }
-      //     });
-      //   });
-      // });
+      return promptStore.promiseOnAction();
     }
   };
 }

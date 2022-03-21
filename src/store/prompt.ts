@@ -50,7 +50,14 @@ export const usePromptStore = defineStore('prompt', {
             }
 
             if (name === 'save') {
-              resolve(this.newValue);
+              if (this.type === 'tree') {
+                resolve(Object.keys(this.newValue)[0]);
+              }
+
+              if (this.type === 'string') {
+                resolve(this.newValue);
+              }
+
               unsubscribe();
             }
           });
