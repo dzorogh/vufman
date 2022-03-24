@@ -8,7 +8,7 @@
     <div class="flex flex-col overflow-hidden divide-y">
       <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
 
-      <div class="grid grid-cols-4 grow">
+      <div class="grid grid-cols-4 grow overflow-hidden">
         <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
           <div
             class="grow bg-white shadow-sm overflow-auto"
