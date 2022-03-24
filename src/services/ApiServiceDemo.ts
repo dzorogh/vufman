@@ -52,6 +52,8 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     }
 
     data.map(item => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       item.ancestors = getAncestors(item, data);
       return item;
     });
@@ -81,6 +83,8 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     let data = nodes.data.data as INode[];
 
     data.map(item => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       item.ancestors = getAncestors(item, data);
     });
 
@@ -105,6 +109,8 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     if (filesFiltered.length === 1) {
       const file = filesFiltered[0];
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       file.ancestors = getAncestors(file, data);
 
       return new NodeModel(file);
