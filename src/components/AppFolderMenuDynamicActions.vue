@@ -55,25 +55,25 @@ const dynamicActions = [
     action: nodesStore.moveNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length,
+    show: () => nodesStore.selectedNodes.length && !route.meta.isTrash,
     label: 'Копировать <kbd>СTRL/CMD</kbd>+<kbd>C</kbd>',
     icon: IconCopy,
     action: nodesStore.copyNodes
   },
   {
-    show: () => nodesStore.copiedNodes.length,
+    show: () => nodesStore.copiedNodes.length && !route.meta.isTrash,
     label: 'Вставить <kbd>СTRL/CMD</kbd>+<kbd>V</kbd>',
     icon: IconPaste,
     action: nodesStore.pasteNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length === 1,
+    show: () => nodesStore.selectedNodes.length === 1 && !route.meta.isTrash,
     label: 'Переименовать',
     icon: IconRename,
     action: nodesStore.renameNode
   },
   {
-    show: () => nodesStore.selectedNodes.length,
+    show: () => nodesStore.selectedNodes.length && !route.meta.isTrash,
     label: 'Скачать',
     icon: IconDownload,
     action: nodesStore.downloadNodes

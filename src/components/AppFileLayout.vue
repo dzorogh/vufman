@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-xl bg-white flex flex-col overflow-hidden">
+  <div class="flex flex-col overflow-hidden">
     <template v-if="!isLoading">
       <div class="flex items-center border-b p-4 col-span-4">
         <AppFileBreadCrumbs :file="file" />

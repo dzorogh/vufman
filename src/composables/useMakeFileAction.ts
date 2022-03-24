@@ -7,7 +7,7 @@ export function useMakeFileAction() {
   return {
     show() {
 
-      promptStore.reset();
+      promptStore.$reset();
 
       promptStore.header = 'Введите название файла';
       promptStore.oldValue = '';

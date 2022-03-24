@@ -1,30 +1,23 @@
 import { defineStore } from 'pinia';
 import { ITreeNode } from "@/services/makeNavigatorTree";
 
-const emptyState = {
-  header: '',
-  show: false,
-  content: '',
-  type: 'string' as 'string' | 'tree',
-  oldValue: '',
-  newValue: '',
-  addon: null as string | null,
-  errors: [] as string[],
-  validateCallback: null as null | (() => boolean),
-  isLoading: false,
-  treeNodes: null as null | ITreeNode[]
-};
-
 export const usePromptStore = defineStore('prompt', {
   state: () => {
     return {
-      ...emptyState
+      header: '',
+      show: false,
+      content: '',
+      type: 'string' as 'string' | 'tree',
+      oldValue: '',
+      newValue: '',
+      addon: null as string | null,
+      errors: [] as string[],
+      validateCallback: null as null | (() => boolean),
+      isLoading: false,
+      treeNodes: null as null | ITreeNode[]
     };
   },
   actions: {
-    reset() {
-      this.$state = { ...emptyState };
-    },
     cancel() {
       this.show = false;
     },

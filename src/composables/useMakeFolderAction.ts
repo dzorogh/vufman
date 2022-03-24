@@ -1,14 +1,12 @@
 import { usePromptStore } from "@/store/prompt";
 import isValidFilename from "valid-filename";
-import { INodeModel } from "@/types/INodeModel";
 
 export function useMakeFolderAction() {
   const promptStore = usePromptStore();
 
   return {
     show() {
-
-      promptStore.reset();
+      promptStore.$reset();
 
       promptStore.header = 'Введите название папки';
       promptStore.oldValue = '';

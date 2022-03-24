@@ -6,6 +6,8 @@ export function useDeleteAction() {
 
   return {
     show(nodes: INodeModel[], isForced?: true) {
+      confirmStore.$reset();
+      
       // TODO: Message about 30 days in trash
       confirmStore.header = 'Подтвердите удаление';
 

@@ -12,8 +12,7 @@
         </template>
       </n-button>
     </n-upload-trigger>
-
-
+    
     <n-tooltip
       v-for="(item, index) in staticActions"
       :key="index"
@@ -39,10 +38,12 @@
 import {
   DocumentAdd16Filled as IconMakeFile,
   FolderAdd16Filled as IconMakeFolder,
-  CloudArrowUp16Filled as IconUpload
+  CloudArrowUp16Filled as IconUpload,
 } from "@vicons/fluent";
 import { useNodesStore } from "@/store/nodes";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const nodesStore = useNodesStore();
 
 const staticActions = [
@@ -59,6 +60,7 @@ const staticActions = [
     action: nodesStore.makeFile,
   },
 ];
+
 </script>
 
 <style scoped>
