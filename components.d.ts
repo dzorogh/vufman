@@ -12,6 +12,7 @@ declare module 'vue' {
     AppFileContentImage: typeof import('./src/components/AppFileContentImage.vue')['default']
     AppFileContentText: typeof import('./src/components/AppFileContentText.vue')['default']
     AppFileContentVideo: typeof import('./src/components/AppFileContentVideo.vue')['default']
+    AppFileHeading: typeof import('./src/components/AppFileHeading.vue')['default']
     AppFileLayout: typeof import('./src/components/AppFileLayout.vue')['default']
     AppFolderBreadCrumbs: typeof import('./src/components/AppFolderBreadCrumbs.vue')['default']
     AppFolderHeading: typeof import('./src/components/AppFolderHeading.vue')['default']

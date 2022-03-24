@@ -1,41 +1,38 @@
 <template>
-  <div
-    v-if="nodesStore.nodesLoading"
-    class="flex items-center justify-center"
-  >
-    <n-spin size="large" />
-  </div>
-
-  <div
-    v-else
-    class="grid grid-cols-4"
-  >
-    <div
-      class="h-full overflow-hidden rounded-l-xl flex flex-col col-span-3 divide-y"
-    >
+  <template v-if="nodesStore.nodesLoading">
+    <div class="flex items-center justify-center">
+      <n-spin size="large" />
+    </div>
+  </template>
+  <template v-else>
+    <div class="flex flex-col overflow-hidden divide-y">
       <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
 
-      <div
-        class="grow bg-white shadow-sm overflow-auto"
-        @click.self="nodesStore.deselect()"
-      >
-        <AppFolderView />
+      <div class="grid grid-cols-4 grow">
+        <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
+          <div
+            class="grow bg-white shadow-sm overflow-auto"
+            @click.self="nodesStore.deselect()"
+          >
+            <AppFolderView />
+          </div>
+        </div>
+
+        <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
+          <AppNodeInfo
+            v-if="nodesStore.currentFolder"
+            :node="nodesStore.currentFolder"
+          />
+
+          <AppNodeMenu
+            v-if="nodesStore.currentFolder"
+            class="mt-auto"
+            :node="nodesStore.currentFolder"
+          />
+        </div>
       </div>
     </div>
-
-    <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
-      <AppNodeInfo
-        v-if="nodesStore.currentFolder"
-        :node="nodesStore.currentFolder"
-      />
-
-      <AppNodeMenu
-        v-if="nodesStore.currentFolder"
-        class="mt-auto"
-        :node="nodesStore.currentFolder"
-      />
-    </div>
-  </div>
+  </template>
 </template>
 
 <script setup lang="ts">

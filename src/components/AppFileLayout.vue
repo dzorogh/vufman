@@ -1,14 +1,12 @@
 <template>
-  <div class="flex flex-col overflow-hidden">
-    <template v-if="!isLoading">
-      <div class="flex items-center border-b p-4 col-span-4">
-        <AppFileBreadCrumbs :file="file" />
-        <AppFileClose
-          class="ml-auto"
-          :file="file"
-        />
-      </div>
-
+  <template v-if="isLoading">
+    <div class="flex items-center justify-center">
+      <n-spin size="large" />
+    </div>
+  </template>
+  <template v-else>
+    <div class="flex flex-col overflow-hidden divide-y">
+      <AppFileHeading :file="file" />
       <div class="grid grid-cols-4 grow overflow-auto">
         <div class="col-span-3 flex flex-col overflow-hidden">
           <div class="overflow-hidden grow bg-gray-800">
@@ -29,21 +27,14 @@
           />
         </div>
       </div>
-    </template>
-    <div
-      v-else
-      class="flex grow items-center justify-center"
-    >
-      <n-spin size="large" />
     </div>
-  </div>
+  </template>
 </template>
 
 <script setup lang="ts">
 import { api } from "@/services/api";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
-import AppFileBreadCrumbs from "@/components/AppFileBreadCrumbs.vue";
 import AppFileContentImage from "@/components/AppFileContentImage.vue";
 import AppFileContentVideo from "@/components/AppFileContentVideo.vue";
 import AppFileContentDocument from "@/components/AppFileContentDocument.vue";
@@ -51,10 +42,10 @@ import AppFileContentText from "@/components/AppFileContentText.vue";
 import AppFileContentArchive from "@/components/AppFileContentArchive.vue";
 import AppFileContentAudio from "@/components/AppFileContentAudio.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
-import AppFileClose from "@/components/AppFileClose.vue";
 import { INodeModel } from "@/types/INodeModel";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
+import AppFileHeading from "@/components/AppFileHeading.vue";
 
 const route = useRoute();
 const nodesStore = useNodesStore();

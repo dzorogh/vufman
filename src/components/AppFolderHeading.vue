@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-zinc-50 rounded-tl-xl flex flex-col divide-y">
+  <div class="bg-slate-50 flex flex-col divide-y">
     <template v-if="!nodesStore.nodesLoading">
       <div class="py-4 px-4">
         <AppBreadCrumbs
