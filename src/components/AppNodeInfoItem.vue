@@ -4,13 +4,16 @@
       {{ props.title }}
     </h3>
 
-    <div v-if="content && !html">
+    <div
+      v-if="content && !html"
+      class="line-clamp-4"
+    >
       {{ props.content }}
     </div>
 
     <div
       v-if="content && html"
-      class="text"
+      class="text line-clamp-4"
       v-html="props.content"
     />
 
