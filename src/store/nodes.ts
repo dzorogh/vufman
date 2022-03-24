@@ -284,10 +284,6 @@ export const useNodesStore = defineStore('nodes', {
         await this.router.push({ name: 'file', params: { fileId: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee" } });
       }
     },
-
-    // async upload() {
-
-    // }
   },
 
   getters: {

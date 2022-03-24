@@ -31,7 +31,8 @@ import {
   FolderArrowRight16Filled as IconMove,
   Rename16Filled as IconRename,
   CheckboxChecked16Filled as IconSelectAll,
-  ArrowReset20Filled as IconRestore
+  ArrowReset20Filled as IconRestore,
+  Cut20Filled as IconCut
 } from "@vicons/fluent";
 
 import { computed } from "vue";
@@ -59,6 +60,12 @@ const dynamicActions = [
     label: 'Копировать <kbd>СTRL/CMD</kbd>+<kbd>C</kbd>',
     icon: IconCopy,
     action: nodesStore.copyNodes
+  },
+  {
+    show: () => nodesStore.selectedNodes.length && !route.meta.isTrash,
+    label: 'Вырезать <kbd>СTRL/CMD</kbd>+<kbd>C</kbd>',
+    icon: IconCut,
+    action: nodesStore.cutNodes
   },
   {
     show: () => nodesStore.copiedNodes.length && !route.meta.isTrash,

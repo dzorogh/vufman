@@ -35,7 +35,6 @@
         :class="{
           'bg-slate-100': nodesStore.selectedNodes.includes(child),
           ...droppableClass(child),
-          ...cutClass(child)
         }"
         @click.ctrl="nodesStore.selectNodeAdd(child)"
         @click.meta="nodesStore.selectNodeAdd(child)"
@@ -64,7 +63,10 @@
           :key="child.id"
           :node="child"
 
-          :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
+          :class="{
+            'bg-slate-100': nodesStore.selectedNodes.includes(child),
+            ...droppableClass(child),
+          }"
 
           @click.ctrl="nodesStore.selectNodeAdd(child)"
           @click.meta="nodesStore.selectNodeAdd(child)"
@@ -122,7 +124,8 @@ import {
   DocumentCopy16Filled as IconCopy,
   FolderArrowRight16Filled as IconMove,
   Rename16Filled as IconRename,
-  ArrowReset20Filled as IconRestore
+  ArrowReset20Filled as IconRestore,
+  Cut20Filled as IconCut
 } from "@vicons/fluent";
 
 const nodesStore = useNodesStore();
@@ -207,9 +210,13 @@ const contextMenu = {
         label: 'Скопировать',
         icon: renderIcon(IconCopy),
         command: nodesStore.copyNodes,
-        show: () => {
-          // TODO: If not trashed
-        }
+      });
+
+      result.push({
+        key: 'cut',
+        label: 'Вырезать',
+        icon: renderIcon(IconCut),
+        command: nodesStore.cutNodes,
       });
 
       if (nodesStore.selectedNodes.length === 1) {
@@ -323,11 +330,6 @@ const dragIconStyle = computed(() => {
     opacity: nodesStore.dragging ? '1' : '0'
   };
 });
-
-const cutClass = () => {
-  return 'opacity-50';
-};
-
 </script>
 
 <style scoped>
