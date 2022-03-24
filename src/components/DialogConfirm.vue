@@ -1,10 +1,11 @@
 <template>
-  <Dialog
-    v-model:visible="confirmStore.show"
-    :header="confirmStore.header"
-    :style="{width: '550px'}"
-    :modal="true"
-    @hide="confirmStore.decline"
+  <n-modal
+    v-model:show="confirmStore.show"
+    preset="card"
+    :title="confirmStore.header"
+    :bordered="false"
+    size="huge"
+    style="width: 600px"
   >
     <div
       v-if="confirmStore.content"
@@ -15,6 +16,7 @@
         :class="confirmStore.icon"
         style="font-size: 2rem"
       />
+
       <span>
         {{ confirmStore.content }}
       </span>
@@ -38,26 +40,33 @@
     </div>
 
     <template #footer>
-      <Button
-        label="Нет"
-        icon="pi pi-times"
-        class="p-button-text"
-        @click="confirmStore.decline"
-      />
-      <Button
-        label="Да"
-        icon="pi pi-check"
-        class="p-button-text"
-        autofocus
-        @click="confirmStore.accept"
-      />
+      <div class="flex justify-end gap-4">
+        <n-button
+          @click="confirmStore.decline"
+        >
+          <template #icon>
+            <Dismiss24Regular />
+          </template>
+          Нет
+        </n-button>
+
+        <n-button
+          autofocus
+          @click="confirmStore.accept"
+        >
+          <template #icon>
+            <Checkmark24Filled />
+          </template>
+
+          Да
+        </n-button>
+      </div>
     </template>
-  </Dialog>
+  </n-modal>
 </template>
 
 <script setup lang="ts">
-import Dialog from 'primevue/dialog';
-import Button from 'primevue/button';
+import { Dismiss24Regular, Checkmark24Filled } from "@vicons/fluent";
 import { useConfirmStore } from "@/store/confirm";
 
 const confirmStore = useConfirmStore();

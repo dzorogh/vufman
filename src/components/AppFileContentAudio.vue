@@ -27,10 +27,13 @@
     </div>
 
     <div>
-      <Button
-        label="Скачать"
+      <n-button
+        class="bg-white"
+        size="large"
         @click="file.download()"
-      />
+      >
+        Скачать
+      </n-button>
     </div>
   </div>
 </template>
@@ -41,7 +44,6 @@ import "plyr/dist/plyr.css";
 import { INodeModel } from "@/types/INodeModel";
 import { onMounted, ref } from "vue";
 import IconAudio from "@/components/IconAudio.vue";
-import Button from "primevue/button";
 
 
 const props = defineProps<{

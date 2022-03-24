@@ -1,20 +1,17 @@
 <template>
-  <div class="bg-white rounded-tl-xl p-4 border-b flex flex-wrap items-center">
+  <div class="bg-zinc-50 rounded-tl-xl flex flex-col divide-y">
     <template v-if="!nodesStore.nodesLoading">
-      <AppBreadCrumbs
-        class="mr-auto"
-        :is-trashed="props.isTrashed"
-      />
+      <div class="py-4 px-4">
+        <AppBreadCrumbs
+          class="mr-auto"
+          :is-trashed="props.isTrashed"
+        />
+      </div>
 
-      <div>
+      <div class="py-4 px-4">
         <AppFolderMenu />
       </div>
     </template>
-
-    <ProgressSpinner
-      v-else
-      class="!w-6 !h-6 !ml-2 !my-3"
-    />
   </div>
 </template>
 
@@ -22,7 +19,6 @@
 import AppBreadCrumbs from "@/components/AppFolderBreadCrumbs.vue";
 import AppFolderMenu from "@/components/AppFolderMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import ProgressSpinner from 'primevue/progressspinner';
 
 const nodesStore = useNodesStore();
 const props = defineProps<{

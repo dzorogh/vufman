@@ -10,10 +10,12 @@
     />
 
     <div class="p-6">
-      <Button
-        label="Сохранить"
+      <n-button
+        size="large"
         @click="saveContent"
-      />
+      >
+        Сохранить
+      </n-button>
     </div>
   </div>
   <div
@@ -30,17 +32,19 @@
     </div>
 
     <div>
-      <Button
-        label="Скачать"
+      <n-button
+        class="bg-white"
+        size="large"
         @click="file.download()"
-      />
+      >
+        Скачать
+      </n-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { INodeModel } from "@/types/INodeModel";
-import Button from "primevue/button";
 import { onMounted, ref } from "vue";
 import { useMessages } from "@/composables/useMessages";
 import IconText from "@/components/IconText.vue";

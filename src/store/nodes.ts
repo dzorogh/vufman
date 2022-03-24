@@ -9,8 +9,12 @@ import { useMessages } from "@/composables/useMessages";
 import { useStorage } from "@vueuse/core";
 import { useMakeFileAction } from "@/composables/useMakeFileAction";
 import { useRouter } from "vue-router";
+import {
+  DocumentCopy16Filled,
+  Document16Filled,
+  Folder16Filled
+} from "@vicons/fluent";
 
-const messages = useMessages();
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -22,7 +26,9 @@ export const useNodesStore = defineStore('nodes', {
       copiedNodes: [] as INodeModel[],
       isCutNodes: false,
       dragging: false,
-      layout: useStorage('nodesLayout', 'list')
+      layout: useStorage('nodesLayout', 'list'),
+      sorting: useStorage('nodesSorting', 'type'),
+      sortingDirection: useStorage('nodesSortingDirection', 'asc')
     };
   },
   actions: {
@@ -37,7 +43,7 @@ export const useNodesStore = defineStore('nodes', {
     selectAllNodes() {
       if (this.selectedNodes.length < this.nodes.length) {
         this.selectedNodes = [ ...this.nodes ];
-        messages.selectedAll();
+        this.messages.selectedAll();
       }
     },
 
@@ -81,6 +87,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async renameNode() {
+
       const renameAction = useRenameAction();
 
       const selectedNode = this.selectedNodes[0];
@@ -93,7 +100,7 @@ export const useNodesStore = defineStore('nodes', {
 
         // TODO: API - save changes
 
-        messages.nodeRenamed();
+        this.messages.nodeRenamed();
       }
 
       this.deselect();
@@ -106,6 +113,7 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async deleteNodes() {
+
       const deleteAction = useDeleteAction();
 
       const result = await deleteAction.show(this.selectedNodes);
@@ -113,7 +121,7 @@ export const useNodesStore = defineStore('nodes', {
       if (result === true) {
         // TODO: API - save changes
 
-        messages.moved('trash');
+        this.messages.moved('trash');
         this.removeNodes(this.selectedNodes);
       }
 
@@ -121,22 +129,32 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async destroyNodes() {
+
       const deleteAction = useDeleteAction();
 
       const result = await deleteAction.show(this.selectedNodes, true);
 
       if (result === true) {
         // TODO: API - save changes
-        messages.destroyed();
+        this.messages.destroyed();
         this.removeNodes(this.selectedNodes);
       }
 
       this.deselect();
     },
 
+    async restoreNodes() {
+      // TODO: api - restore
+      this.messages.nodesRestored();
+
+
+    },
+
     async downloadNodes() {
+
+
       alert('download');
-      messages.downloadStarted();
+      this.messages.downloadStarted();
 
       this.deselect();
     },
@@ -146,7 +164,8 @@ export const useNodesStore = defineStore('nodes', {
       if (this.selectedNodes.length) {
         this.isCutNodes = false;
         this.copiedNodes = this.selectedNodes;
-        messages.nodesCopied();
+
+        this.messages.nodesCopied();
 
         this.deselect();
       }
@@ -154,17 +173,19 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async cutNodes() {
+
       if (this.selectedNodes.length) {
         this.isCutNodes = true;
         this.copiedNodes = this.selectedNodes;
 
-        messages.nodesWereCut();
+        this.messages.nodesWereCut();
 
         this.deselect();
       }
     },
 
     async pasteNodes() {
+
       if (this.copiedNodes.length) {
         this.nodes = [ ...this.copiedNodes, ...this.nodes ];
 
@@ -176,7 +197,7 @@ export const useNodesStore = defineStore('nodes', {
           // TODO: api - copy nodes to current folder
         }
 
-        messages.pasted();
+        this.messages.pasted();
 
         this.deselect();
 
@@ -185,18 +206,24 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async moveNodes() {
-      // TODO: Make interface
+
 
       const moveAction = useMoveAction();
 
       const result = await moveAction.show(this.selectedNodes);
 
-      messages.moved('folder');
+      if (result) {
+        // TODO: api - move
+        this.messages.moved('folder');
+        console.log('Moved To', result);
+      }
 
       this.deselect();
     },
 
     async makeFolder() {
+
+
       this.deselect();
 
       const makeFolderAction = useMakeFolderAction();
@@ -220,12 +247,13 @@ export const useNodesStore = defineStore('nodes', {
           updatedAt: null
         }) as INodeModel);
 
-        messages.folderCreated();
+        this.messages.folderCreated();
       }
 
     },
 
     async makeFile() {
+
       this.deselect();
 
       const makeFileAction = useMakeFileAction();
@@ -251,7 +279,7 @@ export const useNodesStore = defineStore('nodes', {
           updatedAt: null
         }) as INodeModel);
 
-        messages.fileCreated();
+        this.messages.fileCreated();
 
         await this.router.push({ name: 'file', params: { fileId: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee" } });
       }
@@ -273,16 +301,12 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     selectedNodesIcon: (state) => {
-      if (state.selectedNodes.length > 1) {
-        return 'pi pi-fw pi-copy';
-      }
-
       if (state.selectedNodes.length === 1) {
         const singleNode = state.selectedNodes[0];
-        return singleNode.isFolder ? 'pi pi-fw pi-folder' : 'pi pi-fw pi-file';
+        return singleNode.isFolder ? Folder16Filled : Document16Filled;
       }
 
-      return 'pi pi-fw';
+      return DocumentCopy16Filled;
     },
 
     isNodeSelected: (state) => {

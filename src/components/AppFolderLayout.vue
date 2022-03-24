@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-4">
     <div
-      class="h-full overflow-hidden rounded-l-xl flex flex-col col-span-3"
+      class="h-full overflow-hidden rounded-l-xl flex flex-col col-span-3 divide-y"
     >
       <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
 
@@ -16,8 +16,8 @@
           class="flex item-center justify-center h-full min-h-full"
         >
           <div class="flex items-center justify-center">
-            <ProgressSpinner
-              class="!w-24 !h-24 !m-4"
+            <n-spin
+              size="large"
             />
           </div>
         </div>
@@ -37,27 +37,29 @@
         />
       </template>
 
-      <ProgressSpinner
+      <n-spin
         v-else
-        class="!w-7 !h-7 !m-0 !ml-2"
+        size="medium"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
+import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useKeypress, } from 'vue3-keypress';
-import ProgressSpinner from 'primevue/progressspinner';
 import AppFolderHeading from "@/components/AppFolderHeading.vue";
 import AppFolderView from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 import api from "@/services/api";
+import { useConfirmStore } from "@/store/confirm";
+import { usePromptStore } from "@/store/prompt";
 
-
+const confirmStore = useConfirmStore();
+const promptStore = usePromptStore();
 const nodesStore = useNodesStore();
 const route = useRoute();
 
@@ -86,6 +88,10 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, rout
   });
 
 
+const keyboardActive = computed(() => {
+  return !confirmStore.show && !promptStore.show;
+});
+
 useKeypress({
   keyEvent: "keydown",
   keyBinds: [
@@ -94,7 +100,7 @@ useKeypress({
       modifiers: [ "metaKey" ], // cmd
       success: () => {
         nodesStore.selectAllNodes();
-      },
+      }
     },
     {
       keyCode: 65, // or keyCode as integer, e.g. 37
@@ -167,6 +173,7 @@ useKeypress({
       },
     },
   ],
+  isActive: keyboardActive
   // onWrongKey: someWrongKeyCallback,
   // onAnyKey: someAnyKeyCallback,
   // isActive: isActiveRef,

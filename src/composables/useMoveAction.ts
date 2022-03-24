@@ -1,8 +1,8 @@
 import { usePromptStore } from "@/store/prompt";
 import { INodeModel } from "@/types/INodeModel";
-import { TreeNode } from "primevue/tree";
 import api from "@/services/api";
-import { makeNavigatorTree } from "@/services/makeNavigatorTree";
+import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
+import { Home16Filled as IconHome } from "@vicons/fluent";
 
 export function useMoveAction() {
   const promptStore = usePromptStore();
@@ -27,14 +27,14 @@ export function useMoveAction() {
       promptStore.isLoading = true;
       promptStore.show = true;
 
-      const tree: TreeNode[] = [
+      const tree: ITreeNode[] = [
         {
           label: 'Диск',
-          icon: 'pi pi-home',
           key: 'root',
-          children: []
+          icon: IconHome
         },
       ];
+
 
       const folders = await api.getNodes({ isFolder: true });
       tree[0].children = makeNavigatorTree(folders, null);
@@ -45,7 +45,7 @@ export function useMoveAction() {
       promptStore.validateCallback = () => {
         promptStore.errors = [];
 
-        const destinationId = Object.keys(promptStore.newValue)[0];
+        const destinationId = promptStore.newValue;
 
         if (!destinationId) {
           promptStore.errors.push('Папка не выбрана');

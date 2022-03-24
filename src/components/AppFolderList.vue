@@ -17,7 +17,11 @@
   <template v-if="nodesStore.sortedNodes.length > 0">
     <div
       v-if="['grid', 'list'].includes(nodesStore.layout)"
-      :class="{'cursor-grabbing': nodesStore.dragging, 'grid lg:grid-cols-2 gap-2 ' : nodesStore.layout === 'list', 'grid xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'}"
+      :class="{
+        'cursor-grabbing': nodesStore.dragging,
+        'grid lg:grid-cols-2 gap-2' : nodesStore.layout === 'list',
+        'grid xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'
+      }"
       class="overflow-x-hidden p-4"
       @click.self="nodesStore.deselect()"
     >
@@ -28,7 +32,11 @@
 
         :node="child"
 
-        :class="{'bg-slate-100': nodesStore.selectedNodes.includes(child), ...droppableClass(child), ...cutClass(child)}"
+        :class="{
+          'bg-slate-100': nodesStore.selectedNodes.includes(child),
+          ...droppableClass(child),
+          ...cutClass(child)
+        }"
         @click.ctrl="nodesStore.selectNodeAdd(child)"
         @click.meta="nodesStore.selectNodeAdd(child)"
         @click.shift="nodesStore.selectNodeRange(child)"
@@ -37,16 +45,12 @@
         @mousedown.exact="handleDragStart(child, $event)"
         @mouseup.exact="handleDrop(child, $event)"
 
-        @contextmenu="showContextMenu(child, $event)"
+        @contextmenu="contextMenu.handleContextMenu(child, $event)"
         @dblclick="handleDoubleClick(child)"
         @doubletap="handleDoubleClick(child)"
       />
-
-      <ContextMenu
-        ref="menu"
-        :model="menuItems"
-      />
     </div>
+
     <table
       v-if="nodesStore.layout === 'table'"
       class="w-full border-t-0 table border-x-0"
@@ -70,12 +74,23 @@
           @mousedown.exact="handleDragStart(child, $event)"
           @mouseup.exact="handleDrop(child, $event)"
 
-          @contextmenu="showContextMenu(child, $event)"
+          @contextmenu="contextMenu.handleContextMenu(child, $event)"
           @dblclick="handleDoubleClick(child)"
           @doubletap="handleDoubleClick(child)"
         />
       </tbody>
     </table>
+
+    <n-dropdown
+      placement="bottom-start"
+      trigger="manual"
+      :options="contextMenu.options.value"
+      :x="contextMenu.x.value"
+      :y="contextMenu.y.value"
+      :show="contextMenu.show.value"
+      @clickoutside="contextMenu.handleClickOutside"
+      @select="contextMenu.handleSelect"
+    />
   </template>
 
   <div
@@ -87,93 +102,144 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import ContextMenu from 'primevue/contextmenu';
+import { Component, computed, h, nextTick, ref } from "vue";
 
 import AppNode from "@/components/AppNode.vue";
 import { useNodesStore } from "@/store/nodes";
 
 import { INodeModel } from "@/types/INodeModel";
-import { useRouter } from "vue-router";
-import { promiseTimeout, useDebounceFn, useMouse, useTimeout } from "@vueuse/core";
+import { useRoute, useRouter } from "vue-router";
+import { useMouse } from "@vueuse/core";
 import IconFile from "@/components/IconFile.vue";
 import { useMessages } from "@/composables/useMessages";
 import AppFolderTableRow from "@/components/AppFolderTableRow.vue";
 import AppFolderTableHeader from "@/components/AppFolderTableHeader.vue";
+import { DropdownOption, NIcon } from "naive-ui";
+import {
+  ArrowDownload16Filled as IconDownload,
+  Delete16Filled as IconDelete,
+  DeleteDismiss20Filled as IconDestroy,
+  DocumentCopy16Filled as IconCopy,
+  FolderArrowRight16Filled as IconMove,
+  Rename16Filled as IconRename,
+  ArrowReset20Filled as IconRestore
+} from "@vicons/fluent";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
+const route = useRoute();
 const messages = useMessages();
 
-const menu = ref();
-const showContextMenu = (node: INodeModel, event: unknown) => {
-  if (!nodesStore.isNodeSelected(node)) {
-    nodesStore.selectNodeSingle(node);
-  }
-
-  menu.value.show(event);
-};
-const menuItems = computed(() => {
-  const result = [] as {
-    label?: string;
-    icon?: string;
-    disabled?: boolean;
-    command?: () => unknown;
-    separator?: boolean;
-    class?: string;
-  }[];
-
-  result.push({
-    label: nodesStore.selectedNodesLabel,
-    icon: nodesStore.selectedNodesIcon,
-    disabled: true,
-    class: 'context-menu-title',
-  });
-
-  result.push({
-    separator: true,
-  });
-
-  result.push({
-    label: 'Переместить',
-    icon: 'pi pi-fw pi-folder-open',
-    command: nodesStore.moveNodes
-  });
-
-  result.push({
-    label: 'Скопировать',
-    icon: 'pi pi-fw pi-copy',
-    command: nodesStore.copyNodes
-  });
-
-  if (nodesStore.selectedNodes.length === 1) {
-    result.push({
-      label: 'Переименовать',
-      icon: 'pi pi-fw pi-pencil',
-      command: nodesStore.renameNode
+const renderIcon = (icon: Component) => {
+  return () => {
+    return h(NIcon, null, {
+      default: () => h(icon)
     });
-  }
+  };
+};
 
-  result.push({
-    label: 'Скачать',
-    icon: 'pi pi-fw pi-download',
-    command: nodesStore.downloadNodes
-  });
+const contextMenu = {
+  show: ref(false),
+  x: ref(0),
+  y: ref(0),
+  handleContextMenu: async (node: INodeModel, e: MouseEvent) => {
+    e.preventDefault();
+    contextMenu.show.value = false;
 
-  result.push({
-    label: 'В корзину',
-    icon: 'pi pi-fw pi-trash text-red-500',
-    command: nodesStore.deleteNodes
-  });
+    await nextTick();
 
-  result.push({
-    label: 'Удалить навсегда',
-    icon: 'pi pi-fw pi-trash text-red-500',
-    command: nodesStore.destroyNodes
-  });
+    if (!nodesStore.isNodeSelected(node)) {
+      nodesStore.selectNodeSingle(node);
+    }
 
-  return result;
-});
+    contextMenu.show.value = true;
+    contextMenu.x.value = e.clientX;
+    contextMenu.y.value = e.clientY;
+  },
+  handleClickOutside: () => {
+    contextMenu.show.value = false;
+  },
+  handleSelect: (key: string | number, option: DropdownOption) => {
+    console.log('handleSelect', option);
+    contextMenu.show.value = false;
+    return typeof option.command === 'function' ? option.command() : null;
+  },
+  options: computed(() => {
+    const result = [] as DropdownOption[];
+
+    result.push({
+      key: 'title',
+      label: nodesStore.selectedNodesLabel,
+      icon: renderIcon(nodesStore.selectedNodesIcon),
+      disabled: true,
+      class: 'context-menu-title',
+    });
+
+    result.push({
+      type: 'divider',
+      key: 'd1'
+    });
+
+    result.push({
+      key: 'move',
+      label: 'Переместить',
+      icon: renderIcon(IconMove),
+      command: nodesStore.moveNodes,
+    });
+
+    if (route.meta.isTrash) {
+      result.push({
+        key: 'destroy',
+        label: 'Удалить навсегда',
+        icon: renderIcon(IconDestroy),
+        command: nodesStore.destroyNodes,
+      });
+
+      result.push({
+        key: 'restore',
+        label: 'Восстановить',
+        icon: renderIcon(IconRestore),
+        command: nodesStore.restoreNodes,
+      });
+    } else {
+      result.push({
+        key: 'copy',
+        label: 'Скопировать',
+        icon: renderIcon(IconCopy),
+        command: nodesStore.copyNodes,
+        show: () => {
+          // TODO: If not trashed
+        }
+      });
+
+      if (nodesStore.selectedNodes.length === 1) {
+        result.push({
+          key: 'rename',
+          label: 'Переименовать',
+          icon: renderIcon(IconRename),
+          command: nodesStore.renameNode,
+        });
+      }
+
+      result.push({
+        key: 'download',
+        label: 'Скачать',
+        icon: renderIcon(IconDownload),
+        command: nodesStore.downloadNodes,
+      });
+
+      result.push({
+        key: 'delete',
+        label: 'В корзину',
+        icon: renderIcon(IconDelete),
+        command: nodesStore.deleteNodes,
+      });
+    }
+
+
+    return result;
+  })
+};
 
 // console.log(route.params);
 
@@ -242,7 +308,7 @@ const handleDrop = (destination: INodeModel, event: DragEvent) => {
       }
     });
 
-    messages.moved('folder', nodesStore.selectedNodes);
+    messages.moved('folder');
 
   }
 };
@@ -258,7 +324,7 @@ const dragIconStyle = computed(() => {
   };
 });
 
-const cutClass = (node) => {
+const cutClass = () => {
   return 'opacity-50';
 };
 

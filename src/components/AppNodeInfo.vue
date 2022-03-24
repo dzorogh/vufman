@@ -11,11 +11,11 @@
     />
 
     <div>
-      <Button
-        class="p-button-sm p-button-outlined"
-        label="Изменить комментарий"
+      <n-button
         @click="handleEditComment"
-      />
+      >
+        Изменить комментарий
+      </n-button>
     </div>
   </div>
 </template>
@@ -24,9 +24,7 @@
 import { formatTimestamp } from '@/formatters/formatTimestamp';
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { INodeModel } from "@/types/INodeModel";
-import { computed } from "vue";
 import linkifyHtml from 'linkify-html';
-import Button from 'primevue/button';
 
 const props = defineProps<{
   node: INodeModel;

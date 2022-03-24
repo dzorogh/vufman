@@ -5,17 +5,24 @@
       :to="file.ancestors.length ? { name: 'folder', params: { folderId: file.ancestors[0].id }} : { name: 'root' }"
       custom
     >
-      <Button
-        class="p-button-text p-button-secondary p-button-plain p-button-rounded"
-        icon="pi pi-times"
+      <n-button
+        circle
         @click="navigate"
-      />
+      >
+        <template #icon>
+          <n-icon>
+            <Dismiss24Filled />
+          </n-icon>
+        </template>
+      </n-button>
     </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from "primevue/button";
+import {
+  Dismiss24Filled
+} from "@vicons/fluent";
 import { INodeModel } from "@/types/INodeModel";
 
 defineProps<{

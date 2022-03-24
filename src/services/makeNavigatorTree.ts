@@ -1,23 +1,35 @@
 import { INodeModel } from "@/types/INodeModel";
-import { TreeNode } from "primevue/tree";
+import { Component } from "vue";
+import { Folder24Filled } from "@vicons/fluent";
 
-export function makeNavigatorTree(nodes: INodeModel[] | undefined, folderId: INodeModel['folderId']): TreeNode[] {
+export interface ITreeNode {
+  label: string;
+  key: string;
+  children?: ReturnType<typeof makeNavigatorTree>;
+  icon?: Component;
+}
+
+export function makeNavigatorTree(nodes: INodeModel[] | undefined, folderId: INodeModel['folderId']): ITreeNode[] | undefined {
   if (nodes && nodes.length) {
-    const result = [] as TreeNode[];
+    const result = [];
 
     for (const node of nodes.filter((item) => item.folderId === folderId)) {
       result.push(
         {
-          label: node.name,
-          icon: 'pi pi-folder',
+          label: node.name || '',
           key: node.id + '',
-          children: makeNavigatorTree(nodes, node.id)
+          children: makeNavigatorTree(nodes, node.id),
+          icon: Folder24Filled
         }
       );
     }
 
-    return result;
+    if (result.length) {
+      return result;
+    } else {
+      return undefined;
+    }
   }
 
-  return [];
+  return undefined;
 }

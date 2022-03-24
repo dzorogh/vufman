@@ -1,7 +1,9 @@
 <template>
-  <router-view />
-  <DialogConfirm />
-  <DialogPrompt />
+  <n-message-provider>
+    <router-view />
+    <DialogConfirm />
+    <DialogPrompt />
+  </n-message-provider>
 </template>
 
 

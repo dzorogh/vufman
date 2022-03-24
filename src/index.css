@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    blockquote,
+    dl,
+    dd,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    figure,
+    p,
+    pre {
+        margin: 0;
+    }
+
+    *,
+    ::before,
+    ::after {
+        border-width: 0;
+        border-style: solid;
+        border-color: theme('borderColor.DEFAULT');
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    button, button:visited, button:focus {
+        outline: none;
+    }
+}
+
 .context-menu-title .p-menuitem-text {
     @apply truncate;
 }

@@ -7,23 +7,6 @@
     height="100%"
   >
   <div
-    v-else-if="file.mimetype === 'text/plain'"
-    class="h-full flex flex-col bg-white"
-  >
-    <textarea
-      ref="editor"
-      class="w-full grow p-6 bg-gray-50"
-      :value="content"
-    />
-
-    <div class="p-6">
-      <Button
-        label="Сохранить"
-        @click="saveContent"
-      />
-    </div>
-  </div>
-  <div
     v-else
     class="flex flex-col items-center justify-center h-full gap-12"
   >
@@ -37,10 +20,13 @@
     </div>
 
     <div>
-      <Button
-        label="Скачать"
+      <n-button
+        class="bg-white"
+        size="large"
         @click="file.download()"
-      />
+      >
+        Скачать
+      </n-button>
     </div>
   </div>
 </template>
@@ -48,7 +34,6 @@
 <script setup lang="ts">
 import { INodeModel } from "@/types/INodeModel";
 import IconDocument from "@/components/IconDocument.vue";
-import Button from "primevue/button";
 import { onMounted, ref } from "vue";
 import { useMessages } from "@/composables/useMessages";
 

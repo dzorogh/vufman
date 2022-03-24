@@ -3,38 +3,48 @@
     v-if="nodesStore.currentFolder"
     class="flex gap-4 items-center"
   >
-    <Button
-      class=" p-button-text"
-      icon="pi pi-arrow-left"
-      @click="handleClickBack"
-    />
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          round
+          @click="handleClickBack"
+        >
+          <template #icon>
+            <n-icon>
+              <ArrowEnterUp24Filled />
+            </n-icon>
+          </template>
+        </n-button>
+      </template>
 
-    <div class="font-bold opacity-50">
+      В родительскую папку
+    </n-tooltip>
+
+    <div class="font-bold">
       {{ nodesStore.currentFolder.name }}
     </div>
   </div>
 
   <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
-    <div class="font-bold opacity-50 px-4">
+    <div class="font-bold ">
       Диск
     </div>
   </div>
 
   <div v-else>
-    <div class="font-bold opacity-50 px-4">
+    <div class="font-bold">
       Корзина
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ArrowEnterUp24Filled } from "@vicons/fluent";
+import { useRouter } from "vue-router";
 import { useNodesStore } from "@/store/nodes";
-import Button from "primevue/button";
-import { useRoute, useRouter } from "vue-router";
 
 const nodesStore = useNodesStore();
 const router = useRouter();
-const route = useRoute();
 
 const props = defineProps<{
   isTrashed?: boolean;

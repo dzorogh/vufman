@@ -16,32 +16,47 @@
 
     <div class="flex gap-2">
       <div
-        v-for="(item, index) in items"
-        v-show="item.show ? item.show() : true"
+        v-for="(item, index) in items.filter(item => item.show ? item.show() : true)"
         :key="index"
         class="grid"
       >
-        <Button
-          v-tooltip.top="item.label"
-          class="!text-left  p-button-sm"
-          :class="item.class"
-          :icon="item.icon"
-          @click="item.command"
-        />
+        <n-tooltip>
+          <template #trigger>
+            <n-button
+              :class="item.class"
+              @click="item.command"
+            >
+              <template #icon>
+                <n-icon :component="item.icon" />
+              </template>
+            </n-button>
+          </template>
+
+          {{ item.label }}
+        </n-tooltip>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from "primevue/button";
-import vTooltip from 'primevue/tooltip';
 import router from "@/router";
 import { INodeModel } from "@/types/INodeModel";
 import { useMessages } from "@/composables/useMessages";
 import { useMoveAction } from "@/composables/useMoveAction";
 import { useDeleteAction } from "@/composables/useDeleteAction";
 import { useRenameAction } from "@/composables/useRenameAction";
+import { Component } from "vue";
+
+import {
+  ArrowDownload16Filled as IconDownload,
+  Delete16Filled as IconDelete,
+  DeleteDismiss20Filled as IconDestroy,
+  DocumentCopy16Filled as IconCopy,
+  FolderArrowRight16Filled as IconMove,
+  Rename16Filled as IconRename,
+  ArrowReset20Filled as IconRestore
+} from "@vicons/fluent";
 
 const messages = useMessages();
 
@@ -51,14 +66,13 @@ const props = defineProps<{
 
 const items: {
   label: string;
-  icon: string;
-  class?: string;
+  icon: Component;
   command: () => void;
   show?: () => boolean;
 }[] = [
   {
     label: 'Скачать',
-    icon: 'pi pi-fw pi-download',
+    icon: IconDownload,
     command: async () => {
       // TODO: Api download
 
@@ -67,7 +81,7 @@ const items: {
   },
   {
     label: 'Переместить',
-    icon: 'pi pi-fw pi-folder-open',
+    icon: IconMove,
     command: async () => {
       const moveAction = useMoveAction();
 
@@ -85,7 +99,7 @@ const items: {
   },
   {
     label: 'Скопировать',
-    icon: 'pi pi-fw pi-copy',
+    icon: IconCopy,
     command: () => {
       // TODO: copy
     },
@@ -93,7 +107,7 @@ const items: {
   },
   {
     label: 'Переименовать',
-    icon: 'pi pi-fw pi-pencil',
+    icon: IconRename,
     command: async () => {
       const renameAction = useRenameAction();
 
@@ -110,8 +124,7 @@ const items: {
   },
   {
     label: 'В корзину',
-    icon: 'pi pi-fw pi-trash',
-    class: 'p-button-danger',
+    icon: IconDelete,
     command: async () => {
       const deleteAction = useDeleteAction();
 
@@ -127,8 +140,7 @@ const items: {
   {
     show: () => !!props.node.isTrashed,
     label: 'Удалить навсегда',
-    icon: 'pi pi-fw pi-times',
-    class: 'p-button-danger',
+    icon: IconDestroy,
     command: async () => {
       const deleteAction = useDeleteAction();
 
@@ -138,6 +150,15 @@ const items: {
         // TODO: api - destroy file
         await router.push({ name: 'trash' });
       }
+    }
+  },
+  {
+    show: () => !!props.node.isTrashed,
+    label: 'Восстановить',
+    icon: IconRestore,
+    command: async () => {
+      // TODO: api - restore file
+      messages.nodesRestored();
     }
   },
 ];

@@ -21,17 +21,19 @@
   >
     <IconVideo
       class="fill-gray-200 w-64 h-64"
-      @click="handleDownloadClick"
     />
 
     <div class="text-white">
       Видео не воспроизводится в браузере
     </div>
     <div>
-      <Button
-        label="Скачать"
+      <n-button
+        class="bg-white"
+        size="large"
         @click="file.download()"
-      />
+      >
+        Скачать
+      </n-button>
     </div>
   </div>
 </template>
@@ -42,7 +44,6 @@ import "plyr/dist/plyr.css";
 import { INodeModel } from "@/types/INodeModel";
 import { onMounted, ref } from "vue";
 import IconVideo from "@/components/IconVideo.vue";
-import Button from "primevue/button";
 
 const props = defineProps<{
   file: INodeModel;

@@ -28,7 +28,6 @@
 
       <IconDocument
         v-if="node.getFileType() === 'document'"
-        :extension="node.extension"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
@@ -41,21 +40,18 @@
 
       <IconVideo
         v-if="node.getFileType() === 'video'"
-        :extension="node.extension"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconAudio
         v-if="node.getFileType() === 'audio'"
-        :extension="node.extension"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconFont
         v-if="node.getFileType() === 'font'"
-        :extension="node.extension"
         class="text-slate-300"
         :class="iconSizeClasses"
       />

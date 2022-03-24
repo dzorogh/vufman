@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { TreeNode } from "primevue/tree";
+import { ITreeNode } from "@/services/makeNavigatorTree";
 
 const emptyState = {
   header: '',
@@ -12,7 +12,7 @@ const emptyState = {
   errors: [] as string[],
   validateCallback: null as null | (() => boolean),
   isLoading: false,
-  treeNodes: null as null | TreeNode[]
+  treeNodes: null as null | ITreeNode[]
 };
 
 export const usePromptStore = defineStore('prompt', {
@@ -50,8 +50,10 @@ export const usePromptStore = defineStore('prompt', {
             }
 
             if (name === 'save') {
+              console.log(this.$state);
+
               if (this.type === 'tree') {
-                resolve(Object.keys(this.newValue)[0]);
+                resolve(this.newValue);
               }
 
               if (this.type === 'string') {

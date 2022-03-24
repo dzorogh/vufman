@@ -1,12 +1,7 @@
-import { INodeModel } from "@/types/INodeModel";
-import { useToast } from "vue-toastification";
-
-const getNodesNames = (nodes: INodeModel[]) => {
-  return nodes.map(n => n.getFullName()).join(', ');
-};
+import { useMessage } from "naive-ui";
 
 export function useMessages() {
-  const toast = useToast();
+  const toast = useMessage();
 
   return {
 
@@ -14,40 +9,40 @@ export function useMessages() {
       destinationType: 'folder' | 'trash' | 'root',
     ) => {
       let summary = '';
-      let icon = '';
 
       if (destinationType === 'folder') {
-        summary = 'Объекты перемещены';
-        icon = 'pi pi-folder';
+        summary = 'Перемещено в папку';
       }
 
       if (destinationType === 'trash') {
-        summary = 'Объекты перемещены в корзину';
-        icon = 'pi pi-trash';
+        summary = 'Перемещено в корзину';
       }
 
       if (destinationType === 'root') {
-        summary = 'Объекты перемещены в корневой каталог';
-        icon = 'pi pi-home';
+        summary = 'Перемещено в корневой каталог';
       }
 
-      toast.success(summary, { icon });
+      toast.success(summary);
     },
 
     destroyed: () => {
-      toast.success('Объекты удалены навсегда', { icon: 'pi pi-trash' });
+      toast.success('Удалено навсегда');
     },
 
     folderCreated: () => {
-      toast.success('Создана папка', { icon: 'pi pi-folder' });
+      toast.success('Создана папка');
     },
 
     fileCreated: () => {
-      toast.success('Создан файл', { icon: 'pi pi-file' });
+      toast.success('Создан файл');
     },
 
     nodeRenamed: () => {
-      toast.success('Новое название сохранено');
+      toast.success('Название сохранено');
+    },
+
+    nodesRestored: () => {
+      toast.success('Восстановлено');
     },
 
     downloadStarted: () => {

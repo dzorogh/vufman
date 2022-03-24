@@ -9,12 +9,8 @@
         />
       </div>
 
-      <div class="grid grid-cols-4 grow overflow-hidden">
+      <div class="grid grid-cols-4 grow overflow-auto">
         <div class="col-span-3 flex flex-col overflow-hidden">
-          <div class="text-lg font-bold border-b h-16 flex items-center shrink-0 px-4">
-            {{ file.getFullName() }}
-          </div>
-
           <div class="overflow-hidden grow bg-gray-800">
             <component
               :is="fileContentComponents[file.getFileType()]"
@@ -34,15 +30,16 @@
         </div>
       </div>
     </template>
-    <ProgressSpinner
+    <div
       v-else
-      class="!w-7 !h-7 !m-6"
-    />
+      class="flex grow items-center justify-center"
+    >
+      <n-spin size="large" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ProgressSpinner from 'primevue/progressspinner';
 import api from "@/services/api";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";

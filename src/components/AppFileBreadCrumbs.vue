@@ -1,35 +1,59 @@
 <template>
-  <router-link
-    v-if="file.ancestors.length"
-    v-slot="{ navigate }"
-    :to="{ name: 'folder', params: { folderId: file.ancestors[0].id }}"
-    custom
-  >
-    <Button
-      class=" p-button-text"
-      icon="pi pi-arrow-left"
-      :label="file.ancestors[0].name"
-      @click="navigate"
-    />
-  </router-link>
+  <div class="flex gap-4 items-center">
+    <router-link
+      v-if="file.ancestors.length"
+      v-slot="{ navigate }"
+      :to="{ name: 'folder', params: { folderId: file.ancestors[0].id }}"
+      custom
+    >
+      <n-tooltip>
+        <template #trigger>
+          <n-button
+            round
+            @click="navigate"
+          >
+            <template #icon>
+              <n-icon>
+                <ArrowEnterUp24Filled />
+              </n-icon>
+            </template>
+          </n-button>
+        </template>
 
-  <router-link
-    v-else
-    v-slot="{ navigate }"
-    :to="{ name: 'root' }"
-    custom
-  >
-    <Button
-      class=" p-button-text"
-      icon="pi pi-arrow-left"
-      :label="`Диск`"
-      @click="navigate"
-    />
-  </router-link>
+        В родительскую папку
+      </n-tooltip>
+    </router-link>
+
+    <router-link
+      v-else
+      v-slot="{ navigate }"
+      :to="{ name: 'root' }"
+      custom
+    >
+      <n-button
+        round
+        @click="navigate"
+      >
+        <template #icon>
+          <n-icon>
+            <ArrowEnterUp24Filled />
+          </n-icon>
+        </template>
+
+        Диск
+      </n-button>
+    </router-link>
+
+    <div class="font-bold">
+      {{ file.getFullName() }}
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
-import Button from "primevue/button";
 import { INodeModel } from "@/types/INodeModel";
+import {
+  ArrowEnterUp24Filled
+} from "@vicons/fluent";
 
 defineProps<{
   file: INodeModel;
