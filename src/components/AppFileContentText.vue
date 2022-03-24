@@ -5,7 +5,7 @@
   >
     <textarea
       ref="editor"
-      class="w-full grow p-6 bg-gray-50 shadow-inner font-mono"
+      class="w-full grow p-6 shadow-inner font-mono resize-none"
       :value="content"
     />
 
