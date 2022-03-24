@@ -13,7 +13,7 @@ export function useMoveAction() {
         return false;
       }
 
-      promptStore.reset();
+      promptStore.$reset();
 
       if (nodes.length > 1) {
         promptStore.header = 'В какую папку переместить файлы/папки?';
