@@ -11,7 +11,10 @@
 
     <n-button @click="nodesStore.sortingDirection = nodesStore.sortingDirection === 'asc' ? 'desc' : 'asc'">
       <template #icon>
-        <ArrowSortDownLines24Filled :style="{transform: nodesStore.sortingDirection === 'desc' ? 'rotate(-180deg)' : null}" />
+        <IconSortUp
+          class="transition-transform"
+          :style="{transform: nodesStore.sortingDirection === 'desc' ? 'rotate(-180deg)' : null}"
+        />
       </template>
     </n-button>
   </n-button-group>
@@ -19,7 +22,7 @@
 
 <script setup lang="ts">
 import {
-  ArrowSortDownLines24Filled
+  ArrowSortUp16Filled as IconSortUp
 } from "@vicons/fluent";
 
 import { useNodesStore } from "@/store/nodes";
