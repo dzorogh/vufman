@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-4">
+  <div class="flex gap-4 items-center">
     <div
       v-if="nodesStore.currentFolder"
       class="flex gap-4 items-center"
