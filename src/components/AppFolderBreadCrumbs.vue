@@ -1,40 +1,45 @@
 <template>
-  <div
-    v-if="nodesStore.currentFolder"
-    class="flex gap-4 items-center"
-  >
-    <n-tooltip>
-      <template #trigger>
-        <n-button
-          round
-          @click="handleClickBack"
-        >
-          <template #icon>
-            <n-icon>
-              <ArrowEnterUp24Filled />
-            </n-icon>
-          </template>
-        </n-button>
-      </template>
+  <div class="flex gap-4">
+    <div
+      v-if="nodesStore.currentFolder"
+      class="flex gap-4 items-center"
+    >
+      <n-tooltip>
+        <template #trigger>
+          <n-button
+            round
+            @click="handleClickBack"
+          >
+            <template #icon>
+              <n-icon>
+                <ArrowEnterUp24Filled />
+              </n-icon>
+            </template>
+          </n-button>
+        </template>
 
-      В родительскую папку
-    </n-tooltip>
+        В родительскую папку
+      </n-tooltip>
 
-    <div class="font-bold">
-      {{ nodesStore.currentFolder.name }}
+      <div class="font-bold">
+        {{ nodesStore.currentFolder.name }}
+      </div>
     </div>
-  </div>
 
-  <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
-    <div class="font-bold ">
-      Диск
+    <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
+      <div class="font-bold ">
+        Диск
+      </div>
     </div>
-  </div>
 
-  <div v-else>
-    <div class="font-bold">
-      Корзина
+    <div v-else>
+      <div class="font-bold">
+        Корзина
+      </div>
     </div>
+
+    <AppFolderMenuSorting class="ml-auto" />
+    <AppFolderMenuLayoutSelection />
   </div>
 </template>
 
@@ -42,6 +47,8 @@
 import { ArrowEnterUp24Filled } from "@vicons/fluent";
 import { useRouter } from "vue-router";
 import { useNodesStore } from "@/store/nodes";
+import AppFolderMenuSorting from "@/components/AppFolderMenuSorting.vue";
+import AppFolderMenuLayoutSelection from "@/components/AppFolderMenuLayoutSelection.vue";
 
 const nodesStore = useNodesStore();
 const router = useRouter();

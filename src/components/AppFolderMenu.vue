@@ -18,9 +18,8 @@
       v-if="!route.meta.isTrash"
       class="mr-auto"
     />
-    <AppFolderMenuDynamicActions class="mr-auto" />
-    <AppFolderMenuSorting class="mr-auto" />
-    <AppFolderMenuLayoutSelection />
+    
+    <AppFolderMenuDynamicActions />
   </div>
 </template>
 
@@ -32,8 +31,7 @@ import { useRoute } from "vue-router";
 
 import AppFolderMenuDynamicActions from "@/components/AppFolderMenuDynamicActions.vue";
 import AppFolderMenuStaticActions from "@/components/AppFolderMenuStaticActions.vue";
-import AppFolderMenuSorting from "@/components/AppFolderMenuSorting.vue";
-import AppFolderMenuLayoutSelection from "@/components/AppFolderMenuLayoutSelection.vue";
+
 import { useEmptyTrashAction } from "@/composables/useEmptyTrashAction";
 
 const route = useRoute();
