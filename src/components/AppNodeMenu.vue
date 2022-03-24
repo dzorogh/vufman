@@ -14,7 +14,7 @@
       Действия над файлом:
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 flex-wrap">
       <div
         v-for="(item, index) in items.filter(item => item.show ? item.show() : true)"
         :key="index"
