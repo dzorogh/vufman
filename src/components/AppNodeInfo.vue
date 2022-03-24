@@ -12,10 +12,59 @@
 
     <div>
       <n-button
-        @click="handleEditComment"
+        v-if="!node.isTrashed"
+        @click="showEditComment = true"
       >
         Изменить комментарий
       </n-button>
+
+      <n-modal
+        v-model:show="showEditComment"
+        class="custom-card"
+        preset="card"
+        style="width: 800px"
+        title="Комментарий"
+        :bordered="false"
+        size="huge"
+      >
+        <div
+          v-if="!showCommentEditor"
+          v-html="props.node.comment ? linkifyHtml(newComment.replace('\n', '<br>'), {target: '_blank'}) : '—'"
+        />
+        <div v-else>
+          <n-input
+            v-model:value="newComment"
+            type="textarea"
+            placeholder="Комментарий"
+            :autosize="{
+              minRows: 3
+            }"
+          />
+        </div>
+
+        <template #footer>
+          <div class="flex gap-4">
+            <n-button
+              v-if="!showCommentEditor"
+              @click="showCommentEditor = true"
+            >
+              Редактировать
+            </n-button>
+            <n-button
+              v-else
+              @click="showCommentEditor = false"
+            >
+              Предпросмотр
+            </n-button>
+            <n-button @click="saveComment">
+              Сохранить
+            </n-button>
+            <n-button @click="showEditComment = false">
+              Закрыть
+            </n-button>
+          </div>
+        </template>
+      </n-modal>
     </div>
   </div>
 </template>
@@ -25,6 +74,10 @@ import { formatTimestamp } from '@/formatters/formatTimestamp';
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { INodeModel } from "@/types/INodeModel";
 import linkifyHtml from 'linkify-html';
+import { ref } from "vue";
+import { useMessages } from "@/composables/useMessages";
+
+const messages = useMessages();
 
 const props = defineProps<{
   node: INodeModel;
@@ -75,8 +128,15 @@ const items: {
   },
 ];
 
-const handleEditComment = () => {
-  //
+const showCommentEditor = ref(false);
+const showEditComment = ref(false);
+const newComment = ref(props.node.comment);
+const saveComment = () => {
+  console.log('saveComment',);
+  // TODO: api - save comment
+
+  messages.commentSaved();
+  showEditComment.value = false;
 };
 
 </script>

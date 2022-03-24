@@ -67,6 +67,10 @@ export function useMessages() {
 
     selectedAll: () => {
       toast.success('Выбраны все объекты');
+    },
+
+    commentSaved: () => {
+      toast.success('Комментарий сохранен');
     }
   };
 }

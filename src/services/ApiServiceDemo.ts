@@ -9,6 +9,7 @@ import { INode } from "@/types/INode";
 import { promiseTimeout } from '@vueuse/core';
 import { IFileRequest } from "@/types/IFileRequest";
 import { NodeModel } from "@/models/NodeModel";
+import { IUploadRequest } from "@/types/IUploadRequest";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -117,5 +118,38 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     }
 
     return null;
+  }
+
+  async upload(request: IUploadRequest) {
+    console.log('api - upload', request);
+
+    // const formData = new FormData();
+    // if (data) {
+    //   Object.keys(data).forEach((key) => {
+    //     formData.append(
+    //       key,
+    //       data[key as keyof UploadCustomRequestOptions['data']]
+    //     );
+    //   });
+    // }
+    // formData.append(file.name, file.file as File);
+    // axios
+    //   .post(action as string, formData, {
+    //     withCredentials,
+    //     headers,
+    //     onUploadProgress: ({ loaded, total }) => {
+    //       onProgress({ percent: Math.ceil((loaded / total) * 100) });
+    //     }
+    //   } as AxiosRequestConfig)
+    //   .then((e) => {
+    //     message.success(e.data);
+    //     onFinish();
+    //   })
+    //   .catch((error) => {
+    //     message.success(error.message);
+    //     onError();
+    //   });
+
+    return [];
   }
 }

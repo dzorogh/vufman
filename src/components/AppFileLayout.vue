@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
 import AppFileBreadCrumbs from "@/components/AppFileBreadCrumbs.vue";

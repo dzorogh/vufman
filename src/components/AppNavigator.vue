@@ -1,7 +1,5 @@
-<template data-label="AppNavigator">
-  <template
-    v-if="!isLoading"
-  >
+<template>
+  <div v-if="!isLoading">
     <h3 class="text-slate-900 mb-2 font-bold">
       Разделы
     </h3>
@@ -18,7 +16,7 @@
       :allow-drop="() => true"
       @update:selected-keys="updateSelectedKeys"
     />
-  </template>
+  </div>
 
   <n-spin
     v-else
@@ -32,7 +30,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
 
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { NIcon, TreeOption } from "naive-ui";
 import { Delete24Filled, Home24Filled } from "@vicons/fluent";

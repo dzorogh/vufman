@@ -1,6 +1,6 @@
 import { usePromptStore } from "@/store/prompt";
 import { INodeModel } from "@/types/INodeModel";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { Home16Filled as IconHome } from "@vicons/fluent";
 

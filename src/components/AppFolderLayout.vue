@@ -1,45 +1,38 @@
 <template>
-  <div class="grid grid-cols-4">
+  <div
+    v-if="nodesStore.nodesLoading"
+    class="flex items-center justify-center"
+  >
+    <n-spin size="large" />
+  </div>
+
+  <div
+    v-else
+    class="grid grid-cols-4"
+  >
     <div
       class="h-full overflow-hidden rounded-l-xl flex flex-col col-span-3 divide-y"
     >
       <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
 
       <div
-        class="grow bg-white shadow-sm rounded-bl-xl overflow-auto"
+        class="grow bg-white shadow-sm overflow-auto"
         @click.self="nodesStore.deselect()"
       >
-        <AppFolderView v-if="!nodesStore.nodesLoading" />
-
-        <div
-          v-else
-          class="flex item-center justify-center h-full min-h-full"
-        >
-          <div class="flex items-center justify-center">
-            <n-spin
-              size="large"
-            />
-          </div>
-        </div>
+        <AppFolderView />
       </div>
     </div>
 
-    <div class="bg-white flex flex-col border-l p-6 gap-10 overflow-auto">
-      <template v-if="!nodesStore.nodesLoading">
-        <AppNodeInfo
-          v-if="nodesStore.currentFolder"
-          :node="nodesStore.currentFolder"
-        />
-        <AppNodeMenu
-          v-if="nodesStore.currentFolder"
-          class="mt-auto"
-          :node="nodesStore.currentFolder"
-        />
-      </template>
+    <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
+      <AppNodeInfo
+        v-if="nodesStore.currentFolder"
+        :node="nodesStore.currentFolder"
+      />
 
-      <n-spin
-        v-else
-        size="medium"
+      <AppNodeMenu
+        v-if="nodesStore.currentFolder"
+        class="mt-auto"
+        :node="nodesStore.currentFolder"
       />
     </div>
   </div>
@@ -54,9 +47,10 @@ import AppFolderView from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
+
 
 const confirmStore = useConfirmStore();
 const promptStore = usePromptStore();

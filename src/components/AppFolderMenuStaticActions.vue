@@ -1,5 +1,19 @@
 <template>
   <n-button-group>
+    <n-upload-trigger
+      #="{ handleClick }"
+      abstract
+    >
+      <n-button @click="handleClick">
+        Загрузить
+
+        <template #icon>
+          <IconUpload />
+        </template>
+      </n-button>
+    </n-upload-trigger>
+
+
     <n-tooltip
       v-for="(item, index) in staticActions"
       :key="index"
@@ -22,7 +36,11 @@
 </template>
 
 <script setup lang="ts">
-import { DocumentAdd24Filled, FolderAdd28Filled } from "@vicons/fluent";
+import {
+  DocumentAdd16Filled as IconMakeFile,
+  FolderAdd16Filled as IconMakeFolder,
+  CloudArrowUp16Filled as IconUpload
+} from "@vicons/fluent";
 import { useNodesStore } from "@/store/nodes";
 
 const nodesStore = useNodesStore();
@@ -31,13 +49,13 @@ const staticActions = [
   {
     show: () => true,
     label: 'Новая папка <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>N</kbd>',
-    icon: FolderAdd28Filled,
+    icon: IconMakeFolder,
     action: nodesStore.makeFolder,
   },
   {
     show: () => true,
     label: 'Создать текстовый файл <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>F</kbd>',
-    icon: DocumentAdd24Filled,
+    icon: IconMakeFile,
     action: nodesStore.makeFile,
   },
 ];
