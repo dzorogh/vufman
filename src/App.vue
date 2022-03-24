@@ -1,8 +1,10 @@
 <template>
   <n-message-provider>
-    <router-view />
-    <DialogConfirm />
-    <DialogPrompt />
+    <n-loading-bar-provider>
+      <router-view />
+      <DialogConfirm />
+      <DialogPrompt />
+    </n-loading-bar-provider>
   </n-message-provider>
 </template>
 
