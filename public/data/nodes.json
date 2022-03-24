@@ -4,7 +4,7 @@
       "name": "Folder 1",
       "id": "665eba1f-8011-4811-80da-c552df23d3a4",
       "isFolder": true,
-      "size": 0,
+      "size": 123,
       "length": 20,
       "createdAt": "2019-02-01T03:45:27+00:00",
       "folderId": null,
@@ -28,7 +28,7 @@
       "isFolder": true,
       "size": 0,
       "length": 0,
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-02T03:45:27+00:00",
       "folderId": "89c92111-1872-4c6d-86b7-7593138c9a42"
     },
     {
@@ -36,7 +36,7 @@
       "id": "121021fa-b42a-4bdb-b68a-ca5343624b7c",
       "isFolder": true,
       "size": 123412,
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-03T03:45:27+00:00",
       "folderId": "665eba1f-8011-4811-80da-c552df23d3a4"
     },
     {
@@ -44,7 +44,7 @@
       "id": "0d23e585-c133-4777-8445-d3d77ef18f7a",
       "isFolder": true,
       "size": 123412,
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-04T03:45:27+00:00",
       "folderId": null,
       "isTrashed": true
     },
@@ -53,7 +53,7 @@
       "id": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
       "isFolder": true,
       "size": 123412,
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-05T03:45:27+00:00",
       "folderId": null,
       "isTrashed": true
     },
@@ -66,7 +66,7 @@
       "size": 1231823019823901809238109283,
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-06T03:45:27+00:00",
       "folderId": null,
       "isTrashed": true
     },
@@ -79,7 +79,7 @@
       "size": 123313131,
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-07T03:45:27+00:00",
       "folderId": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
       "isTrashed": true
     },
@@ -92,7 +92,7 @@
       "size": 23123123,
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-08T03:45:27+00:00",
       "folderId": "a992b14b-f181-4d1f-bbc2-db0b9436f73b",
       "isTrashed": true
     },
@@ -101,7 +101,7 @@
       "id": "1df9683b-52f5-4f3a-8e84-eaf8392cccae",
       "isFolder": true,
       "size": 0,
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-09T03:45:27+00:00",
       "folderId": null
     },
     {
@@ -112,7 +112,7 @@
       "extension": "txt",
       "size": 100,
       "content": "All sea-dogs endure clear, \nshiny gibbets. All sea-dogs endure clear, shiny gibbets. \nAll sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. ",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-10T03:45:27+00:00",
       "folderId": null
     },
     {
@@ -124,7 +124,7 @@
       "size": 1231823019823901809238109283,
       "thumbnail": "https://placekitten.com/10/10",
       "src": "https://placekitten.com/1000/300",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-11T03:45:27+00:00",
       "folderId": null,
       "comment": "http://my-globaldrive.test/fm/folder/665eba1f-8011-4811-80da-c552df23d3a4 \n All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. All sea-dogs endure clear, shiny gibbets. "
     },
@@ -136,7 +136,7 @@
       "extension": "pdf",
       "size": 100,
       "src": "https://filesamples.com/samples/document/pdf/sample3.pdf",
-      "createdAt": "2019-02-01T03:45:27+00:00",
+      "createdAt": "2019-02-12T03:45:27+00:00",
       "folderId": null
     },
     {

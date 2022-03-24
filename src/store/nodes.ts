@@ -14,7 +14,7 @@ import {
   Document16Filled,
   Folder16Filled
 } from "@vicons/fluent";
-
+import { SortingType } from "@/types/SortingType";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -26,9 +26,9 @@ export const useNodesStore = defineStore('nodes', {
       copiedNodes: [] as INodeModel[],
       isCutNodes: false,
       dragging: false,
-      layout: useStorage('nodesLayout', 'list'),
-      sorting: useStorage('nodesSorting', 'type'),
-      sortingDirection: useStorage('nodesSortingDirection', 'asc')
+      layout: useStorage<'list' | 'grid' | 'table'>('nodesLayout', 'list'),
+      sorting: useStorage<SortingType>('nodesSorting', 'type'),
+      sortingDirection: useStorage<'asc' | 'desc'>('nodesSortingDirection', 'asc')
     };
   },
   actions: {
@@ -321,29 +321,48 @@ export const useNodesStore = defineStore('nodes', {
 
       return [ ...state.nodes ]
         .sort((a: INodeModel, b: INodeModel) => {
-          if (a.name && b.name) {
-            if (a.name > b.name) {
-              return 1;
-            }
+          const direction = state.sortingDirection === 'asc' ? 1 : -1;
 
-            if (a.name < b.name) {
-              return -1;
-            }
-          }
-
-          return 0;
+          return (b.name || '').localeCompare(a.name || '') * direction;
         })
         .sort((a: INodeModel, b: INodeModel) => {
-          if (a.isFolder !== undefined && b.isFolder !== undefined) {
-            if (a.isFolder > b.isFolder) {
-              return -1;
-            }
+          const direction = state.sortingDirection === 'asc' ? 1 : -1;
 
-            if (a.isFolder < b.isFolder) {
-              return 1;
-            }
+          if (state.sorting === 'name') {
+            return (b.name || '').localeCompare(a.name || '') * direction;
           }
 
+          if (state.sorting === 'type') {
+            if (a.isFolder !== undefined && b.isFolder !== undefined) {
+              if (b.isFolder > a.isFolder) {
+                return -direction;
+              }
+
+              if (b.isFolder < a.isFolder) {
+                return direction;
+              }
+            }
+
+            return a.getFileType()!.localeCompare(b.getFileType()) * direction;
+          }
+
+          if (state.sorting === 'size') {
+            return ((b.size || 0) - (a.size || 0)) * direction;
+          }
+
+          if (state.sorting === 'create') {
+            const aTime = new Date(a.createdAt || 0).getTime();
+            const bTime = new Date(b.createdAt || 0).getTime();
+
+            return (bTime - aTime) * direction;
+          }
+
+          if (state.sorting === 'update') {
+            const aTime = new Date(a.updatedAt || 0).getTime();
+            const bTime = new Date(b.updatedAt || 0).getTime();
+
+            return (bTime - aTime) * direction;
+          }
 
           return 0;
         });
