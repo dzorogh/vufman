@@ -32,8 +32,6 @@ declare module 'vue' {
     AppNodeInfo: typeof import('./src/components/AppNodeInfo.vue')['default']
     AppNodeInfoItem: typeof import('./src/components/AppNodeInfoItem.vue')['default']
     AppNodeMenu: typeof import('./src/components/AppNodeMenu.vue')['default']
-    AppTree: typeof import('./src/components/tree/AppTree.vue')['default']
-    AppTreeNode: typeof import('./src/components/tree/AppTreeNode.vue')['default']
     DialogConfirm: typeof import('./src/components/DialogConfirm.vue')['default']
     DialogPrompt: typeof import('./src/components/DialogPrompt.vue')['default']
     IconAudio: typeof import('./src/components/IconAudio.vue')['default']
@@ -74,4 +72,4 @@ declare module 'vue' {
   }
 }
 
-export { }
+export {}

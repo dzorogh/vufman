@@ -34,4 +34,5 @@ module.exports = {
     sourceType: 'module',
   },
   parser: 'vue-eslint-parser',
+  ignorePatterns: ['components.d.ts'],
 };
