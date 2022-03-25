@@ -1,6 +1,6 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface IMoveRequest {
+export interface IPasteRequest {
   ids: INodeModel['id'][];
   destinationId: INodeModel['id'] | null;
 }

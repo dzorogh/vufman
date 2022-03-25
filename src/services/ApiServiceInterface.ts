@@ -11,6 +11,7 @@ import { ICreateRequest } from "@/types/ICreateRequest";
 import { IMoveRequest } from "@/types/IMoveRequest";
 import { IDownloadRequest } from "@/types/IDownloadRequest";
 import { AxiosInstance } from "axios";
+import { IPasteRequest } from "@/types/IPasteRequest";
 
 export interface ApiServiceInterface {
   axios: AxiosInstance;
@@ -25,6 +26,7 @@ export interface ApiServiceInterface {
   destroy: (request: IDestroyRequest) => Promise<boolean>;
   restore: (request: IRestoreRequest) => Promise<boolean>;
   move: (request: IMoveRequest) => Promise<boolean>;
+  paste: (request: IPasteRequest) => Promise<boolean>;
   create: (request: ICreateRequest) => Promise<INodeModel | null>;
   download: (request: IDownloadRequest) => Promise<Blob | null>;
 }

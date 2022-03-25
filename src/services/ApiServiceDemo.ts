@@ -18,6 +18,8 @@ import { IDestroyRequest } from "@/types/IDestroyRequest";
 import { IRestoreRequest } from "@/types/IRestoreRequest";
 import { AxiosInstance } from "axios";
 import { useAxios } from "@/services/api";
+import { IPasteRequest } from "@/types/IPasteRequest";
+import { IMoveRequest } from "@/types/IMoveRequest";
 
 const generateUUID = () => {
   let
@@ -249,7 +251,12 @@ export default class ApiServiceDemo implements ApiServiceInterface {
     return true;
   }
 
-  async move(request: IRestoreRequest) {
+  async move(request: IMoveRequest) {
+    await promiseTimeout(Math.random() * 1000 + 100);
+    return true;
+  }
+
+  async paste(request: IPasteRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
     return true;
   }
