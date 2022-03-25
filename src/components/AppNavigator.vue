@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, HTMLAttributes, onBeforeMount, ref, shallowRef } from "vue";
+import { computed, h, HTMLAttributes, markRaw, onBeforeMount, ref, shallowRef } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
@@ -72,7 +72,7 @@ const renderPrefix = ({ option }: { option: ITreeNode }) => {
   if (option.icon) {
     return h(
       NIcon,
-      { component: option.icon, class: 'text-neutral-400 text-lg' },
+      { component: markRaw(option.icon), class: 'text-neutral-400 text-lg' },
     );
   }
 };
