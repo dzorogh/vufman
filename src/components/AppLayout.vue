@@ -1,6 +1,5 @@
 <template>
-  <n-config-provider
-    :theme="darkTheme"
+  <div
     class="h-full min-h-full relative"
     @dragenter="handleDragEnter"
     @dragover="handleDragOver"
@@ -14,10 +13,10 @@
       :show-remove-button="false"
     >
       <div
-        class="grid grid-cols-5 h-full min-h-full grow border rounded-xl overflow-hidden"
+        class="grid grid-cols-5 h-full min-h-full grow border border-slate-200 rounded-xl overflow-hidden"
       >
         <div
-          class="col-span-1 flex flex-col px-4 pb-4 py-6 gap-6 overflow-auto grow bg-slate-700"
+          class="col-span-1 flex flex-col px-4 pb-4 py-6 gap-6 overflow-auto grow bg-slate-200"
         >
           <AppNavigator />
 
@@ -51,12 +50,7 @@
           </n-card>
         </div>
 
-        <n-config-provider
-          :theme="lightTheme"
-          class="col-span-4 h-full min-h-full"
-        >
-          <router-view class="h-full min-h-full bg-white" />
-        </n-config-provider>
+        <router-view class="col-span-4 h-full min-h-full bg-white" />
       </div>
     </n-upload>
 
@@ -76,16 +70,15 @@
         Перетащите файлы, чтобы загрузить
       </n-upload-dragger>
     </n-upload>
-  </n-config-provider>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
+import { ref } from "vue";
 import { UploadFileInfo } from "naive-ui";
 import { useApi } from "@/composables/useApi";
 import AppNavigator from "@/components/AppNavigator.vue";
 import { ClipboardBulletListRtl16Regular as IconLog } from "@vicons/fluent";
-import { darkTheme, lightTheme } from 'naive-ui';
 
 const fileList = ref<Array<UploadFileInfo>>([]);
 const showDropArea = ref(false);
