@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center flex-wrap gap-4">
     <n-button
-      v-if="route.meta.isTrash"
+      v-if="isTrash"
       ghost
       type="error"
       class="mr-auto"
@@ -15,11 +15,11 @@
     </n-button>
 
     <AppFolderMenuStaticActions
-      v-if="!route.meta.isTrash"
+      v-if="!isTrash"
       class="mr-auto"
     />
-    
-    <AppFolderMenuDynamicActions />
+
+    <AppFolderMenuDynamicActions :is-trash="isTrash" />
   </div>
 </template>
 
@@ -36,6 +36,9 @@ import { useEmptyTrashAction } from "@/composables/useEmptyTrashAction";
 
 const route = useRoute();
 const emptyTrashAction = useEmptyTrashAction();
+const props = defineProps<{
+  isTrash: boolean;
+}>();
 
 const emptyTrash = async () => {
   console.log('emptyTrash');

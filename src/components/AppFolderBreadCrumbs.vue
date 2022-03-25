@@ -21,12 +21,19 @@
         В родительскую папку
       </n-tooltip>
 
-      <div class="font-bold">
+      <div class="font-bold flex gap-4 items-center">
         {{ nodesStore.currentFolder.name }}
+
+        <n-tag
+          v-if="nodesStore.currentFolder.isTrashed || props.isTrash"
+          type="error"
+        >
+          В корзине
+        </n-tag>
       </div>
     </div>
 
-    <div v-else-if="!nodesStore.currentFolder && !props.isTrashed">
+    <div v-else-if="!nodesStore.currentFolder && !props.isTrash">
       <div class="font-bold ">
         Диск
       </div>
@@ -54,23 +61,20 @@ const nodesStore = useNodesStore();
 const router = useRouter();
 
 const props = defineProps<{
-  isTrashed?: boolean;
+  isTrash?: boolean;
 }>();
 
 const handleClickBack = function () {
   if (nodesStore.currentFolder) {
-    if (nodesStore.currentFolder.folderId) {
-      router.push({
-        name: 'folder',
-        params: {
-          folderId: nodesStore.currentFolder.folderId
-        }
-      });
-    } else {
-      router.push({
-        name: 'root',
-      });
-    }
+    router.push({
+      name: 'folder',
+      params: {
+        folderId: nodesStore.currentFolder.folderId
+      },
+      query: {
+        trash: props.isTrash ? null : undefined
+      }
+    });
   }
 };
 

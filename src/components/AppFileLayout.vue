@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { useApi } from "@/services/api";
+import { useApi } from "@/composables/api";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
 import AppFileContentImage from "@/components/AppFileContentImage.vue";

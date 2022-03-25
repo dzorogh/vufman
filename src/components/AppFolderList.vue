@@ -128,6 +128,10 @@ import {
   Cut20Filled as IconCut
 } from "@vicons/fluent";
 
+const props = defineProps<{
+  isTrash: boolean;
+}>();
+
 const nodesStore = useNodesStore();
 const router = useRouter();
 const route = useRoute();
@@ -190,7 +194,7 @@ const contextMenu = {
       command: nodesStore.moveNodes,
     });
 
-    if (route.meta.isTrash) {
+    if (props.isTrash) {
       result.push({
         key: 'destroy',
         label: 'Удалить навсегда',
@@ -229,19 +233,24 @@ const contextMenu = {
       }
 
       result.push({
-        key: 'download',
-        label: 'Скачать',
-        icon: renderIcon(IconDownload),
-        command: nodesStore.downloadNodes,
-      });
-
-      result.push({
         key: 'delete',
         label: 'В корзину',
         icon: renderIcon(IconDelete),
         command: nodesStore.deleteNodes,
       });
     }
+
+    result.push({
+      type: 'divider',
+      key: 'd1'
+    });
+
+    result.push({
+      key: 'download',
+      label: 'Скачать',
+      icon: renderIcon(IconDownload),
+      command: nodesStore.downloadNodes,
+    });
 
 
     return result;
@@ -259,6 +268,9 @@ const handleDoubleClick = (node: INodeModel) => {
       params: {
         folderId: node.id
       },
+      query: {
+        trash: props.isTrash ? null : undefined
+      }
     });
   } else {
     router.push({
@@ -266,6 +278,9 @@ const handleDoubleClick = (node: INodeModel) => {
       params: {
         fileId: node.id
       },
+      query: {
+        trash: props.isTrash ? null : undefined
+      }
     });
   }
 };

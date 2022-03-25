@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import { nextTick, ref } from "vue";
 import { UploadFileInfo } from "naive-ui";
-import { useApi } from "@/services/api";
+import { useApi } from "@/composables/api";
 import AppNavigator from "@/components/AppNavigator.vue";
 
 const fileList = ref<Array<UploadFileInfo>>([]);

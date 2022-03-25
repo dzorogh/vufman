@@ -20,30 +20,23 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'root',
         path: '/',
-        component: AppFolderLayout,
-        meta: {
-          isRoot: true
-        }
+        redirect: '/folder'
+      },
+      {
+        name: 'trash',
+        path: '/trash',
+        redirect: '/folder?trash'
       },
       {
         name: 'folder',
-        path: '/folder/:folderId',
+        path: '/folder/:folderId?',
         component: AppFolderLayout,
       },
       {
         name: 'file',
         path: '/file/:fileId',
         component: AppFileLayout,
-      },
-      {
-        name: 'trash',
-        path: '/trash',
-        component: AppFolderLayout,
-        meta: {
-          isRoot: true,
-          isTrash: true
-        }
-      },
+      }
     ]
   }
 ];

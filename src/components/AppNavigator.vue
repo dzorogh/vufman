@@ -30,7 +30,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
 
-import { useApi } from "@/services/api";
+import { useApi } from "@/composables/api";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { NIcon, TreeOption } from "naive-ui";
 import { Delete24Filled, Home24Filled } from "@vicons/fluent";
@@ -109,11 +109,11 @@ const updateSelectedKeys = (options: string[]) => {
 
 const selectedKeys = computed(() => {
 
-  if (route.meta.isTrash) {
+  if (typeof route.query.trash !== 'undefined') {
     return [ 'trash' ];
   }
 
-  if (route.meta.isRoot) {
+  if (route.name === 'folder' && !route.params.folderId) {
     return [ 'root' ];
   }
 

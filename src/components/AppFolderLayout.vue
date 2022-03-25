@@ -6,7 +6,7 @@
   </template>
   <template v-else>
     <div class="flex flex-col overflow-hidden divide-y">
-      <AppFolderHeading :is-trashed="!!route.meta.isTrash" />
+      <AppFolderHeading :is-trash="isTrash" />
 
       <div class="grid grid-cols-4 grow overflow-hidden">
         <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
@@ -14,7 +14,7 @@
             class="grow bg-white shadow-sm overflow-auto"
             @click.self="nodesStore.deselect()"
           >
-            <AppFolderView />
+            <AppFolderList :is-trash="isTrash" />
           </div>
         </div>
 
@@ -40,14 +40,13 @@ import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useKeypress, } from 'vue3-keypress';
 import AppFolderHeading from "@/components/AppFolderHeading.vue";
-import AppFolderView from "@/components/AppFolderList.vue";
+import AppFolderList from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import { useApi } from "@/services/api";
+import { useApi } from "@/composables/api";
 import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
-
 
 const confirmStore = useConfirmStore();
 const promptStore = usePromptStore();
@@ -57,12 +56,17 @@ const api = useApi();
 
 // testModule();
 
-watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, route.name ],
-  async ([ isRoot, isTrash, folderId, routeName ]) => {
+const isTrash = computed(() => {
+  return typeof route.query.trash !== 'undefined';
+});
 
-    // console.log(isRoot, isTrash, folderId, routeName);
 
-    if (routeName === 'folder' || routeName === 'root' || routeName === 'trash') {
+watch(() => [ route.params.folderId, route.name, route.query.trash ],
+  async ([ folderId, routeName, trash ]) => {
+
+    console.log({ folderId, routeName, trash });
+
+    if (routeName === 'folder') {
       nodesStore.nodesLoading = true;
       nodesStore.selectedNodes = [];
 
@@ -70,7 +74,7 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, rout
         api.folder({ id: folderId as string }),
         api.nodes({
           folderId: folderId as string || null,
-          isTrashed: isTrash ? true : undefined
+          isTrashed: isTrash.value || undefined
         }, true)
       ]);
 
@@ -172,6 +176,7 @@ useKeypress({
   // onAnyKey: someAnyKeyCallback,
   // isActive: isActiveRef,
 });
+
 
 </script>
 

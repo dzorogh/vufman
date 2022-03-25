@@ -1,51 +1,31 @@
 <template>
   <div class="flex gap-4 items-center">
-    <router-link
-      v-if="file.ancestors.length"
-      v-slot="{ navigate }"
-      :to="{ name: 'folder', params: { folderId: file.ancestors[0].id }}"
-      custom
-    >
-      <n-tooltip>
-        <template #trigger>
-          <n-button
-            round
-            @click="navigate"
-          >
-            <template #icon>
-              <n-icon>
-                <ArrowEnterUp24Filled />
-              </n-icon>
-            </template>
-          </n-button>
-        </template>
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          round
+          @click="handleClickBack"
+        >
+          <template #icon>
+            <n-icon>
+              <ArrowEnterUp24Filled />
+            </n-icon>
+          </template>
+        </n-button>
+      </template>
 
-        В родительскую папку
-      </n-tooltip>
-    </router-link>
+      В родительскую папку
+    </n-tooltip>
 
-    <router-link
-      v-else
-      v-slot="{ navigate }"
-      :to="{ name: 'root' }"
-      custom
-    >
-      <n-button
-        round
-        @click="navigate"
-      >
-        <template #icon>
-          <n-icon>
-            <ArrowEnterUp24Filled />
-          </n-icon>
-        </template>
-
-        Диск
-      </n-button>
-    </router-link>
-
-    <div class="font-bold">
+    <div class="font-bold flex gap-4 items-center">
       {{ file.getFullName() }}
+
+      <n-tag
+        v-if="file.isTrashed"
+        type="error"
+      >
+        В корзине
+      </n-tag>
     </div>
   </div>
 </template>
@@ -54,8 +34,25 @@ import { INodeModel } from "@/types/INodeModel";
 import {
   ArrowEnterUp24Filled
 } from "@vicons/fluent";
+import { useRouter } from "vue-router";
 
-defineProps<{
+const router = useRouter();
+
+const props = defineProps<{
   file: INodeModel;
 }>();
-</script>
+
+const handleClickBack = () => {
+  router.push({
+    name: 'folder',
+    params: {
+      folderId: props.file.folderId
+    },
+    query: {
+      trash: props.file.isTrashed ? null : undefined
+    }
+  });
+};
+
+</script>import { defineProps } from "vue";
+
