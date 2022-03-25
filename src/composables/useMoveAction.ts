@@ -1,11 +1,12 @@
 import { usePromptStore } from "@/store/prompt";
 import { INodeModel } from "@/types/INodeModel";
-import { api } from "@/services/api";
+import { useApi } from "@/services/api";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { Home16Filled as IconHome } from "@vicons/fluent";
 
 export function useMoveAction() {
   const promptStore = usePromptStore();
+  const api = useApi();
 
   return {
     async show(nodes: INodeModel[]) {
@@ -36,7 +37,7 @@ export function useMoveAction() {
       ];
 
 
-      const folders = await api.getNodes({ isFolder: true });
+      const folders = await api.nodes({ isFolder: true });
       tree[0].children = makeNavigatorTree(folders, null);
       promptStore.isLoading = false;
 

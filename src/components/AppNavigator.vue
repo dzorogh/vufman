@@ -30,13 +30,14 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
 
-import { api } from "@/services/api";
+import { useApi } from "@/services/api";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { NIcon, TreeOption } from "naive-ui";
 import { Delete24Filled, Home24Filled } from "@vicons/fluent";
 import { useNodesStore } from "@/store/nodes";
 import { useMessages } from "@/composables/useMessages";
 
+const api = useApi();
 const router = useRouter();
 const route = useRoute();
 const nodes = ref();
@@ -60,7 +61,7 @@ const tree = shallowRef<ITreeNode[]>(
 );
 
 onBeforeMount(async () => {
-  nodes.value = await api.getNodes({ isFolder: true });
+  nodes.value = await api.nodes({ isFolder: true });
   tree.value[0].children = makeNavigatorTree(nodes.value, null) || undefined;
   isLoading.value = false;
 });

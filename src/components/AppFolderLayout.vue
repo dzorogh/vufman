@@ -44,7 +44,7 @@ import AppFolderView from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import { api } from "@/services/api";
+import { useApi } from "@/services/api";
 import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
 
@@ -53,6 +53,9 @@ const confirmStore = useConfirmStore();
 const promptStore = usePromptStore();
 const nodesStore = useNodesStore();
 const route = useRoute();
+const api = useApi();
+
+// testModule();
 
 watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, route.name ],
   async ([ isRoot, isTrash, folderId, routeName ]) => {
@@ -64,8 +67,8 @@ watch(() => [ route.meta.isRoot, route.meta.isTrash, route.params.folderId, rout
       nodesStore.selectedNodes = [];
 
       [ nodesStore.currentFolder, nodesStore.nodes ] = await Promise.all([
-        api.getFolder({ id: folderId as string }),
-        api.getNodes({
+        api.folder({ id: folderId as string }),
+        api.nodes({
           folderId: folderId as string || null,
           isTrashed: isTrash ? true : undefined
         }, true)

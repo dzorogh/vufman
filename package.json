@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/node": "^17.0.21",
     "@vueuse/core": "^8.0.1",
+    "@vueuse/integrations": "^8.1.2",
     "axios": "0.26.0",
     "filesize": "^8.0.7",
     "linkify-html": "^3.0.5",
@@ -17,6 +18,7 @@
     "pinia": "^2.0.11",
     "plyr": "^3.6.12",
     "prettier": "^2.5.1",
+    "redaxios": "^0.4.1",
     "unplugin-vue-components": "^0.18.4",
     "valid-filename": "^4.0.0",
     "vue": "^3.2.25",

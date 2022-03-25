@@ -11,10 +11,10 @@ export interface INode {
   size: number;
   comment?: string;
   folderId: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  deletedAt: string | null;
-  authorId: number;
+  createdAt: ReturnType<Date['toISOString']> | null;
+  updatedAt: ReturnType<Date['toISOString']> | null;
+  deletedAt: ReturnType<Date['toISOString']> | null;
+  authorId: number | string;
   author?: {
     firstName: string;
     lastName: string;

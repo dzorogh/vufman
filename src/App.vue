@@ -3,13 +3,17 @@
     :theme-overrides="themeOverrides"
     class="h-full"
   >
-    <n-message-provider>
-      <n-loading-bar-provider>
-        <router-view />
-        <DialogConfirm />
-        <DialogPrompt />
-      </n-loading-bar-provider>
-    </n-message-provider>
+    <n-loading-bar-provider>
+      <n-notification-provider>
+        <n-message-provider>
+          <n-loading-bar-provider>
+            <router-view />
+            <DialogConfirm />
+            <DialogPrompt />
+          </n-loading-bar-provider>
+        </n-message-provider>
+      </n-notification-provider>
+    </n-loading-bar-provider>
   </n-config-provider>
 </template>
 

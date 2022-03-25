@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "@/services/api";
+import { useApi } from "@/services/api";
 import { onBeforeMount, ref } from "vue";
 import { useRoute } from "vue-router";
 import AppFileContentImage from "@/components/AppFileContentImage.vue";
@@ -47,6 +47,7 @@ import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 import AppFileHeading from "@/components/AppFileHeading.vue";
 
+const api = useApi();
 const route = useRoute();
 const nodesStore = useNodesStore();
 
@@ -56,7 +57,7 @@ const isLoading = ref(false);
 onBeforeMount(async () => {
   isLoading.value = true;
 
-  file.value = await api.getFile({ id: route.params.fileId as string });
+  file.value = await api.file({ id: route.params.fileId as string });
 
   if (file.value && file.value.ancestors && file.value.ancestors[0]) {
     nodesStore.currentFolder = file.value.ancestors[0] as INodeModel;

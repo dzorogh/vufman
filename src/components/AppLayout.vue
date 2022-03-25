@@ -52,11 +52,13 @@
 <script setup lang="ts">
 import { nextTick, ref } from "vue";
 import { UploadFileInfo } from "naive-ui";
-import { api } from "@/services/api";
+import { useApi } from "@/services/api";
 import AppNavigator from "@/components/AppNavigator.vue";
 
 const fileList = ref<Array<UploadFileInfo>>([]);
 const showDropArea = ref(false);
+
+const api = useApi();
 
 const handleDragEnter = (e: DragEvent) => {
   // e.preventDefault();
