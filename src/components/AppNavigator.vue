@@ -30,7 +30,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
 
-import { useApi } from "@/composables/api";
+import { useApi } from "@/composables/useApi";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { NIcon, TreeOption } from "naive-ui";
 import { Delete24Filled, Home24Filled } from "@vicons/fluent";

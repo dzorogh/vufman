@@ -44,7 +44,7 @@ import AppFolderList from "@/components/AppFolderList.vue";
 import AppNodeInfo from "@/components/AppNodeInfo.vue";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
-import { useApi } from "@/composables/api";
+import { useApi } from "@/composables/useApi";
 import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
 

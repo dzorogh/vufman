@@ -238,4 +238,8 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
     await promiseTimeout(Math.random() * 1000 + 100);
     return true;
   }
+
+  async log(request: IPasteRequest) {
+    return await this.axios.get('/data/nodes.json');
+  }
 }

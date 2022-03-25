@@ -1,22 +1,5 @@
-import ApiServiceDemo from '../services/ApiServiceDemo';
-import { IApiService } from '../types/IApiService';
-import { useLoadingBar, useNotification } from "naive-ui";
 import axios from "axios";
-
-export function useApi() {
-  let apiImplementation: IApiService;
-
-  if (import.meta.env.MODE === 'local') {
-    apiImplementation = new ApiServiceDemo();
-  } else {
-    // realApiService
-
-    // maybe will get global api endpoints from window object or other way
-    apiImplementation = new ApiServiceDemo();
-  }
-
-  return apiImplementation;
-}
+import { useLoadingBar, useNotification } from "naive-ui";
 
 export function useAxios() {
   const instance = axios.create();
@@ -69,4 +52,3 @@ export function useAxios() {
 
   return instance;
 }
-
