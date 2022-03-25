@@ -13,7 +13,7 @@ import { IDownloadRequest } from "@/types/IDownloadRequest";
 import { AxiosInstance } from "axios";
 import { IPasteRequest } from "@/types/IPasteRequest";
 
-export interface ApiServiceInterface {
+export interface IApiService {
   axios: AxiosInstance;
 
   nodes: (request: INodesRequest, cancelable?: boolean) => Promise<INodeModel[]>;

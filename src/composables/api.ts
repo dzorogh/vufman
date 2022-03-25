@@ -1,10 +1,10 @@
-import ApiServiceDemo from './ApiServiceDemo';
-import { ApiServiceInterface } from './ApiServiceInterface';
+import ApiServiceDemo from '../services/ApiServiceDemo';
+import { IApiService } from '../types/IApiService';
 import { useLoadingBar, useNotification } from "naive-ui";
 import axios from "axios";
 
 export function useApi() {
-  let apiImplementation: ApiServiceInterface;
+  let apiImplementation: IApiService;
 
   if (import.meta.env.MODE === 'local') {
     apiImplementation = new ApiServiceDemo();

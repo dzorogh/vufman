@@ -1,4 +1,4 @@
-import { ApiServiceInterface } from '@/services/ApiServiceInterface';
+import { IApiService } from '@/types/IApiService';
 import { INodesRequest } from "@/types/INodesRequest";
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { INode } from "@/types/INode";
@@ -11,32 +11,15 @@ import { NodeModel } from "@/models/NodeModel";
 import { IUploadRequest } from "@/types/IUploadRequest";
 import { IDownloadRequest } from "@/types/IDownloadRequest";
 import { ICreateRequest } from "@/types/ICreateRequest";
-import { INodeModel } from "@/types/INodeModel";
 import { IRenameRequest } from "@/types/IRenameRequest";
 import { IDeleteRequest } from "@/types/IDeleteRequest";
 import { IDestroyRequest } from "@/types/IDestroyRequest";
 import { IRestoreRequest } from "@/types/IRestoreRequest";
-import { AxiosInstance } from "axios";
-import { useAxios } from "@/services/api";
 import { IPasteRequest } from "@/types/IPasteRequest";
 import { IMoveRequest } from "@/types/IMoveRequest";
+import { ApiService } from "@/services/ApiService";
+import { generateUUID } from "@/services/generateUUID";
 
-const generateUUID = () => {
-  let
-    d = new Date().getTime(),
-    d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    let r = Math.random() * 16;
-    if (d > 0) {
-      r = (d + r) % 16 | 0;
-      d = Math.floor(d / 16);
-    } else {
-      r = (d2 + r) % 16 | 0;
-      d2 = Math.floor(d2 / 16);
-    }
-    return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-  });
-};
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -52,8 +35,7 @@ const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   return ancestors;
 };
 
-export default class ApiServiceDemo implements ApiServiceInterface {
-  axios;
+export default class ApiServiceDemo extends ApiService implements IApiService {
 
   getNodes = async () => {
     const nodes = await this.axios.get('/data/nodes.json');
@@ -61,10 +43,6 @@ export default class ApiServiceDemo implements ApiServiceInterface {
 
     return data;
   };
-
-  constructor() {
-    this.axios = useAxios();
-  }
 
   private getNodesController: AbortController | undefined;
 
