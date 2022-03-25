@@ -15,7 +15,7 @@
       <div
         class="grid grid-cols-5 h-full min-h-full grow border rounded-xl overflow-hidden bg-slate-100"
       >
-        <div class="col-span-1 flex flex-col px-4 pb-4 py-6 gap-12 overflow-auto border-r grow">
+        <div class="col-span-1 flex flex-col px-4 pb-4 py-6 gap-6 overflow-auto border-r grow">
           <AppNavigator />
 
           <router-link
@@ -25,8 +25,7 @@
           >
             <n-button
               v-if="userIsAdmin"
-              quaternary
-              class="mt-auto"
+              tertiary
               type="primary"
               :disabled="isActive"
               @click="navigate"
