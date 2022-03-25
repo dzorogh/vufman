@@ -1,8 +1,8 @@
 <template>
   <div v-if="!isLoading">
-    <h3 class="text-slate-900 mb-2 font-bold">
+    <n-h4 class="mb-2 font-bold">
       Разделы
-    </h3>
+    </n-h4>
 
     <n-tree
       v-model:expanded-keys="expandedKeys"
