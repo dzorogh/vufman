@@ -1,5 +1,8 @@
 <template>
-  <div class="grid p-4">
+  <div
+    ref="wrapperRef"
+    class="p-4 h-full max-h-full overflow-auto"
+  >
     <!--    <n-data-table
           ref="table"
           remote
@@ -14,54 +17,53 @@
         />-->
     <n-data-table
       ref="table"
-      remote
       :columns="columns"
-      :pagination="pagination"
-    />
+      :data="data"
+    >
+      <template #empty>
+        <div class="flex flex-col gap-6 justify-center items-center text-slate-300 font-bold text-lg">
+          <TableDismiss28Filled class="w-20 h-20" />
+
+          Ничего не найдено
+        </div>
+      </template>
+    </n-data-table>
   </div>
 </template>
 
 <script setup lang="ts">
 
-import { h, onMounted, reactive, ref } from "vue";
+import { computed, h, onMounted, reactive, ref } from "vue";
 import { generateUUID } from "@/services/generateUUID";
-import { NInput } from "naive-ui";
+import { DataTableColumns, NInput } from "naive-ui";
+import { TableDismiss28Filled } from "@vicons/fluent";
 
+const wrapperRef = ref<HTMLElement>();
 
-const dateColumn = ref({
+const dateColumn = {
   title: 'Дата',
   key: 'date',
   sorter: true,
-});
+};
 
-const userColumn = ref({
+const userColumn = {
   title: 'Пользователь',
   key: 'user',
   sorter: true,
-});
+};
 
-const nodeColumn = ref({
+const nodeColumn = {
   title: 'Файл/папка',
   key: 'node',
-});
+};
 
-const actionColumn = ref({
+const actionColumn = {
   title: 'Действие',
   key: 'action',
   sorter: true,
-  filterOptions: [
-    {
-      label: 'Удаление',
-      value: 'delete'
-    },
-    {
-      label: 'Создание',
-      value: 'create'
-    }
-  ]
-});
+};
 
-const columns = reactive([
+const columns = reactive<DataTableColumns>([
   dateColumn,
   userColumn,
   nodeColumn,
@@ -75,6 +77,15 @@ const pagination = reactive({
   prefix({ itemCount }: { itemCount: number }) {
     return `Всего записей: ${itemCount}`;
   }
+});
+
+const data = Array(200).fill({}).map((item, index) => {
+  return {
+    date: new Date(+new Date() - index * 100).toDateString(),
+    user: 'Иван Иванов',
+    node: `Название файла ${index}.png`,
+    action: 'Загрузка'
+  };
 });
 
 // const data = Array(987).map((item, index) => {
@@ -208,5 +219,13 @@ const pagination = reactive({
 </script>
 
 <style scoped>
+::v-deep(.n-data-table-base-table)
+  /*::v-deep(.n-data-table-wrapper),*/
+{
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 
 </style>
