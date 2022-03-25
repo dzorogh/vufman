@@ -46,6 +46,10 @@
     button, button:visited, button:focus {
         outline: none;
     }
+
+    table {
+        border: none;
+    }
 }
 
 .context-menu-title .p-menuitem-text {

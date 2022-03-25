@@ -240,6 +240,8 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
   }
 
   async log(request: IPasteRequest) {
-    return await this.axios.get('/data/nodes.json');
+    const data = await this.axios.get('/data/nodes.json');
+
+    return data;
   }
 }

@@ -13,10 +13,32 @@
       :show-remove-button="false"
     >
       <div
-        class="grid grid-cols-5 h-full min-h-full grow rounded-xl overflow-hidden bg-gray-200"
+        class="grid grid-cols-5 h-full min-h-full grow border rounded-xl overflow-hidden bg-slate-100"
       >
-        <div class="col-span-1 flex flex-col px-4 py-6 gap-12 overflow-auto">
+        <div class="col-span-1 flex flex-col px-4 pb-4 py-6 gap-12 overflow-auto border-r grow">
           <AppNavigator />
+
+          <router-link
+            v-slot="{ isActive, navigate }"
+            :to="{name: 'log'}"
+            custom
+          >
+            <n-button
+              v-if="userIsAdmin"
+              quaternary
+              class="mt-auto"
+              type="primary"
+              :disabled="isActive"
+              @click="navigate"
+            >
+              <template #icon>
+                <n-icon>
+                  <IconLog />
+                </n-icon>
+              </template>
+              Лог действий
+            </n-button>
+          </router-link>
 
           <n-card
             v-if="fileList.length"
@@ -54,6 +76,7 @@ import { nextTick, ref } from "vue";
 import { UploadFileInfo } from "naive-ui";
 import { useApi } from "@/composables/useApi";
 import AppNavigator from "@/components/AppNavigator.vue";
+import { ClipboardBulletListRtl16Regular as IconLog } from "@vicons/fluent";
 
 const fileList = ref<Array<UploadFileInfo>>([]);
 const showDropArea = ref(false);
@@ -82,6 +105,11 @@ const handleDrop = async (e: DragEvent) => {
   e.preventDefault();
   // console.log('drop', e);
   showDropArea.value = false;
+};
+
+const userIsAdmin = () => {
+  return true;
+  // TODO: Get current user
 };
 
 </script>

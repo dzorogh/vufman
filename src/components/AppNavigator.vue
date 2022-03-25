@@ -125,7 +125,7 @@ const selectedKeys = computed(() => {
     return [ nodesStore.currentFolder.id ];
   }
 
-  return [ 'root' ];
+  return [];
 });
 
 const dropAvailableByKey = (key: string) => {
