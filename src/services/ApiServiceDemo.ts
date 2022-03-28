@@ -37,7 +37,7 @@ const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
 
 export default class ApiServiceDemo extends ApiService implements IApiService {
 
-  getNodes = async () => {
+  private async getNodes() {
     const nodes = await this.axios.get('/data/nodes.json');
     const data = nodes.data.data as INode[];
 
