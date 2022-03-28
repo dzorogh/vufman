@@ -2,6 +2,9 @@
 
 ### `Work In Progress`
 
+File manager reusable interface built with: Typescript, Vite, VueJS 3, Vue
+Composition API, Tailwind CSS, Naive UI, Pinia, Vue Router, ESlint.
+
 # For future
 
 - [ ] Video poster generation
