@@ -50,6 +50,10 @@
     table {
         border: none;
     }
+
+    kbd {
+        @apply bg-slate-100 rounded-sm text-slate-600 font-mono p-0.5 text-xs mx-0.5;
+    }
 }
 
 .context-menu-title .p-menuitem-text {

@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
-import { useDeleteAction } from "@/composables/useDeleteAction";
-import { useRenameAction } from "@/composables/useRenameAction";
-import { useMoveAction } from "@/composables/useMoveAction";
+import { useDeleteInteraction } from "@/composables/useDeleteInteraction";
+import { useRenameInteraction } from "@/composables/useRenameInteraction";
+import { useMoveInteraction } from "@/composables/useMoveInteraction";
 import { INodeModel } from "@/types/INodeModel";
-import { useMakeFolderAction } from "@/composables/useMakeFolderAction";
+import { useMakeFolderInteraction } from "@/composables/useMakeFolderInteraction";
 import { NodeModel } from "@/models/NodeModel";
 import { useMessages } from "@/composables/useMessages";
 import { useStorage } from "@vueuse/core";
-import { useMakeFileAction } from "@/composables/useMakeFileAction";
+import { useMakeFileInteraction } from "@/composables/useMakeFileInteraction";
 import { useRouter } from "vue-router";
 import {
   DocumentCopy16Filled,
@@ -87,20 +87,12 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async renameNode() {
-
-      const renameAction = useRenameAction();
-
       const selectedNode = this.selectedNodes[0];
 
-      const result = await renameAction.show(selectedNode);
+      const result = await this.nodesActions.rename(selectedNode);
 
       if (result) {
-        // console.log(this.nodes[this.nodes.indexOf(selectedNode)]);
-        this.nodes[this.nodes.indexOf(selectedNode)].name = result;
-
-        // TODO: API - save changes
-
-        this.messages.nodeRenamed();
+        this.nodes[this.nodes.indexOf(selectedNode)].name = result.name;
       }
 
       this.deselect();
@@ -114,14 +106,9 @@ export const useNodesStore = defineStore('nodes', {
 
     async deleteNodes() {
 
-      const deleteAction = useDeleteAction();
+      const result = await this.nodesActions.delete(this.selectedNodes);
 
-      const result = await deleteAction.show(this.selectedNodes);
-
-      if (result === true) {
-        // TODO: API - save changes
-
-        this.messages.moved('trash');
+      if (result) {
         this.removeNodes(this.selectedNodes);
       }
 
@@ -129,14 +116,9 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async destroyNodes() {
+      const result = await this.nodesActions.destroy(this.selectedNodes);
 
-      const deleteAction = useDeleteAction();
-
-      const result = await deleteAction.show(this.selectedNodes, true);
-
-      if (result === true) {
-        // TODO: API - save changes
-        this.messages.destroyed();
+      if (result) {
         this.removeNodes(this.selectedNodes);
       }
 
@@ -144,18 +126,18 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async restoreNodes() {
-      // TODO: api - restore
-      this.messages.nodesRestored();
+      const result = await this.nodesActions.restore(this.selectedNodes);
 
+      if (result) {
+        this.removeNodes(this.selectedNodes);
+      }
 
+      this.deselect();
     },
 
     async downloadNodes() {
-
-
-      alert('download');
-      this.messages.downloadStarted();
-
+      const selectedNode = this.selectedNodes[0];
+      await this.nodesActions.download(selectedNode);
       this.deselect();
     },
 
@@ -173,7 +155,6 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async cutNodes() {
-
       if (this.selectedNodes.length) {
         this.isCutNodes = true;
         this.copiedNodes = this.selectedNodes;
@@ -187,102 +168,46 @@ export const useNodesStore = defineStore('nodes', {
     async pasteNodes() {
 
       if (this.copiedNodes.length) {
-        this.nodes = [ ...this.copiedNodes, ...this.nodes ];
 
-        if (this.isCutNodes) {
-          // TODO: api - move nodes to current folder
-          this.removeNodes(this.copiedNodes);
-          this.copiedNodes = [];
-        } else {
-          // TODO: api - copy nodes to current folder
+        const result = await this.nodesActions.paste(this.copiedNodes, this.currentFolder, this.isCutNodes);
+
+        console.log('paste result', result);
+        
+        if (result) {
+          this.nodes = [ ...result, ...this.nodes ];
         }
 
-        this.messages.pasted();
-
-        this.deselect();
-
-        this.isCutNodes = false;
+        this.copiedNodes = [];
       }
+
+      this.deselect();
+      this.isCutNodes = false;
     },
 
     async moveNodes() {
-
-
-      const moveAction = useMoveAction();
-
-      const result = await moveAction.show(this.selectedNodes);
+      const result = await this.nodesActions.move(this.selectedNodes);
 
       if (result) {
-        // TODO: api - move
-        this.messages.moved('folder');
-        console.log('Moved To', result);
+        this.nodes = [ ...result, ...this.nodes ];
       }
 
       this.deselect();
     },
 
     async makeFolder() {
-
-
       this.deselect();
 
-      const makeFolderAction = useMakeFolderAction();
+      const result = await this.nodesActions.makeFolder(this.currentFolder);
 
-      const newFolderName = await makeFolderAction.show();
-
-      if (newFolderName) {
-        // TODO: api - get new folder id and ancestors, and valid unique name
-
-        this.nodes.push(new NodeModel({
-          id: "9fa314a1-bdf2-48cf-9fc1-908d49ff3c93",
-          ancestors: [],
-          authorId: 0,
-          createdAt: new Date().toDateString(),
-          deletedAt: null,
-          folderId: this.currentFolder && this.currentFolder.id ? this.currentFolder.id : null,
-          isFolder: true,
-          isTrashed: false,
-          name: newFolderName,
-          size: 0,
-          updatedAt: null
-        }) as INodeModel);
-
-        this.messages.folderCreated();
+      if (result) {
+        this.nodes.push(result);
       }
-
     },
 
     async makeFile() {
-
       this.deselect();
 
-      const makeFileAction = useMakeFileAction();
-
-      const newFileName = await makeFileAction.show();
-
-      if (newFileName) {
-        // TODO: api - get new folder id and ancestors, and valid unique name
-
-        this.nodes.push(new NodeModel({
-          id: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee",
-          ancestors: [],
-          authorId: 0,
-          createdAt: new Date().toDateString(),
-          deletedAt: null,
-          folderId: this.currentFolder && this.currentFolder.id ? this.currentFolder.id : null,
-          isFolder: false,
-          isTrashed: false,
-          name: newFileName,
-          extension: 'txt',
-          mimetype: 'text/plain',
-          size: 0,
-          updatedAt: null
-        }) as INodeModel);
-
-        this.messages.fileCreated();
-
-        await this.router.push({ name: 'file', params: { fileId: "8e1f6591-7fb3-4666-9cf1-bd06db05e9ee" } });
-      }
+      await this.nodesActions.makeFile(this.currentFolder);
     },
   },
 

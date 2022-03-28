@@ -1,3 +1,4 @@
+import { AxiosInstance } from "axios";
 import { INodesRequest } from '@/types/INodesRequest';
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { IFileRequest } from "@/types/IFileRequest";
@@ -10,8 +11,11 @@ import { IRestoreRequest } from "@/types/IRestoreRequest";
 import { ICreateRequest } from "@/types/ICreateRequest";
 import { IMoveRequest } from "@/types/IMoveRequest";
 import { IDownloadRequest } from "@/types/IDownloadRequest";
-import { AxiosInstance } from "axios";
 import { IPasteRequest } from "@/types/IPasteRequest";
+import { IUser } from "@/types/IUser";
+import { IRole } from "@/types/IRole";
+import { ILogRequest } from "@/types/ILogRequest";
+import { ILogResponse } from "@/types/ILogResponse";
 
 export interface IApiService {
   axios: AxiosInstance;
@@ -22,12 +26,17 @@ export interface IApiService {
 
   upload: (request: IUploadRequest) => Promise<INodeModel[]>;
   rename: (request: IRenameRequest) => Promise<INodeModel | null>;
-  delete: (request: IDeleteRequest) => Promise<boolean>;
+  delete: (request: IDeleteRequest) => Promise<INodeModel[]>;
   destroy: (request: IDestroyRequest) => Promise<boolean>;
-  restore: (request: IRestoreRequest) => Promise<boolean>;
-  move: (request: IMoveRequest) => Promise<boolean>;
-  paste: (request: IPasteRequest) => Promise<boolean>;
+  restore: (request: IRestoreRequest) => Promise<INodeModel[]>;
+  move: (request: IMoveRequest) => Promise<INodeModel[]>;
+  paste: (request: IPasteRequest) => Promise<INodeModel[]>;
   create: (request: ICreateRequest) => Promise<INodeModel | null>;
   download: (request: IDownloadRequest) => Promise<Blob | null>;
+  emptyTrash: () => Promise<boolean>;
+  currentUser: () => Promise<IUser>;
+  users: () => Promise<IUser[]>;
+  roles: () => Promise<IRole[]>;
+  log: (request: ILogRequest) => Promise<ILogResponse>;
 }
 

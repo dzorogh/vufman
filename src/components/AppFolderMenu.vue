@@ -32,10 +32,10 @@ import { useRoute } from "vue-router";
 import AppFolderMenuDynamicActions from "@/components/AppFolderMenuDynamicActions.vue";
 import AppFolderMenuStaticActions from "@/components/AppFolderMenuStaticActions.vue";
 
-import { useEmptyTrashAction } from "@/composables/useEmptyTrashAction";
+import { useEmptyTrashInteraction } from "@/composables/useEmptyTrashInteraction";
 
 const route = useRoute();
-const emptyTrashAction = useEmptyTrashAction();
+const emptyTrashAction = useEmptyTrashInteraction();
 const props = defineProps<{
   isTrash: boolean;
 }>();

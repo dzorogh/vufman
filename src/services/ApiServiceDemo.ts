@@ -19,7 +19,8 @@ import { IPasteRequest } from "@/types/IPasteRequest";
 import { IMoveRequest } from "@/types/IMoveRequest";
 import { ApiService } from "@/services/ApiService";
 import { generateUUID } from "@/services/generateUUID";
-
+import { IUser } from "@/types/IUser";
+import { ILogRequest } from "@/types/ILogRequest";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -42,7 +43,7 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
     const data = nodes.data.data as INode[];
 
     return data;
-  };
+  }
 
   private getNodesController: AbortController | undefined;
 
@@ -216,7 +217,17 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
 
   async delete(request: IDeleteRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
-    return true;
+
+    const nodes = (await this.getNodes())
+      .filter(node => {
+        return request.ids.includes(node.id);
+      })
+      .map(node => {
+        node.isTrashed = true;
+        return node;
+      });
+
+    return NodeModel.collection(nodes);
   }
 
   async destroy(request: IDestroyRequest) {
@@ -226,22 +237,124 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
 
   async restore(request: IRestoreRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
-    return true;
+
+    const nodes = (await this.getNodes())
+      .filter(node => {
+        return request.ids.includes(node.id);
+      })
+      .map(node => {
+        node.isTrashed = false;
+        return node;
+      });
+
+    return NodeModel.collection(nodes);
   }
 
   async move(request: IMoveRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
-    return true;
+
+    const nodes = (await this.getNodes())
+      .filter(node => {
+        return request.ids.includes(node.id);
+      })
+      .map(node => {
+        node.folderId = request.destinationId || null;
+        return node;
+      });
+
+    return NodeModel.collection(nodes);
   }
 
   async paste(request: IPasteRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
+
+    const nodes = (await this.getNodes())
+      .filter(node => {
+        return request.ids.includes(node.id);
+      })
+      .map(node => {
+        node.folderId = request.destinationId || null;
+        node.id = generateUUID();
+        return node;
+      });
+
+    return NodeModel.collection(nodes);
+  }
+
+  async log(request: ILogRequest) {
+    await promiseTimeout(Math.random() * 1000 + 100);
+
+    // TODO: make request and demo response
+
+    return {
+      data: [],
+      meta: {}
+    };
+  }
+
+  async emptyTrash() {
+    await promiseTimeout(Math.random() * 1000 + 100);
     return true;
   }
 
-  async log(request: IPasteRequest) {
-    const data = await this.axios.get('/data/nodes.json');
+  async currentUser() {
+    await promiseTimeout(Math.random() * 1000 + 100);
 
-    return data;
+    return {
+      id: 1,
+      firstName: 'Super',
+      lastName: 'Admin',
+      isAdmin: true,
+    };
+  }
+
+  async users() {
+    await promiseTimeout(Math.random() * 1000 + 100);
+
+    return [
+      {
+        id: 1,
+        firstName: 'Super',
+        lastName: 'Admin',
+        isAdmin: true,
+      },
+      {
+        id: 2,
+        firstName: 'User',
+        lastName: 'Operator',
+        isAdmin: false,
+        role: {
+          name: 'Оператор',
+          id: 'operator'
+        }
+      },
+      {
+        id: 3,
+        firstName: 'Content',
+        lastName: 'Manager',
+        isAdmin: false,
+        role: {
+          name: 'Контент-менеджер',
+          id: 'contentManager'
+        }
+      }
+    ] as IUser[];
+  }
+
+  async roles() {
+    return [
+      {
+        name: 'Контент-менеджер',
+        id: 'contentManager'
+      },
+      {
+        name: 'Оператор',
+        id: 'operator'
+      },
+      {
+        name: 'Аналитик',
+        id: 'analyst'
+      }
+    ];
   }
 }

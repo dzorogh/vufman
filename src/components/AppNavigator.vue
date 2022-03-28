@@ -81,7 +81,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
     onMouseup: () => {
       if (option && option.key && dropAvailableByKey(option.key as string)) {
-        messages.moved(option.key === 'trash' ? 'trash' : option.key === 'root' ? 'root' : 'folder');
+        messages.nodesMoved(option.key === 'trash' ? 'trash' : option.key === 'root' ? 'root' : 'folder');
 
         nodesStore.removeNodes(nodesStore.selectedNodes);
       }

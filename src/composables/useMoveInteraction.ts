@@ -4,7 +4,7 @@ import { useApi } from "@/composables/useApi";
 import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { Home16Filled as IconHome } from "@vicons/fluent";
 
-export function useMoveAction() {
+export function useMoveInteraction() {
   const promptStore = usePromptStore();
   const api = useApi();
 

@@ -1,13 +1,13 @@
 import { useConfirmStore } from "@/store/confirm";
 import { INodeModel } from "@/types/INodeModel";
 
-export function useEmptyTrashAction() {
+export function useEmptyTrashInteraction() {
   const confirmStore = useConfirmStore();
 
   return {
     show() {
       confirmStore.$reset();
-      
+
       // TODO: Message about 30 days in trash
       confirmStore.header = 'Очистить корзину?';
 

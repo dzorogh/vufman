@@ -1,19 +1,17 @@
 import { usePromptStore } from "@/store/prompt";
 import isValidFilename from "valid-filename";
 
-export function useMakeFileAction() {
+export function useMakeFolderInteraction() {
   const promptStore = usePromptStore();
 
   return {
     show() {
-
       promptStore.$reset();
 
-      promptStore.header = 'Введите название файла';
+      promptStore.header = 'Введите название папки';
       promptStore.oldValue = '';
-      promptStore.newValue = 'Новый текстовый документ';
+      promptStore.newValue = 'Новая папка';
       promptStore.show = true;
-      promptStore.addon = 'txt';
 
       promptStore.validateCallback = () => {
         promptStore.errors = [];
@@ -24,7 +22,7 @@ export function useMakeFileAction() {
         }
 
         if (!isValidFilename(promptStore.newValue)) {
-          promptStore.errors.push('Название должно быть настоящим названием файла');
+          promptStore.errors.push('Название должно быть настоящим названием папки');
         }
 
         return promptStore.errors.length <= 0;

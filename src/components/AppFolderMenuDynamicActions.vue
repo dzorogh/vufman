@@ -83,7 +83,7 @@ const dynamicActions = [
     action: nodesStore.renameNode
   },
   {
-    show: () => nodesStore.selectedNodes.length && !props.isTrash,
+    show: () => nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder,
     label: 'Скачать',
     icon: IconDownload,
     action: nodesStore.downloadNodes

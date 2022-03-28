@@ -240,17 +240,19 @@ const contextMenu = {
       });
     }
 
-    result.push({
-      type: 'divider',
-      key: 'd1'
-    });
+    if (nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {
+      result.push({
+        type: 'divider',
+        key: 'd1'
+      });
 
-    result.push({
-      key: 'download',
-      label: 'Скачать',
-      icon: renderIcon(IconDownload),
-      command: nodesStore.downloadNodes,
-    });
+      result.push({
+        key: 'download',
+        label: 'Скачать',
+        icon: renderIcon(IconDownload),
+        command: nodesStore.downloadNodes,
+      });
+    }
 
 
     return result;
@@ -330,7 +332,7 @@ const handleDrop = (destination: INodeModel, event: DragEvent) => {
       }
     });
 
-    messages.moved('folder');
+    messages.nodesMoved('folder');
 
   }
 };

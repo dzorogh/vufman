@@ -1,13 +1,13 @@
 import { useConfirmStore } from "@/store/confirm";
 import { INodeModel } from "@/types/INodeModel";
 
-export function useDeleteAction() {
+export function useDeleteInteraction() {
   const confirmStore = useConfirmStore();
 
   return {
     show(nodes: INodeModel[], isForced?: true) {
       confirmStore.$reset();
-      
+
       // TODO: Message about 30 days in trash
       confirmStore.header = 'Подтвердите удаление';
 

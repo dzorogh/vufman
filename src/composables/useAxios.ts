@@ -8,27 +8,31 @@ export function useAxios() {
 
   instance.interceptors.request.use(
     function (config) {
+      console.info('Axios request', config);
+
       loadingBar.start();
 
       // Do something before request is sent
       return config;
     },
     function (error) {
+      console.warn('Axios request error', error);
+
 
       loadingBar.error();
       notification.error({
         content: 'Ошибка при отправке запроса',
         meta: error.toString()
       });
-
-      console.warn(error);
-
+      
       // Do something with request error
       return Promise.reject(error);
     });
 
   instance.interceptors.response.use(
     function (response) {
+      console.info('Axios response', response);
+
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
 
@@ -37,6 +41,8 @@ export function useAxios() {
       return response;
     },
     function (error) {
+      console.warn('Axios response error', error);
+
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
 
@@ -45,7 +51,6 @@ export function useAxios() {
         content: 'Ошибка сервера',
         meta: error.toString()
       });
-      console.warn(error);
 
       return Promise.reject(error);
     });

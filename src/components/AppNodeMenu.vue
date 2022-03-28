@@ -40,12 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
 import { INodeModel } from "@/types/INodeModel";
-import { useMessages } from "@/composables/useMessages";
-import { useMoveAction } from "@/composables/useMoveAction";
-import { useDeleteAction } from "@/composables/useDeleteAction";
-import { useRenameAction } from "@/composables/useRenameAction";
 import { Component } from "vue";
 
 import {
@@ -57,8 +52,11 @@ import {
   Rename16Filled as IconRename,
   ArrowReset20Filled as IconRestore
 } from "@vicons/fluent";
+import { useNodesActions } from "@/composables/useNodesActions";
+import { useNodesStore } from "@/store/nodes";
 
-const messages = useMessages();
+const nodesActions = useNodesActions();
+const nodesStore = useNodesStore();
 
 const props = defineProps<{
   node: INodeModel;
@@ -74,34 +72,22 @@ const items: {
     label: 'Скачать',
     icon: IconDownload,
     command: async () => {
-      // TODO: Api download
-
-      messages.downloadStarted();
+      await nodesActions.download(props.node);
     }
   },
   {
     label: 'Переместить',
     icon: IconMove,
     command: async () => {
-      const moveAction = useMoveAction();
-
-      const result = await moveAction.show([ props.node ]);
-
-      if (result) {
-        messages.moved('folder');
-        console.log('Moved to ', result);
-
-        router.go(0);
-        // TODO: api move
-      }
-
+      await nodesActions.move([ props.node ]);
     }
   },
   {
     label: 'Скопировать',
     icon: IconCopy,
     command: () => {
-      // TODO: copy
+      nodesStore.selectedNodes = [ props.node ];
+      nodesStore.copyNodes();
     },
     show: () => !props.node.isTrashed,
   },
@@ -109,15 +95,7 @@ const items: {
     label: 'Переименовать',
     icon: IconRename,
     command: async () => {
-      const renameAction = useRenameAction();
-
-      const result = await renameAction.show(props.node);
-
-      if (result) {
-        // TODO: api - rename file
-        router.go(0);
-        // props.node.name = result;
-      }
+      await nodesActions.move([ props.node ]);
     },
     show: () => !props.node.isTrashed,
 
@@ -126,14 +104,7 @@ const items: {
     label: 'В корзину',
     icon: IconDelete,
     command: async () => {
-      const deleteAction = useDeleteAction();
-
-      const result = await deleteAction.show([ props.node ]);
-
-      if (result) {
-        // TODO: api - delete file
-        router.go(0);
-      }
+      await nodesActions.delete([ props.node ]);
     },
     show: () => !props.node.isTrashed,
   },
@@ -142,14 +113,7 @@ const items: {
     label: 'Удалить навсегда',
     icon: IconDestroy,
     command: async () => {
-      const deleteAction = useDeleteAction();
-
-      const result = await deleteAction.show([ props.node ], true);
-
-      if (result) {
-        // TODO: api - destroy file
-        await router.push({ name: 'trash' });
-      }
+      await nodesActions.destroy([ props.node ]);
     }
   },
   {
@@ -157,8 +121,7 @@ const items: {
     label: 'Восстановить',
     icon: IconRestore,
     command: async () => {
-      // TODO: api - restore file
-      messages.nodesRestored();
+      await nodesActions.restore([ props.node ]);
     }
   },
 ];

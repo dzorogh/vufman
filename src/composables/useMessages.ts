@@ -5,7 +5,7 @@ export function useMessages() {
 
   return {
 
-    moved: (
+    nodesMoved: (
       destinationType: 'folder' | 'trash' | 'root',
     ) => {
       let summary = '';
@@ -25,7 +25,7 @@ export function useMessages() {
       toast.success(summary);
     },
 
-    destroyed: () => {
+    nodesDestroyed: () => {
       toast.success('Удалено навсегда');
     },
 
@@ -57,7 +57,7 @@ export function useMessages() {
       toast.success('Вырезано');
     },
 
-    pasted: () => {
+    nodesPasted: () => {
       toast.success('Вставлено');
     },
 
