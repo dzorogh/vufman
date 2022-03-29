@@ -7,4 +7,5 @@ export interface ILogRow {
   createdAt: number;
   action: ActionType;
   user: IUser;
+  nodeName: string;
 }

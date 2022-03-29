@@ -51,6 +51,17 @@
               filterable
             />
           </n-form-item>
+
+          <n-form-item
+            label="Название файла/папки"
+            path="nodeName"
+            class="!w-52"
+          >
+            <n-input
+              v-model:value="filters.nodeName"
+              placeholder="Введите название"
+            />
+          </n-form-item>
         </n-form>
 
         <n-data-table
@@ -79,6 +90,7 @@
 <script setup lang="ts">
 
 import { computed, h, onMounted, reactive, ref, watch } from "vue";
+import { useDebounceFn } from '@vueuse/core';
 import { DataTableColumn, DataTableColumns, DataTableSortState, NInput, PaginationInfo, SelectOption } from "naive-ui";
 import { TableDismiss28Filled } from "@vicons/fluent";
 import { useApi } from "@/composables/useApi";
@@ -134,7 +146,7 @@ const userColumn: DataTableColumn = {
 
 const nodeColumn: DataTableColumn = {
   title: 'Файл/папка',
-  key: 'node',
+  key: 'nodeName',
   sorter: true
 };
 
@@ -167,6 +179,7 @@ const filters = reactive({
   date: null as ILogRequest['date'],
   userId: null as ILogRequest['userId'],
   action: null as ILogRequest['action'],
+  nodeName: ''
 });
 
 const sorting = reactive({
@@ -187,6 +200,7 @@ const load = async (page: number) => {
     action: filters.action || null,
     date: filters.date || null,
     userId: filters.userId || null,
+    nodeName: filters.nodeName || null,
     orderBy: sorting.orderBy || null,
     orderDirection: sorting.orderDirection || null,
     page: page,
@@ -226,9 +240,9 @@ const handleSorterChange = (sorter: DataTableSortState) => {
 
 watch(
   () => filters,
-  () => {
+  useDebounceFn(() => {
     load(1);
-  },
+  }, 500),
   {
     deep: true
   }

@@ -338,7 +338,7 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
         id: index,
         createdAt: +new Date(+new Date() - index * 10000000),
         user: users[index % users.length],
-        node: `Название файла ${index}.png`,
+        nodeName: `Название файла ${index}.png`,
         action: actionsTypes[index % actionsTypes.length]
       } as ILogRow;
     });
@@ -360,6 +360,12 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
 
       if (request.action) {
         if (request.action !== item.action) {
+          filtered = false;
+        }
+      }
+
+      if (request.nodeName) {
+        if (item.nodeName.search(request.nodeName) < 0) {
           filtered = false;
         }
       }
