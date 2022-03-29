@@ -1,231 +1,243 @@
 <template>
-  <div
-    ref="wrapperRef"
-    class="p-4 h-full max-h-full overflow-auto"
-  >
-    <!--    <n-data-table
+  <div class="flex flex-col">
+    <div class="bg-indigo-200 p-4 py-6 font-bold">
+      Лог действий пользователей
+    </div>
+    <div
+      class="overflow-auto"
+    >
+      <div class="p-4 flex flex-col gap-4">
+        <n-form
+          inline
+          :model="filters"
+        >
+          <n-form-item
+            label="Дата события"
+            path="date"
+          >
+            <n-date-picker
+              v-model:value="filters.date"
+              type="date"
+              clearable
+              placeholder="Выберите дату"
+            />
+          </n-form-item>
+
+          <n-form-item
+            label="Пользователь"
+            path="userId"
+          >
+            <n-select
+              v-model:value="filters.userId"
+              filterable
+              clearable
+              placeholder="Выберите пользователя"
+              :options="usersOptions"
+              :loading="loading"
+            />
+          </n-form-item>
+
+          <n-form-item
+            label="Операция"
+            path="action"
+            class="!w-52"
+          >
+            <n-select
+              v-model:value="filters.action"
+              placeholder="Выберите операцию"
+              :options="actionsOptions"
+              :loading="loading"
+              clearable
+              filterable
+            />
+          </n-form-item>
+        </n-form>
+
+        <n-data-table
           ref="table"
           remote
           :columns="columns"
-          :data="dataRef"
-          :loading="loadingRef"
-          :pagination="paginationReactive"
-          :row-key="rowKey"
-          @update:sorter="handleSorterChange"
-          @update:filters="handleFiltersChange"
+          :data="data"
+          :loading="loading"
+          :pagination="pagination"
           @update:page="handlePageChange"
-        />-->
-    <n-data-table
-      ref="table"
-      :columns="columns"
-      :data="data"
-    >
-      <template #empty>
-        <div class="flex flex-col gap-6 justify-center items-center text-slate-300 font-bold text-lg">
-          <TableDismiss28Filled class="w-20 h-20" />
+          @update:sorter="handleSorterChange"
+        >
+          <template #empty>
+            <div class="flex flex-col gap-6 justify-center items-center text-slate-300 font-bold text-lg">
+              <TableDismiss28Filled class="w-20 h-20" />
 
-          Ничего не найдено
-        </div>
-      </template>
-    </n-data-table>
+              Ничего не найдено
+            </div>
+          </template>
+        </n-data-table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 
-import { computed, h, onMounted, reactive, ref } from "vue";
-import { generateUUID } from "@/services/generateUUID";
-import { DataTableColumns, NInput } from "naive-ui";
+import { computed, h, onMounted, reactive, ref, watch } from "vue";
+import { DataTableColumn, DataTableColumns, DataTableSortState, NInput, PaginationInfo, SelectOption } from "naive-ui";
 import { TableDismiss28Filled } from "@vicons/fluent";
+import { useApi } from "@/composables/useApi";
+import { ILogRow } from "@/types/ILogRow";
+import { IUser } from "@/types/IUser";
+import { PaginationProps } from "naive-ui/lib/pagination";
+import { Mutable } from "@/types/Mutable";
+import { ActionType } from "@/types/ActionType";
+import { actions } from "@/formatters/actions";
+import { format } from 'date-fns';
+import { useStore } from "@/store/main";
+import { ILogRequest } from "@/types/ILogRequest";
 
-const wrapperRef = ref<HTMLElement>();
+const store = useStore();
 
-const dateColumn = {
+const usersOptions = computed<SelectOption[]>(() => {
+  return store.users.map(user => {
+    return {
+      value: user.id,
+      label: `${user.firstName} ${user.lastName}`
+    };
+  });
+});
+
+const actionsOptions = Object.entries(actions).map(([ value, label ]) => {
+  return {
+    value,
+    label
+  };
+});
+
+const dateColumn: DataTableColumn = {
   title: 'Дата',
-  key: 'date',
+  key: 'createdAt',
   sorter: true,
+  render: (rowData, rowIndex) => {
+    const date = rowData.createdAt as number;
+
+    return format(date, 'dd.MM.yyyy hh:mm');
+  }
 };
 
-const userColumn = {
+const userColumn: DataTableColumn = {
   title: 'Пользователь',
-  key: 'user',
+  key: 'userId',
   sorter: true,
+  render: (rowData, rowIndex) => {
+    const user = rowData.user as IUser;
+
+    return `${user.firstName} ${user.lastName}`;
+  }
 };
 
-const nodeColumn = {
+const nodeColumn: DataTableColumn = {
   title: 'Файл/папка',
   key: 'node',
+  sorter: true
 };
 
-const actionColumn = {
+const actionColumn: DataTableColumn = {
   title: 'Действие',
   key: 'action',
   sorter: true,
+  render: (rowData, rowIndex) => {
+    const action = rowData.action as ActionType;
+
+    return actions[action];
+  }
 };
 
-const columns = reactive<DataTableColumns>([
+const columns = reactive<Array<DataTableColumn>>([
   dateColumn,
   userColumn,
   nodeColumn,
   actionColumn
 ]);
 
-const pagination = reactive({
+const pagination = reactive<Mutable<PaginationProps>>({
   page: 1,
   pageCount: 1,
-  pageSize: 10,
-  prefix({ itemCount }: { itemCount: number }) {
-    return `Всего записей: ${itemCount}`;
+  pageSize: 1,
+  itemCount: 1
+});
+
+const filters = reactive({
+  date: null as ILogRequest['date'],
+  userId: null as ILogRequest['userId'],
+  action: null as ILogRequest['action'],
+});
+
+const sorting = reactive({
+  orderBy: null as ILogRequest['orderBy'],
+  orderDirection: null as ILogRequest['orderDirection'],
+});
+
+const data = ref<ILogRow[]>([]);
+
+const loading = ref(true);
+
+const api = useApi();
+
+const load = async (page: number) => {
+  loading.value = true;
+
+  const response = await api.log({
+    action: filters.action || null,
+    date: filters.date || null,
+    userId: filters.userId || null,
+    orderBy: sorting.orderBy || null,
+    orderDirection: sorting.orderDirection || null,
+    page: page,
+    perPage: 15
+  });
+
+  const responseData = response.data.map(item => {
+    item.key = item.id;
+
+    return item;
+  });
+
+  loading.value = false;
+  data.value = responseData;
+
+  pagination.page = response.meta.page;
+  pagination.pageSize = response.meta.perPage;
+  pagination.itemCount = response.meta.total;
+};
+
+onMounted(async () => {
+  await load(1);
+});
+
+const handlePageChange = (page: number) => {
+  load(page);
+};
+
+const handleSorterChange = (sorter: DataTableSortState) => {
+  console.log(sorter);
+
+  sorting.orderBy = sorter.order && typeof sorter.columnKey === 'string' ? sorter.columnKey : null;
+  sorting.orderDirection = sorter.order ? sorter.order === 'descend' ? 'desc' : 'asc' : null;
+
+  load(1);
+};
+
+watch(
+  () => filters,
+  () => {
+    load(1);
+  },
+  {
+    deep: true
   }
-});
+);
 
-const data = Array(200).fill({}).map((item, index) => {
-  return {
-    date: new Date(+new Date() - index * 100).toDateString(),
-    user: 'Иван Иванов',
-    node: `Название файла ${index}.png`,
-    action: 'Загрузка'
-  };
-});
 
-// const data = Array(987).map((item, index) => {
-//   return {
-//     column1: index,
-//     column2: (index % 2) + 1,
-//     column3: generateUUID()
-//   };
-// });
-//
-// const query = (page: number, perPage = 10, order = 'asc') => {
-//   return new Promise((resolve) => {
-//     const copiedData = [ ...data ];
-//     const orderedData = order === 'desc' ? copiedData.reverse() : copiedData;
-//
-//     // const filteredData = filterValues.length
-//     //   ? orderedData.filter((row) => filterValues.includes(row.column2))
-//     //   : orderedData;
-//
-//     const pagedData = orderedData.slice((page - 1) * perPage, page * perPage);
-//     const total = orderedData.length;
-//     const lastPage = Math.ceil(orderedData.length / perPage);
-//
-//     setTimeout(
-//       () =>
-//         resolve({
-//           meta: {
-//             page,
-//             total,
-//             last_page: lastPage
-//           },
-//           data: pagedData,
-//         }),
-//       1500
-//     );
-//   });
-// };
-
-// const dataRef = ref([]);
-// const loadingRef = ref(true);
-// const paginationReactive = reactive({
-//   page: 1,
-//   pageCount: 1,
-//   pageSize: 10,
-//   prefix({ itemCount }: { itemCount: number }) {
-//     return `Всего записей: ${itemCount}`;
-//   }
-// });
-//
-// onMounted(() => {
-//   query(
-//     paginationReactive.page,
-//     paginationReactive.pageSize,
-//     column1Reactive.sortOrder,
-//     column2Reactive.filterOptionValues
-//   ).then((data) => {
-//     dataRef.value = data.data;
-//     paginationReactive.pageCount = data.pageCount;
-//     paginationReactive.itemCount = data.total;
-//     loadingRef.value = false;
-//   });
-// });
-//
-//
-// // column1: column1Reactive,
-// // column2: column2Reactive,
-// // pagination: paginationReactive,
-// // loading: loadingRef,
-//
-// const rowKey = (rowData) => {
-//   return rowData.column1;
-// };
-//
-//
-// const handleSorterChange = (sorter) => {
-//   if (!sorter || sorter.columnKey === 'column1') {
-//     if (!loadingRef.value) {
-//       loadingRef.value = true;
-//       query(
-//         paginationReactive.page,
-//         paginationReactive.pageSize,
-//         !sorter ? false : sorter.order,
-//         column2Reactive.filterOptionValues
-//       ).then((data) => {
-//         column1Reactive.sortOrder = !sorter ? false : sorter.order;
-//         dataRef.value = data.data;
-//         paginationReactive.pageCount = data.pageCount;
-//         paginationReactive.itemCount = data.total;
-//         loadingRef.value = false;
-//       });
-//     }
-//   }
-// };
-//
-// const handleFiltersChange = (filters) => {
-//   if (!loadingRef.value) {
-//     loadingRef.value = true;
-//     const filterValues = filters.column2 || [];
-//     query(
-//       paginationReactive.page,
-//       paginationReactive.pageSize,
-//       column1Reactive.sortOrder,
-//       filterValues
-//     ).then((data) => {
-//       column2Reactive.filterOptionValues = filterValues;
-//       dataRef.value = data.data;
-//       paginationReactive.pageCount = data.pageCount;
-//       paginationReactive.itemCount = data.total;
-//       loadingRef.value = false;
-//     });
-//   }
-// };
-//
-// const handlePageChange = (currentPage) => {
-//   if (!loadingRef.value) {
-//     loadingRef.value = true;
-//     query(
-//       currentPage,
-//       paginationReactive.pageSize,
-//       column1Reactive.sortOrder,
-//       column2Reactive.filterOptionValues
-//     ).then((data) => {
-//       dataRef.value = data.data;
-//       paginationReactive.page = currentPage;
-//       paginationReactive.pageCount = data.pageCount;
-//       paginationReactive.itemCount = data.total;
-//       loadingRef.value = false;
-//     });
-//   }
-// };
 </script>
 
 <style scoped>
-::v-deep(.n-data-table-base-table)
-  /*::v-deep(.n-data-table-wrapper),*/
-{
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-}
 
 
 </style>

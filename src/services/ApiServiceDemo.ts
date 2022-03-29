@@ -21,6 +21,9 @@ import { ApiService } from "@/services/ApiService";
 import { generateUUID } from "@/services/generateUUID";
 import { IUser } from "@/types/IUser";
 import { ILogRequest } from "@/types/ILogRequest";
+import { ILogRow } from "@/types/ILogRow";
+import { actions } from "@/formatters/actions";
+import { isSameDay } from 'date-fns';
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -35,6 +38,50 @@ const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
 
   return ancestors;
 };
+
+const users: IUser[] = [
+  {
+    id: 1,
+    firstName: 'Super',
+    lastName: 'Admin',
+    isAdmin: true,
+  },
+  {
+    id: 2,
+    firstName: 'User',
+    lastName: 'Operator',
+    isAdmin: false,
+    role: {
+      name: 'Оператор',
+      id: 'operator'
+    }
+  },
+  {
+    id: 3,
+    firstName: 'Content',
+    lastName: 'Manager',
+    isAdmin: false,
+    role: {
+      name: 'Контент-менеджер',
+      id: 'contentManager'
+    }
+  }
+];
+
+const roles = [
+  {
+    name: 'Контент-менеджер',
+    id: 'contentManager'
+  },
+  {
+    name: 'Оператор',
+    id: 'operator'
+  },
+  {
+    name: 'Аналитик',
+    id: 'analyst'
+  }
+];
 
 export default class ApiServiceDemo extends ApiService implements IApiService {
 
@@ -284,11 +331,51 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
   async log(request: ILogRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
-    // TODO: make request and demo response
+    const data = Array(200).fill({}).map((item, index) => {
+      const actionsTypes = Object.keys(actions);
+
+      return {
+        id: index,
+        createdAt: +new Date(+new Date() - index * 10000000),
+        user: users[index % users.length],
+        node: `Название файла ${index}.png`,
+        action: actionsTypes[index % actionsTypes.length]
+      } as ILogRow;
+    });
+
+    const filteredData = data.filter((item) => {
+      let filtered = true;
+
+      if (request.date) {
+        if (!isSameDay(item.createdAt, request.date)) {
+          filtered = false;
+        }
+      }
+
+      if (request.userId) {
+        if (request.userId !== item.user.id) {
+          filtered = false;
+        }
+      }
+
+      if (request.action) {
+        if (request.action !== item.action) {
+          filtered = false;
+        }
+      }
+
+      return filtered;
+    });
+
+    const pagedData = filteredData.slice((request.page - 1) * request.perPage, request.page * request.perPage);
 
     return {
-      data: [],
-      meta: {}
+      data: pagedData,
+      meta: {
+        page: request.page,
+        perPage: request.perPage,
+        total: filteredData.length
+      }
     };
   }
 
@@ -311,50 +398,10 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
   async users() {
     await promiseTimeout(Math.random() * 1000 + 100);
 
-    return [
-      {
-        id: 1,
-        firstName: 'Super',
-        lastName: 'Admin',
-        isAdmin: true,
-      },
-      {
-        id: 2,
-        firstName: 'User',
-        lastName: 'Operator',
-        isAdmin: false,
-        role: {
-          name: 'Оператор',
-          id: 'operator'
-        }
-      },
-      {
-        id: 3,
-        firstName: 'Content',
-        lastName: 'Manager',
-        isAdmin: false,
-        role: {
-          name: 'Контент-менеджер',
-          id: 'contentManager'
-        }
-      }
-    ] as IUser[];
+    return users;
   }
 
   async roles() {
-    return [
-      {
-        name: 'Контент-менеджер',
-        id: 'contentManager'
-      },
-      {
-        name: 'Оператор',
-        id: 'operator'
-      },
-      {
-        name: 'Аналитик',
-        id: 'analyst'
-      }
-    ];
+    return roles;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg- flex flex-col divide-y"
+    class="flex flex-col divide-y"
     :class="{'bg-slate-50': !isTrash, 'bg-orange-50': isTrash}"
   >
     <template v-if="!nodesStore.nodesLoading">

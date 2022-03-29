@@ -12,6 +12,7 @@
     "@vueuse/core": "^8.0.1",
     "@vueuse/integrations": "^8.1.2",
     "axios": "0.26.0",
+    "date-fns": "^2.28.0",
     "filesize": "^8.0.7",
     "linkify-html": "^3.0.5",
     "linkifyjs": "^3.0.5",

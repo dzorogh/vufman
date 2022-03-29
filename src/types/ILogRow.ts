@@ -1,6 +1,10 @@
-import { EventType } from "@/types/EventType";
+import { ActionType } from "@/types/ActionType";
+import { IUser } from "@/types/IUser";
 
 export interface ILogRow {
-  createdAt: ReturnType<Date['toISOString']>;
-  type: EventType;
+  id: number | string;
+  key?: ILogRow['id'];
+  createdAt: number;
+  action: ActionType;
+  user: IUser;
 }
