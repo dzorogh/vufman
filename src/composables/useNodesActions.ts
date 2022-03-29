@@ -221,6 +221,19 @@ export function useNodesActions() {
 
         return result;
       }
+    },
+
+    async saveComment(node: INodeModel, comment: string) {
+      const result = await api.saveComment({
+        id: node.id,
+        comment
+      });
+
+      if (result) {
+        messages.commentSaved();
+
+        return result;
+      }
     }
 
   };

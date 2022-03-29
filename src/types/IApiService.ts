@@ -17,6 +17,7 @@ import { IRole } from "@/types/IRole";
 import { ILogRequest } from "@/types/ILogRequest";
 import { ILogResponse } from "@/types/ILogResponse";
 import { ISaveFileRequest } from "@/types/ISaveFileRequest";
+import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 
 export interface IApiService {
   axios: AxiosInstance;
@@ -35,6 +36,8 @@ export interface IApiService {
   create: (request: ICreateRequest) => Promise<INodeModel | null>;
   download: (request: IDownloadRequest) => Promise<Blob | null>;
   saveFile: (request: ISaveFileRequest) => Promise<INodeModel | null>;
+  saveComment: (request: ISaveCommentRequest) => Promise<INodeModel | null>;
+
   emptyTrash: () => Promise<boolean>;
   currentUser: () => Promise<IUser>;
   users: () => Promise<IUser[]>;

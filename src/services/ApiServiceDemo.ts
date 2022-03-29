@@ -25,6 +25,7 @@ import { ILogRow } from "@/types/ILogRow";
 import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
 import { ISaveFileRequest } from "@/types/ISaveFileRequest";
+import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -259,7 +260,25 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
 
       return new NodeModel(node);
     }
-    
+
+    return null;
+  }
+
+  async saveComment(request: ISaveCommentRequest) {
+    await promiseTimeout(Math.random() * 1000 + 100);
+
+    const nodes = await this.getNodes();
+
+    const node = nodes.find((node) => {
+      return node.id === request.id;
+    });
+
+    if (node) {
+      node.comment = request.comment;
+
+      return new NodeModel(node);
+    }
+
     return null;
   }
 

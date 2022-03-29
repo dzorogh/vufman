@@ -27,10 +27,19 @@
         :bordered="false"
         size="huge"
       >
-        <div
-          v-if="!showCommentEditor"
-          v-html="props.node.comment ? linkifyHtml(newComment.replace('\n', '<br>'), {target: '_blank'}) : '—'"
-        />
+        <template v-if="!showCommentEditor">
+          <div
+            v-if="newComment"
+            v-html="linkifyHtml(newComment.replace('\n', '<br>'), {target: '_blank'})"
+          />
+          <div
+            v-else
+            class="opacity-50"
+          >
+            Комментарий не указан
+          </div>
+        </template>
+
         <div v-else>
           <n-input
             v-model:value="newComment"
@@ -56,7 +65,10 @@
             >
               Предпросмотр
             </n-button>
-            <n-button @click="saveComment">
+            <n-button
+              :loading="saving"
+              @click="saveComment"
+            >
               Сохранить
             </n-button>
             <n-button @click="showEditComment = false">
@@ -74,70 +86,72 @@ import { formatTimestamp } from '@/formatters/formatTimestamp';
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { INodeModel } from "@/types/INodeModel";
 import linkifyHtml from 'linkify-html';
-import { ref } from "vue";
-import { useMessages } from "@/composables/useMessages";
+import { computed, ref } from "vue";
+import { useNodesActions } from "@/composables/useNodesActions";
 
-const messages = useMessages();
+const nodesActions = useNodesActions();
 
 const props = defineProps<{
   node: INodeModel;
 }>();
 
-const items: {
+const saving = ref(false);
+const showCommentEditor = ref(false);
+const showEditComment = ref(false);
+const newComment = ref(props.node.comment);
+const saveComment = async () => {
+  saving.value = true;
+  await nodesActions.saveComment(props.node, newComment.value || '');
+  showEditComment.value = false;
+  saving.value = false;
+};
+
+const items = computed<{
   title: string;
   content: string;
   description?: string;
   html?: boolean;
   show?: () => boolean;
-}[] = [
-  {
-    title: props.node.isFolder ? 'Текущая папка' : 'Название файла',
-    content: props.node.name as string,
-  },
-  {
-    title: 'Расширение файла',
-    content: props.node.extension || '(нет)',
-    show: () => !props.node.isFolder
-  },
-  {
-    title: 'Тип данных',
-    content: props.node.mimetype || 'Неизвестно',
-    show: () => !props.node.isFolder
-  },
-  {
-    title: 'Путь',
-    content: props.node.getPath()
-  },
-  {
-    title: 'Размер',
-    content: props.node.size ? props.node.getSize() : '0 B',
-    description: props.node.size && props.node.size >= 1000 ? `${props.node.size} B` : ''
-  },
-  {
-    title: 'Дата создания',
-    content: props.node.createdAt ? formatTimestamp(props.node.createdAt) : "Неизвестно"
-  },
-  {
-    title: 'Создал',
-    content: props.node.author ? props.node.author.fullName : 'Неизвестно'
-  },
-  {
-    title: 'Комментарий',
-    html: true,
-    content: props.node.comment ? linkifyHtml(props.node.comment.replace('\n', '<br>')) : '—'
-  },
-];
-
-const showCommentEditor = ref(false);
-const showEditComment = ref(false);
-const newComment = ref(props.node.comment);
-const saveComment = () => {
-  console.log('saveComment',);
-  // TODO: api - save comment
-
-  messages.commentSaved();
-  showEditComment.value = false;
-};
+}[]>(() => {
+  return [
+    {
+      title: props.node.isFolder ? 'Текущая папка' : 'Название файла',
+      content: props.node.name as string,
+    },
+    {
+      title: 'Расширение файла',
+      content: props.node.extension || '(нет)',
+      show: () => !props.node.isFolder
+    },
+    {
+      title: 'Тип данных',
+      content: props.node.mimetype || 'Неизвестно',
+      show: () => !props.node.isFolder
+    },
+    {
+      title: 'Путь',
+      content: props.node.getPath()
+    },
+    {
+      title: 'Размер',
+      content: props.node.size ? props.node.getSize() : '0 B',
+      description: props.node.size && props.node.size >= 1000 ? `${props.node.size} B` : ''
+    },
+    {
+      title: 'Дата создания',
+      content: props.node.createdAt ? formatTimestamp(props.node.createdAt) : "Неизвестно"
+    },
+    {
+      title: 'Создал',
+      content: props.node.author ? props.node.author.fullName : 'Неизвестно'
+    },
+    {
+      title: 'Комментарий',
+      html: true,
+      content: newComment.value ? linkifyHtml(newComment.value.replaceAll('\n', '<br>')) : '—'
+    },
+  ];
+});
 
 </script>
 
