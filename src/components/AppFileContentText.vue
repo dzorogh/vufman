@@ -3,15 +3,17 @@
     v-if="file.mimetype === 'text/plain'"
     class="h-full flex flex-col bg-white"
   >
-    <textarea
+    <n-input
       ref="editor"
-      class="w-full grow p-6 shadow-inner font-mono resize-none"
+      class="w-full grow p-6 shadow-inner font-mono resize-none rounded-none"
       :value="content"
+      type="textarea"
     />
 
     <div class="p-6">
       <n-button
         size="large"
+        :loading="loading"
         @click="saveContent"
       >
         Сохранить
@@ -48,17 +50,26 @@ import { INodeModel } from "@/types/INodeModel";
 import { onMounted, ref } from "vue";
 import { useMessages } from "@/composables/useMessages";
 import IconText from "@/components/IconText.vue";
+import { useNodesActions } from "@/composables/useNodesActions";
 
-const messages = useMessages();
+const nodesActions = useNodesActions();
 
 const props = defineProps<{
   file: INodeModel;
 }>();
 
+const loading = ref(false);
 const content = ref(props.file.content);
-const saveContent = () => {
-  // TODO: api - save content
-  messages.fileSaved();
+const saveContent = async () => {
+  loading.value = true;
+
+  const result = await nodesActions.saveFile(props.file, content.value || '');
+
+  if (result) {
+    content.value = result.content || '';
+  }
+
+  loading.value = false;
 };
 
 const editor = ref();

@@ -24,6 +24,7 @@ import { ILogRequest } from "@/types/ILogRequest";
 import { ILogRow } from "@/types/ILogRow";
 import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
+import { ISaveFileRequest } from "@/types/ISaveFileRequest";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -241,6 +242,24 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
       return new NodeModel(node);
     }
 
+    return null;
+  }
+
+  async saveFile(request: ISaveFileRequest) {
+    await promiseTimeout(Math.random() * 1000 + 100);
+
+    const nodes = await this.getNodes();
+
+    const node = nodes.find((node) => {
+      return node.id === request.id;
+    });
+
+    if (node) {
+      node.content = request.content;
+
+      return new NodeModel(node);
+    }
+    
     return null;
   }
 

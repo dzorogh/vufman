@@ -208,6 +208,19 @@ export function useNodesActions() {
         }
 
       }
+    },
+
+    async saveFile(file: INodeModel, content: string) {
+      const result = await api.saveFile({
+        id: file.id,
+        content
+      });
+
+      if (result) {
+        messages.fileSaved();
+
+        return result;
+      }
     }
 
   };
