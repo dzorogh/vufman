@@ -3,12 +3,12 @@
     <AppNavigator />
 
     <router-link
+      v-if="userIsAdmin"
       v-slot="{ isActive, navigate }"
       :to="{name: 'log'}"
       custom
     >
       <n-button
-        v-if="userIsAdmin"
         :tertiary="!isActive"
         :disabled="isActive"
         type="primary"
@@ -37,15 +37,19 @@
 import AppNavigator from "@/components/AppNavigator.vue";
 import { ClipboardBulletListRtl16Regular as IconLog } from "@vicons/fluent";
 import { UploadFileInfo } from "naive-ui";
+import { computed } from "vue";
+import { useStore } from "@/store/main";
 
 const props = defineProps<{
   fileList: UploadFileInfo[];
 }>();
 
-const userIsAdmin = () => {
-  return true;
-  // TODO: Get current user
-};
+const store = useStore();
+
+const userIsAdmin = computed(() => {
+  return store.currentUser ? store.currentUser.isAdmin : false;
+});
+
 </script>
 
 <style scoped>
