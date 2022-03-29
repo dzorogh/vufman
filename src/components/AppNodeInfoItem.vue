@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-slate-900 mb-2 font-bold">
+    <h3 class="text-slate-900 font-bold">
       {{ props.title }}
     </h3>
 
