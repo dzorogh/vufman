@@ -18,6 +18,7 @@ import { ILogRequest } from "@/types/ILogRequest";
 import { ILogResponse } from "@/types/ILogResponse";
 import { ISaveFileRequest } from "@/types/ISaveFileRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
+import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 
 export interface IApiService {
   axios: AxiosInstance;
@@ -37,6 +38,7 @@ export interface IApiService {
   download: (request: IDownloadRequest) => Promise<Blob | null>;
   saveFile: (request: ISaveFileRequest) => Promise<INodeModel | null>;
   saveComment: (request: ISaveCommentRequest) => Promise<INodeModel | null>;
+  saveAccess: (request: ISaveAccessRequest) => Promise<INodeModel | null>;
 
   emptyTrash: () => Promise<boolean>;
   currentUser: () => Promise<IUser>;

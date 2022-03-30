@@ -181,7 +181,27 @@
       "size": 100,
       "src": "https://filesamples.com/samples/video/avi/sample_640x360.avi",
       "createdAt": "2019-02-01T03:45:27+00:00",
-      "folderId": null
+      "folderId": null,
+      "access": {
+        "global": "denied",
+        "partial": [
+          {
+            "type": "user",
+            "id": 2,
+            "access": "write"
+          },
+          {
+            "type": "role",
+            "id": "operator",
+            "access": "read"
+          },
+          {
+            "type": "role",
+            "id": "analyst",
+            "access": "denied"
+          }
+        ]
+      }
     },
     {
       "createdAt": "2019-02-01T03:45:27+00:00",

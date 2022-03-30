@@ -26,6 +26,7 @@ import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
 import { ISaveFileRequest } from "@/types/ISaveFileRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
+import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -282,6 +283,24 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
+  async saveAccess(request: ISaveAccessRequest) {
+    await promiseTimeout(Math.random() * 1000 + 100);
+
+    const nodes = await this.getNodes();
+
+    const node = nodes.find((node) => {
+      return node.id === request.id;
+    });
+
+    if (node) {
+      node.access = request.access;
+
+      return new NodeModel(node);
+    }
+
+    return null;
+  }
+
   async create(request: ICreateRequest) {
     return new NodeModel({
       name: request.name as string,
@@ -295,6 +314,7 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       deletedAt: null,
+      trashedAt: null,
       authorId: 1,
       id: generateUUID()
     });

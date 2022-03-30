@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-3">
     <AppNodeInfoItem
       v-for="(item, index) in items"
       v-show="item.show ? item.show() : true"
@@ -78,24 +78,40 @@
         </template>
       </n-modal>
     </div>
+
+    <AppNodeInfoAccess
+      v-if="store.currentUser && store.currentUser.isAdmin"
+      :node="node"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { formatTimestamp } from '@/formatters/formatTimestamp';
-import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
-import { INodeModel } from "@/types/INodeModel";
+// libs
 import linkifyHtml from 'linkify-html';
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
+
+// app
+import { formatTimestamp } from '@/formatters/formatTimestamp';
 import { useNodesActions } from "@/composables/useNodesActions";
+import { useStore } from "@/store/main";
+
+// types
+import { INodeModel } from "@/types/INodeModel";
+
+// components
+import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
+import AppNodeInfoAccess from "@/components/AppNodeInfoAccess.vue";
 
 const nodesActions = useNodesActions();
+const store = useStore();
 
 const props = defineProps<{
   node: INodeModel;
 }>();
 
 const saving = ref(false);
+
 const showCommentEditor = ref(false);
 const showEditComment = ref(false);
 const newComment = ref(props.node.comment);

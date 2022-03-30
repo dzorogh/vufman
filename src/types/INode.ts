@@ -1,5 +1,4 @@
-import { INodeModel } from "@/types/INodeModel";
-import { NodeModel } from "@/models/NodeModel";
+import { IAccess } from "@/types/IAccess";
 
 export interface INode {
   // All nodes
@@ -14,12 +13,14 @@ export interface INode {
   createdAt: ReturnType<Date['toISOString']> | null;
   updatedAt: ReturnType<Date['toISOString']> | null;
   deletedAt: ReturnType<Date['toISOString']> | null;
+  trashedAt: ReturnType<Date['toISOString']> | null;
   authorId: number | string;
   author?: {
     firstName: string;
     lastName: string;
     fullName: string;
   };
+  access?: IAccess;
 
   // For file
   thumbnail?: string;

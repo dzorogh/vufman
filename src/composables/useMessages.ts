@@ -71,6 +71,10 @@ export function useMessages() {
 
     commentSaved: () => {
       toast.success('Комментарий сохранен');
+    },
+
+    accessSaved: () => {
+      toast.success('Настройки доступов сохранены');
     }
   };
 }

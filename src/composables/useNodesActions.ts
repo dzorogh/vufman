@@ -234,6 +234,19 @@ export function useNodesActions() {
 
         return result;
       }
+    },
+
+    async saveAccess(node: INodeModel, access: INodeModel['access']) {
+      const result = await api.saveAccess({
+        id: node.id,
+        access
+      });
+
+      if (result) {
+        messages.accessSaved();
+
+        return result;
+      }
     }
 
   };
