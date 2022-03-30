@@ -1,37 +1,39 @@
 <template>
-  <template v-if="nodesStore.nodesLoading">
-    <div class="flex items-center justify-center">
-      <n-spin size="large" />
-    </div>
-  </template>
-  <template v-else>
-    <div class="flex flex-col overflow-hidden divide-y">
-      <AppFolderHeading :is-trash="isTrash" />
+  <div class="col-span-4 h-full min-h-full bg-white">
+    <template v-if="nodesStore.nodesLoading">
+      <div class="flex items-center justify-center h-full">
+        <n-spin size="large" />
+      </div>
+    </template>
+    <template v-else>
+      <div class="flex flex-col overflow-hidden divide-y h-full">
+        <AppFolderHeading :is-trash="isTrash" />
 
-      <div class="grid grid-cols-4 grow overflow-hidden">
-        <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
-          <div
-            class="grow bg-white shadow-sm overflow-auto"
-            @click.self="nodesStore.deselect()"
-          >
-            <AppFolderList :is-trash="isTrash" />
+        <div class="grid grid-cols-4 grow overflow-hidden">
+          <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
+            <div
+              class="grow bg-white shadow-sm overflow-auto"
+              @click.self="nodesStore.deselect()"
+            >
+              <AppFolderList :is-trash="isTrash" />
+            </div>
+          </div>
+
+          <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
+            <AppNodeMenu
+              v-if="nodesStore.currentFolder"
+              class="mb-auto"
+              :node="nodesStore.currentFolder"
+            />
+            <AppNodeInfo
+              v-if="nodesStore.currentFolder"
+              :node="nodesStore.currentFolder"
+            />
           </div>
         </div>
-
-        <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
-          <AppNodeMenu
-            v-if="nodesStore.currentFolder"
-            class="mb-auto"
-            :node="nodesStore.currentFolder"
-          />
-          <AppNodeInfo
-            v-if="nodesStore.currentFolder"
-            :node="nodesStore.currentFolder"
-          />
-        </div>
       </div>
-    </div>
-  </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">

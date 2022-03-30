@@ -1,7 +1,7 @@
 import AppFolderLayout from "@/components/AppFolderLayout.vue";
 import AppFileLayout from "@/components/AppFileLayout.vue";
 import AppLayout from "@/components/AppLayout.vue";
-import AppLog from "@/components/AppLog.vue";
+import AppLog from "@/components/AppLogLayout.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { settings } from "./setup";
 

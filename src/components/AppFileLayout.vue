@@ -1,40 +1,42 @@
 <template>
-  <template v-if="isLoading">
-    <div class="flex items-center justify-center">
-      <n-spin size="large" />
-    </div>
-  </template>
-  <template v-else>
-    <div
-      v-if="file"
-      class="flex flex-col overflow-hidden divide-y"
-    >
-      <AppFileHeading :file="file" />
-      <div class="grid grid-cols-4 grow overflow-hidden">
-        <div class="col-span-3 flex flex-col overflow-auto">
-          <div
-            v-if="file.getFileType()"
-            class="overflow-hidden grow bg-gray-800"
-          >
-            <component
-              :is="getFileContentComponent(file.getFileType())"
-              :file="file"
+  <div class="col-span-4 h-full bg-white">
+    <template v-if="isLoading">
+      <div class="flex items-center justify-center h-full">
+        <n-spin size="large" />
+      </div>
+    </template>
+    <template v-else>
+      <div
+        v-if="file"
+        class="flex flex-col overflow-hidden divide-y h-full"
+      >
+        <AppFileHeading :file="file" />
+        <div class="grid grid-cols-4 grow overflow-hidden">
+          <div class="col-span-3 flex flex-col overflow-auto">
+            <div
+              v-if="file.getFileType()"
+              class="overflow-hidden grow bg-gray-800"
+            >
+              <component
+                :is="getFileContentComponent(file.getFileType())"
+                :file="file"
+              />
+            </div>
+          </div>
+
+          <div class="border-l p-4 flex flex-col gap-10 overflow-auto">
+            <AppNodeMenu
+              :node="file"
+              class="mb-auto"
+            />
+            <AppNodeInfo
+              :node="file"
             />
           </div>
         </div>
-
-        <div class="border-l p-4 flex flex-col gap-10 overflow-auto">
-          <AppNodeMenu
-            :node="file"
-            class="mt-auto"
-          />
-          <AppNodeInfo
-            :node="file"
-          />
-        </div>
       </div>
-    </div>
-  </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">

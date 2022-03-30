@@ -26,7 +26,7 @@ declare module 'vue' {
     AppFolderTableHeader: typeof import('./src/components/AppFolderTableHeader.vue')['default']
     AppFolderTableRow: typeof import('./src/components/AppFolderTableRow.vue')['default']
     AppLayout: typeof import('./src/components/AppLayout.vue')['default']
-    AppLog: typeof import('./src/components/AppLog.vue')['default']
+    AppLogLayout: typeof import('./src/components/AppLogLayout.vue')['default']
     AppNavigator: typeof import('./src/components/AppNavigator.vue')['default']
     AppNode: typeof import('./src/components/AppNode.vue')['default']
     AppNodeIcon: typeof import('./src/components/AppNodeIcon.vue')['default']

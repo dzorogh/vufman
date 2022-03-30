@@ -20,7 +20,7 @@
           :file-list="fileList"
         />
 
-        <router-view class="col-span-4 h-full min-h-full bg-white" />
+        <router-view />
       </div>
     </n-upload>
 

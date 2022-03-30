@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col col-span-4 h-full bg-white">
     <div class="bg-indigo-200 p-4 py-6 font-bold">
       Лог действий пользователей
     </div>

@@ -25,7 +25,7 @@
 
     <n-card
       v-if="fileList.length"
-      class="bg-slate-600"
+      class="bg-slate-300"
       title="Загрузка файлов"
     >
       <n-upload-file-list />
