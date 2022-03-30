@@ -604,7 +604,6 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     }
 
     return NodeModel.collection(data);
-    // todo: how to get trash
   }
 
   async folder(request: IFolderRequest) {
