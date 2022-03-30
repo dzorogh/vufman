@@ -1,8 +1,12 @@
 import axios from "axios";
 import { useLoadingBar, useNotification } from "naive-ui";
+import { settings } from "@/setup";
 
 export function useAxios() {
-  const instance = axios.create();
+  const instance = axios.create({
+    baseURL: settings.apiPrefix
+  });
+
   const loadingBar = useLoadingBar();
   const notification = useNotification();
 
@@ -24,7 +28,7 @@ export function useAxios() {
         content: 'Ошибка при отправке запроса',
         meta: error.toString()
       });
-      
+
       // Do something with request error
       return Promise.reject(error);
     });

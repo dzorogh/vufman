@@ -3,7 +3,7 @@
 let settings = {
   mountContainer: '#app',
   basePath: '/',
-  apiPrefix: '/data/',
+  apiPrefix: '/',
   apiDemo: false
 };
 
