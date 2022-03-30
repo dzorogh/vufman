@@ -1,13 +1,13 @@
 <template>
-  <tr>
+  <tr class="text-left">
     <th />
-    <th>
+    <th class="p-1">
       Название
     </th>
-    <th>
+    <th class="p-1">
       Размер
     </th>
-    <th>
+    <th class="p-1">
       Дата создания
     </th>
   </tr>

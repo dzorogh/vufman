@@ -52,12 +52,12 @@
 
     <table
       v-if="nodesStore.layout === 'table'"
-      class="w-full border-t-0 table border-x-0"
+      class="w-full border-t-0 table border-x-0 border-collapse	"
     >
-      <thead>
+      <thead class="border-b bg-slate-50">
         <AppFolderTableHeader />
       </thead>
-      <tbody>
+      <tbody class="divide-y">
         <AppFolderTableRow
           v-for="(child) in nodesStore.sortedNodes"
           :key="child.id"

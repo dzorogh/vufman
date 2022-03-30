@@ -1,18 +1,18 @@
 <template>
   <tr class="select-none">
-    <td class="w-6 !pl-4">
+    <td class="w-6 p-1">
       <AppNodeIcon
         :icon-size-classes="['w-6', 'h-6']"
         :node="node"
       />
     </td>
-    <td>
+    <td class="p-1">
       {{ node.getFullName() }}
     </td>
-    <td>
+    <td class="p-1">
       {{ node.getSize() }}
     </td>
-    <td>
+    <td class="p-1">
       {{ node.getCreatedAt() }}
     </td>
   </tr>
