@@ -7,8 +7,8 @@
   <template v-else>
     <div class="flex flex-col overflow-hidden divide-y">
       <AppFileHeading :file="file" />
-      <div class="grid grid-cols-4 grow overflow-auto">
-        <div class="col-span-3 flex flex-col overflow-hidden">
+      <div class="grid grid-cols-4 grow overflow-hidden">
+        <div class="col-span-3 flex flex-col overflow-auto">
           <div class="overflow-hidden grow bg-gray-800">
             <component
               :is="fileContentComponents[file.getFileType()]"
@@ -17,13 +17,13 @@
           </div>
         </div>
 
-        <div class="border-l p-4 flex flex-col gap-10">
-          <AppNodeInfo
-            :node="file"
-          />
+        <div class="border-l p-4 flex flex-col gap-10 overflow-auto">
           <AppNodeMenu
             :node="file"
             class="mt-auto"
+          />
+          <AppNodeInfo
+            :node="file"
           />
         </div>
       </div>

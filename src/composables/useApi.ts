@@ -1,16 +1,17 @@
-import ApiServiceDemo from '@/services/ApiServiceDemo';
+import { ApiServiceDemo } from '@/services/ApiServiceDemo';
+import { ApiServiceReal } from '@/services/ApiServiceReal';
 import { IApiService } from '@/types/IApiService';
+import { settings } from "@/setup";
 
 export function useApi() {
   let apiImplementation: IApiService;
 
-  if (import.meta.env.MODE === 'local') {
+  if (settings.apiDemo) {
     apiImplementation = new ApiServiceDemo();
   } else {
     // realApiService
 
-    // maybe will get global api endpoints from window object or other way
-    apiImplementation = new ApiServiceDemo();
+    apiImplementation = new ApiServiceReal();
   }
 
   return apiImplementation;

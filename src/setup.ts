@@ -3,7 +3,8 @@
 let settings = {
   mountContainer: '#app',
   basePath: '/',
-  apiPrefix: '/data/'
+  apiPrefix: '/data/',
+  apiDemo: false
 };
 
 if (window.wufmanSetup && typeof window.wufmanSetup === 'function') {

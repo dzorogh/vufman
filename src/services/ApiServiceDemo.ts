@@ -551,13 +551,13 @@ const nodes = [
   }
 ];
 
-export default class ApiServiceDemo extends ApiService implements IApiService {
+export class ApiServiceDemo extends ApiService implements IApiService {
 
   private async getNodes() {
     return nodes as INode[];
   }
 
-  private getNodesController: AbortController | undefined;
+  // private getNodesController: AbortController | undefined;
 
   async nodes(request: INodesRequest, cancelable?: boolean) {
     console.log('getNodes', request, cancelable);
@@ -566,7 +566,7 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
     //   this.getNodesController.abort();
     // }
 
-    this.getNodesController = new AbortController();
+    // this.getNodesController = new AbortController();
 
     // const nodes = await this.axios.get(
     //   '/data/nodes.json', {

@@ -19,14 +19,13 @@
         </div>
 
         <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
-          <AppNodeInfo
-            v-if="nodesStore.currentFolder"
-            :node="nodesStore.currentFolder"
-          />
-
           <AppNodeMenu
             v-if="nodesStore.currentFolder"
-            class="mt-auto"
+            class="mb-auto"
+            :node="nodesStore.currentFolder"
+          />
+          <AppNodeInfo
+            v-if="nodesStore.currentFolder"
             :node="nodesStore.currentFolder"
           />
         </div>
