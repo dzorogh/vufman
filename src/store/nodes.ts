@@ -1,14 +1,6 @@
 import { defineStore } from 'pinia';
-import { useDeleteInteraction } from "@/composables/useDeleteInteraction";
-import { useRenameInteraction } from "@/composables/useRenameInteraction";
-import { useMoveInteraction } from "@/composables/useMoveInteraction";
 import { INodeModel } from "@/types/INodeModel";
-import { useMakeFolderInteraction } from "@/composables/useMakeFolderInteraction";
-import { NodeModel } from "@/models/NodeModel";
-import { useMessages } from "@/composables/useMessages";
 import { useStorage } from "@vueuse/core";
-import { useMakeFileInteraction } from "@/composables/useMakeFileInteraction";
-import { useRouter } from "vue-router";
 import {
   DocumentCopy16Filled,
   Document16Filled,
@@ -172,7 +164,7 @@ export const useNodesStore = defineStore('nodes', {
         const result = await this.nodesActions.paste(this.copiedNodes, this.currentFolder, this.isCutNodes);
 
         console.log('paste result', result);
-        
+
         if (result) {
           this.nodes = [ ...result, ...this.nodes ];
         }
@@ -268,7 +260,10 @@ export const useNodesStore = defineStore('nodes', {
               }
             }
 
-            return a.getFileType()!.localeCompare(b.getFileType()) * direction;
+            const aFileType = a.getFileType() || '';
+            const bFileType = b.getFileType() || '';
+
+            return aFileType.localeCompare(bFileType) * direction;
           }
 
           if (state.sorting === 'size') {

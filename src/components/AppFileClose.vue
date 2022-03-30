@@ -1,21 +1,15 @@
 <template>
   <div>
-    <router-link
-      v-slot="{ navigate }"
-      :to="file.ancestors.length ? { name: 'folder', params: { folderId: file.ancestors[0].id }} : { name: 'root' }"
-      custom
+    <n-button
+      circle
+      @click="navigate"
     >
-      <n-button
-        circle
-        @click="navigate"
-      >
-        <template #icon>
-          <n-icon>
-            <Dismiss24Filled />
-          </n-icon>
-        </template>
-      </n-button>
-    </router-link>
+      <template #icon>
+        <n-icon>
+          <Dismiss24Filled />
+        </n-icon>
+      </template>
+    </n-button>
   </div>
 </template>
 
@@ -24,10 +18,24 @@ import {
   Dismiss24Filled
 } from "@vicons/fluent";
 import { INodeModel } from "@/types/INodeModel";
+import router from "@/router";
 
-defineProps<{
+const props = defineProps<{
   file: INodeModel;
 }>();
+
+const navigate = () => {
+  router.push(
+    props.file.folderId ?
+      {
+        name: 'folder',
+        params: { folderId: props.file.folderId }
+      } :
+      {
+        name: 'root'
+      }
+  );
+};
 
 </script>
 

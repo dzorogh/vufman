@@ -11,4 +11,7 @@ export const actions: { [key in ActionType]: string } = {
   emptyTrash: 'Очистка корзины',
   rename: 'Переименование',
   restore: 'Восстановление',
+  saveComment: 'Сохранение комментария',
+  saveAccess: 'Сохранение доступов',
+  saveFile: 'Сохранение файла',
 };

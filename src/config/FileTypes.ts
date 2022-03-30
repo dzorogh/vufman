@@ -1,14 +1,4 @@
-export const FileTypes: {
-  [key: string]: string[];
-} = {
-  font: [
-    'otf',
-    'ttf',
-    'woff',
-    'application/x-font-ttf',
-    'application/vnd.ms-opentype',
-  ],
-
+export const FileTypes = {
   archive: [
     'zip',
     'gz',
@@ -58,6 +48,13 @@ export const FileTypes: {
     'application/vnd.ms-powerpoint',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+    // fonts
+    'otf',
+    'ttf',
+    'woff',
+    'application/x-font-ttf',
+    'application/vnd.ms-opentype',
   ],
 
   audio: [

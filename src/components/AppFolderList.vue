@@ -9,12 +9,12 @@
       />
 
       <div>
-        {{ nodesStore.selectedNodes.length }}
+        {{ nodesStore.selectedNodes ? nodesStore.selectedNodes.length : '' }}
       </div>
     </div>
   </Teleport>
 
-  <template v-if="nodesStore.sortedNodes.length > 0">
+  <template v-if="nodesStore.selectedNodes && nodesStore.sortedNodes.length > 0">
     <div
       v-if="['grid', 'list'].includes(nodesStore.layout)"
       :class="{
@@ -41,8 +41,8 @@
         @click.shift="nodesStore.selectNodeRange(child)"
         @click.exact="nodesStore.selectNodeSingle(child)"
 
-        @mousedown.exact="handleDragStart(child, $event)"
-        @mouseup.exact="handleDrop(child, $event)"
+        @mousedown.exact="handleDragStart(child)"
+        @mouseup.exact="handleDrop(child)"
 
         @contextmenu="contextMenu.handleContextMenu(child, $event)"
         @dblclick="handleDoubleClick(child)"
@@ -73,8 +73,8 @@
           @click.shift="nodesStore.selectNodeRange(child)"
           @click.exact="nodesStore.selectNodeSingle(child)"
 
-          @mousedown.exact="handleDragStart(child, $event)"
-          @mouseup.exact="handleDrop(child, $event)"
+          @mousedown.exact="handleDragStart(child)"
+          @mouseup.exact="handleDrop(child)"
 
           @contextmenu="contextMenu.handleContextMenu(child, $event)"
           @dblclick="handleDoubleClick(child)"
@@ -223,7 +223,7 @@ const contextMenu = {
         command: nodesStore.cutNodes,
       });
 
-      if (nodesStore.selectedNodes.length === 1) {
+      if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1) {
         result.push({
           key: 'rename',
           label: 'Переименовать',
@@ -240,7 +240,7 @@ const contextMenu = {
       });
     }
 
-    if (nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {
+    if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {
       result.push({
         type: 'divider',
         key: 'd1'
@@ -304,7 +304,7 @@ const droppableClass = (node: INodeModel) => {
 
 let draggingTimeout: ReturnType<typeof setTimeout>;
 
-const handleDragStart = async (node: INodeModel, event: DragEvent) => {
+const handleDragStart = async (node: INodeModel) => {
   if (nodesStore.selectedNodes.indexOf(node) >= 0) {
     // Dragging selected nodex
   } else {
@@ -316,12 +316,12 @@ const handleDragStart = async (node: INodeModel, event: DragEvent) => {
   }, 150);
 };
 
-document.addEventListener('mouseup', (event) => {
+document.addEventListener('mouseup', () => {
   clearTimeout(draggingTimeout);
   nodesStore.dragging = false;
 });
 
-const handleDrop = (destination: INodeModel, event: DragEvent) => {
+const handleDrop = (destination: INodeModel) => {
   if (dropAvailable(destination)) {
     console.log('drop to', destination);
 

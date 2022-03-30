@@ -49,12 +49,6 @@
         class="text-slate-300"
         :class="iconSizeClasses"
       />
-
-      <IconFont
-        v-if="node.getFileType() === 'font'"
-        class="text-slate-300"
-        :class="iconSizeClasses"
-      />
     </template>
   </div>
 </template>

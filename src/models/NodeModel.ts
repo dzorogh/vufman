@@ -46,20 +46,20 @@ export class NodeModel implements INodeModel {
     }
   }
 
-  public getFileType(): string {
+  public getFileType(): keyof typeof FileTypes | null {
     if (!this.node.mimetype && !this.node.extension) {
-      return '';
+      return null;
     }
 
-    let result = '';
+    let result: keyof typeof FileTypes | null = null;
 
     for (const [ type, mimes ] of Object.entries(FileTypes)) {
       if (this.node.mimetype && mimes.includes(this.node.mimetype)) {
-        result = type;
+        result = type as keyof typeof FileTypes;
       }
 
       if (this.node.extension && mimes.includes(this.node.extension)) {
-        result = type;
+        result = type as keyof typeof FileTypes;
       }
     }
 

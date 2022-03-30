@@ -23,7 +23,6 @@
         <n-tooltip>
           <template #trigger>
             <n-button
-              :class="item.class"
               @click="item.command"
             >
               <template #icon>

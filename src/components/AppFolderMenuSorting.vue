@@ -5,7 +5,7 @@
       :options="sortingTypes"
     >
       <n-button>
-        {{ sortingTypes.find(item => item.value === nodesStore.sorting).label }}
+        {{ currentSortingLabel }}
       </n-button>
     </n-popselect>
 
@@ -27,6 +27,7 @@ import {
 
 import { useNodesStore } from "@/store/nodes";
 import { SortingType } from "@/types/SortingType";
+import { computed } from "vue";
 
 const nodesStore = useNodesStore();
 
@@ -41,6 +42,11 @@ const sortingTypes: {
   { label: 'По дате изменения', value: 'update' },
 ];
 
+const currentSortingLabel = computed(() => {
+  const sortingType = sortingTypes.find(item => item.value === nodesStore.sorting);
+
+  return sortingType?.label;
+});
 
 </script>
 

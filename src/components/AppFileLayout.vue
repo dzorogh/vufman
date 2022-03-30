@@ -5,13 +5,19 @@
     </div>
   </template>
   <template v-else>
-    <div class="flex flex-col overflow-hidden divide-y">
+    <div
+      v-if="file"
+      class="flex flex-col overflow-hidden divide-y"
+    >
       <AppFileHeading :file="file" />
       <div class="grid grid-cols-4 grow overflow-hidden">
         <div class="col-span-3 flex flex-col overflow-auto">
-          <div class="overflow-hidden grow bg-gray-800">
+          <div
+            v-if="file.getFileType()"
+            class="overflow-hidden grow bg-gray-800"
+          >
             <component
-              :is="fileContentComponents[file.getFileType()]"
+              :is="getFileContentComponent(file.getFileType())"
               :file="file"
             />
           </div>
@@ -66,6 +72,11 @@ onBeforeMount(async () => {
   isLoading.value = false;
 });
 
+const getFileContentComponent = (type: keyof typeof fileContentComponents | null) => {
+  if (type !== null) {
+    return fileContentComponents[type];
+  }
+};
 
 const fileContentComponents = {
   image: AppFileContentImage,

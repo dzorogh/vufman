@@ -9,6 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "lib": [
       "esnext",
       "dom"
@@ -25,6 +26,10 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
+  ],
+  "exclude": [
+    //  error TS2304: Cannot find name 'KeypressOptions'. -> exclude not working, added skipLibCheck
+    "node_modules/vue3-keypress/lib/src/vue3_keypress.d.ts"
   ],
   "references": [
     {
