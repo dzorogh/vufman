@@ -1,6 +1,6 @@
 <template>
   <AppNodeInfoItem
-    title="Общий доступ"
+    title="Доступ"
     :content="'Общий доступ: ' + (newAccess && newAccess.global ? accessTypes[newAccess.global] : 'Не задан')"
     :description="newAccess && newAccess.partial.length ? `Частных правил: ${newAccess.partial.length}` : 'Частные правила не заданы'"
   />
