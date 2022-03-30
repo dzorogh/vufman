@@ -9,7 +9,7 @@
       v-model:file-list="fileList"
       :abstract="true"
       :multiple="true"
-      :custom-request="api.upload"
+      :custom-request="uploadRequest"
       :show-remove-button="false"
     >
       <div
@@ -28,7 +28,7 @@
       v-show="showDropArea"
       v-model:file-list="fileList"
       :multiple="true"
-      :custom-request="api.upload"
+      :custom-request="uploadRequest"
       :show-remove-button="false"
     >
       <n-upload-dragger
@@ -45,12 +45,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { UploadFileInfo } from "naive-ui";
+import { UploadCustomRequestOptions, UploadFileInfo } from "naive-ui";
 import { useApi } from "@/composables/useApi";
 import AppSidebar from "@/components/AppSidebar.vue";
 import { useStore } from "@/store/main";
+import { useNodesStore } from "@/store/nodes";
 
 const store = useStore();
+const nodesStore = useNodesStore();
 
 const fileList = ref<UploadFileInfo[]>([]);
 const showDropArea = ref(false);
@@ -89,6 +91,16 @@ onMounted(async () => {
     store.roles = await api.roles();
   }
 });
+
+const uploadRequest = (options: UploadCustomRequestOptions) => {
+  api.upload({
+    ...options,
+    data: {
+      ...options.data,
+      folderId: nodesStore.currentFolder ? nodesStore.currentFolder.id || '' : '',
+    },
+  });
+};
 
 </script>
 

@@ -27,7 +27,7 @@ export interface IApiService {
   folder: (request: IFolderRequest) => Promise<INodeModel | null>;
   file: (request: IFileRequest) => Promise<INodeModel | null>;
 
-  upload: (request: IUploadRequest) => Promise<INodeModel[]>;
+  upload: (request: IUploadRequest) => Promise<INodeModel>;
   rename: (request: IRenameRequest) => Promise<INodeModel | null>;
   delete: (request: IDeleteRequest) => Promise<INodeModel[]>;
   destroy: (request: IDestroyRequest) => Promise<boolean>;

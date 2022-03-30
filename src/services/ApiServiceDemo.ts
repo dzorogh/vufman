@@ -27,6 +27,10 @@ import { isSameDay } from 'date-fns';
 import { ISaveFileRequest } from "@/types/ISaveFileRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
+import { UploadCustomRequestOptions } from "naive-ui";
+import { AxiosRequestConfig } from "axios";
+import { INodeModel } from "@/types/INodeModel";
+import { useAxios } from "@/composables/useAxios";
 
 const getAncestors = (currentNode: INode, allNodes: INode[]): NodeModel[] => {
   let ancestors = [] as NodeModel[];
@@ -185,37 +189,55 @@ export default class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async upload(request: IUploadRequest) {
-    console.log('api - upload', request);
+  upload({
+           file,
+           data,
+           headers,
+           withCredentials,
+           action,
+           onFinish,
+           onError,
+           onProgress
+         }: UploadCustomRequestOptions) {
 
-    // const formData = new FormData();
-    // if (data) {
-    //   Object.keys(data).forEach((key) => {
-    //     formData.append(
-    //       key,
-    //       data[key as keyof UploadCustomRequestOptions['data']]
-    //     );
-    //   });
-    // }
-    // formData.append(file.name, file.file as File);
-    // axios
-    //   .post(action as string, formData, {
-    //     withCredentials,
-    //     headers,
-    //     onUploadProgress: ({ loaded, total }) => {
-    //       onProgress({ percent: Math.ceil((loaded / total) * 100) });
-    //     }
-    //   } as AxiosRequestConfig)
-    //   .then((e) => {
-    //     message.success(e.data);
-    //     onFinish();
-    //   })
-    //   .catch((error) => {
-    //     message.success(error.message);
-    //     onError();
-    //   });
+    return new Promise<INodeModel>((resolve, reject) => {
+      const formData = new FormData();
 
-    return [];
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          formData.append(
+            key,
+            data[key as keyof UploadCustomRequestOptions['data']]
+          );
+        });
+      }
+
+      formData.append(file.name, file.file as File);
+
+      console.log('FileUpload FormData', data, formData);
+
+      this.axios
+        .post(
+          // action as string,
+          '/',
+          formData,
+          {
+            withCredentials,
+            headers,
+            onUploadProgress: ({ loaded, total }) => {
+              onProgress({ percent: Math.ceil((loaded / total) * 100) });
+            }
+          } as AxiosRequestConfig)
+        .then((e) => {
+          onFinish();
+          resolve(this.create({ name: file.name, folderId: null, type: 'file' }));
+        })
+        .catch((error) => {
+          onError();
+          reject();
+        });
+    });
+
   }
 
   async download(request: IDownloadRequest) {
