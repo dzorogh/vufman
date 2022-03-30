@@ -13,7 +13,7 @@
       :show-remove-button="false"
     >
       <div
-        class="grid grid-cols-5 h-full min-h-full grow border border-slate-200 overflow-hidden"
+        class="border border-slate-200 grid grid-cols-5 grow h-full min-h-full overflow-hidden rounded"
       >
         <AppSidebar
           class="col-span-1 grow bg-slate-200"
