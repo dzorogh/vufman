@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-auto">
-    <div class="p-4 border-b border-b-slate-100">
+    <div class="p-4">
       <n-input-group>
         <n-input
           v-model:value="search"
@@ -19,11 +19,15 @@
       </n-input-group>
     </div>
 
-    <div class="px-4 py-4 flex flex-col gap-6">
+    <div class="p-4 flex flex-col border-t border-t-slate-100">
       <AppNavigator />
+    </div>
 
+    <div
+      v-if="userIsAdmin"
+      class="px-4 py-4 flex flex-col border-b border-t border-t-slate-100"
+    >
       <router-link
-        v-if="userIsAdmin"
         v-slot="{ isActive, navigate }"
         :to="{name: 'log'}"
         custom
@@ -42,14 +46,13 @@
           Лог действий
         </n-button>
       </router-link>
+    </div>
 
-      <n-card
-        v-if="fileList.length"
-        class="bg-slate-300"
-        title="Загрузка файлов"
-      >
-        <n-upload-file-list />
-      </n-card>
+    <div
+      v-if="fileList.length"
+      class="px-4 py-4 flex flex-col border-t border-t-slate-100"
+    >
+      <n-upload-file-list />
     </div>
   </div>
 </template>
