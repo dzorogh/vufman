@@ -16,7 +16,7 @@ import { IUser } from "@/types/IUser";
 import { IRole } from "@/types/IRole";
 import { ILogRequest } from "@/types/ILogRequest";
 import { ILogResponse } from "@/types/ILogResponse";
-import { ISaveFileRequest } from "@/types/ISaveFileRequest";
+import { ISaveContentRequest } from "@/types/ISaveContentRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 
@@ -36,7 +36,7 @@ export interface IApiService {
   paste: (request: IPasteRequest) => Promise<INodeModel[]>;
   create: (request: ICreateRequest) => Promise<INodeModel | null>;
   download: (request: IDownloadRequest) => Promise<Blob | null>;
-  saveFile: (request: ISaveFileRequest) => Promise<INodeModel | null>;
+  saveContent: (request: ISaveContentRequest) => Promise<INodeModel | null>;
   saveComment: (request: ISaveCommentRequest) => Promise<INodeModel | null>;
   saveAccess: (request: ISaveAccessRequest) => Promise<INodeModel | null>;
 

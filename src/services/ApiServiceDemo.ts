@@ -24,7 +24,7 @@ import { ILogRequest } from "@/types/ILogRequest";
 import { ILogRow } from "@/types/ILogRow";
 import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
-import { ISaveFileRequest } from "@/types/ISaveFileRequest";
+import { ISaveFileRequest } from "@/types/ISaveContentRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 import { UploadCustomRequestOptions } from "naive-ui";

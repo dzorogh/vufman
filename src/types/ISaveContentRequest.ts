@@ -1,6 +1,6 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface ISaveFileRequest {
+export interface ISaveContentRequest {
   id: INodeModel['id'];
   content: INodeModel['content'];
 }

@@ -1,7 +1,6 @@
 import { ApiService } from "@/services/ApiService";
 import { IApiService } from "@/types/IApiService";
 import { INodesRequest } from "@/types/INodesRequest";
-import { promiseTimeout } from "@vueuse/core";
 import { NodeModel } from "@/models/NodeModel";
 import { IFolderRequest } from "@/types/IFolderRequest";
 import { IFileRequest } from "@/types/IFileRequest";
@@ -10,7 +9,7 @@ import { INodeModel } from "@/types/INodeModel";
 import { AxiosRequestConfig } from "axios";
 import { IDownloadRequest } from "@/types/IDownloadRequest";
 import { IRenameRequest } from "@/types/IRenameRequest";
-import { ISaveFileRequest } from "@/types/ISaveFileRequest";
+import { ISaveContentRequest } from "@/types/ISaveContentRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 import { ICreateRequest } from "@/types/ICreateRequest";
@@ -138,7 +137,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async saveFile(request: ISaveFileRequest) {
+  async saveContent(request: ISaveContentRequest) {
     const response = await this.axios.post(
       'save-file',
       {
