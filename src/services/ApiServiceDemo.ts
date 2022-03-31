@@ -24,7 +24,7 @@ import { ILogRequest } from "@/types/ILogRequest";
 import { ILogRow } from "@/types/ILogRow";
 import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
-import { ISaveFileRequest } from "@/types/ISaveContentRequest";
+import { ISaveContentRequest } from "@/types/ISaveContentRequest";
 import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
 import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
 import { UploadCustomRequestOptions } from "naive-ui";
@@ -727,7 +727,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async saveFile(request: ISaveFileRequest) {
+  async saveContent(request: ISaveContentRequest) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = await this.getNodes();
