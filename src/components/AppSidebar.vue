@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto">
+  <div class="overflow-auto divide-y divide-slate-100">
     <div class="p-4">
       <n-input-group>
         <n-input
@@ -19,7 +19,7 @@
       </n-input-group>
     </div>
 
-    <div class="p-4 flex flex-col border-t border-t-slate-100">
+    <div class="p-4 flex flex-col">
       <AppNavigator />
     </div>
 
@@ -50,7 +50,7 @@
 
     <div
       v-if="fileList.length"
-      class="px-4 py-4 flex flex-col border-t border-t-slate-100"
+      class="px-4 py-4 flex flex-col"
     >
       <n-upload-file-list />
     </div>
