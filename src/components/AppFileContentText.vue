@@ -63,7 +63,7 @@ const content = ref(props.file.content);
 const saveContent = async () => {
   loading.value = true;
 
-  const result = await nodesActions.saveFile(props.file, content.value || '');
+  const result = await nodesActions.saveContent(props.file, content.value || '');
 
   if (result) {
     content.value = result.content || '';

@@ -216,8 +216,8 @@ export function useNodesActions() {
      * @param file
      * @param content
      */
-    async saveFile(file: INodeModel, content: string) {
-      const result = await api.saveFile({
+    async saveContent(file: INodeModel, content: string) {
+      const result = await api.saveContent({
         id: file.id,
         content
       });

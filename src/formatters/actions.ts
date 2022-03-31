@@ -13,5 +13,5 @@ export const actions: { [key in ActionType]: string } = {
   restore: 'Восстановление',
   saveComment: 'Сохранение комментария',
   saveAccess: 'Сохранение доступов',
-  saveFile: 'Сохранение файла',
+  saveContent: 'Сохранение файла',
 };
