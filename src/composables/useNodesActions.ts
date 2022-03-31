@@ -210,6 +210,12 @@ export function useNodesActions() {
       }
     },
 
+    /**
+     * Save file content and return updated node
+     *
+     * @param file
+     * @param content
+     */
     async saveFile(file: INodeModel, content: string) {
       const result = await api.saveFile({
         id: file.id,
@@ -223,6 +229,12 @@ export function useNodesActions() {
       }
     },
 
+    /**
+     * Save node comment and return updated node
+     *
+     * @param node
+     * @param comment
+     */
     async saveComment(node: INodeModel, comment: string) {
       const result = await api.saveComment({
         id: node.id,
@@ -236,6 +248,12 @@ export function useNodesActions() {
       }
     },
 
+    /**
+     * Save new access params and return updated node
+     *
+     * @param node
+     * @param access
+     */
     async saveAccess(node: INodeModel, access: INodeModel['access']) {
       const result = await api.saveAccess({
         id: node.id,

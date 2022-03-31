@@ -62,8 +62,8 @@ const isTrash = computed(() => {
 });
 
 
-watch(() => [ route.params.folderId, route.name, route.query.trash ],
-  async ([ folderId, routeName, trash ]) => {
+watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.search ],
+  async ([ folderId, routeName, trash, search ]) => {
 
     console.log({ folderId, routeName, trash });
 
@@ -75,7 +75,8 @@ watch(() => [ route.params.folderId, route.name, route.query.trash ],
         api.folder({ id: folderId as string }),
         api.nodes({
           folderId: folderId as string || null,
-          isTrashed: isTrash.value || undefined
+          isTrashed: isTrash.value || undefined,
+          search: search as string || undefined
         }, true)
       ]);
 

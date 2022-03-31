@@ -1,5 +1,22 @@
 <template>
-  <div class="flex flex-col px-4 py-6 gap-6 overflow-auto">
+  <div class="flex flex-col px-4 py-4 gap-6 overflow-auto">
+    <n-input-group>
+      <n-input
+        v-model:value="search"
+        placeholder="Поиск"
+        clearable
+        @change="handleSearch"
+        @keydown.enter="handleSearch"
+      />
+      <n-button
+        type="primary"
+        ghost
+        @click="handleSearch"
+      >
+        Найти
+      </n-button>
+    </n-input-group>
+
     <AppNavigator />
 
     <router-link
@@ -37,8 +54,12 @@
 import AppNavigator from "@/components/AppNavigator.vue";
 import { ClipboardBulletListRtl16Regular as IconLog } from "@vicons/fluent";
 import { UploadFileInfo } from "naive-ui";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "@/store/main";
+import { useRoute, useRouter } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps<{
   fileList: UploadFileInfo[];
@@ -49,6 +70,16 @@ const store = useStore();
 const userIsAdmin = computed(() => {
   return store.currentUser ? store.currentUser.isAdmin : false;
 });
+
+const search = ref(route.query.search || '');
+const handleSearch = () => {
+  router.push({
+    name: 'root',
+    query: {
+      search: search.value || undefined
+    }
+  });
+};
 
 </script>
 
