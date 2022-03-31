@@ -1,52 +1,56 @@
 <template>
-  <div class="flex flex-col px-4 py-4 gap-6 overflow-auto">
-    <n-input-group>
-      <n-input
-        v-model:value="search"
-        placeholder="Поиск"
-        clearable
-        @change="handleSearch"
-        @keydown.enter="handleSearch"
-      />
-      <n-button
-        type="primary"
-        ghost
-        @click="handleSearch"
+  <div class="overflow-auto">
+    <div class="p-4 border-b border-b-slate-100">
+      <n-input-group>
+        <n-input
+          v-model:value="search"
+          placeholder="Поиск"
+          clearable
+          @change="handleSearch"
+          @keydown.enter="handleSearch"
+        />
+        <n-button
+          type="primary"
+          ghost
+          @click="handleSearch"
+        >
+          Найти
+        </n-button>
+      </n-input-group>
+    </div>
+
+    <div class="px-4 py-4 flex flex-col gap-6">
+      <AppNavigator />
+
+      <router-link
+        v-if="userIsAdmin"
+        v-slot="{ isActive, navigate }"
+        :to="{name: 'log'}"
+        custom
       >
-        Найти
-      </n-button>
-    </n-input-group>
+        <n-button
+          :tertiary="!isActive"
+          :disabled="isActive"
+          type="primary"
+          @click="navigate"
+        >
+          <template #icon>
+            <n-icon>
+              <IconLog />
+            </n-icon>
+          </template>
+          Лог действий
+        </n-button>
+      </router-link>
 
-    <AppNavigator />
-
-    <router-link
-      v-if="userIsAdmin"
-      v-slot="{ isActive, navigate }"
-      :to="{name: 'log'}"
-      custom
-    >
-      <n-button
-        :tertiary="!isActive"
-        :disabled="isActive"
-        type="primary"
-        @click="navigate"
+      <n-card
+        v-if="fileList.length"
+        class="bg-slate-300"
+        title="Загрузка файлов"
       >
-        <template #icon>
-          <n-icon>
-            <IconLog />
-          </n-icon>
-        </template>
-        Лог действий
-      </n-button>
-    </router-link>
-
-    <n-card
-      v-if="fileList.length"
-      class="bg-slate-300"
-      title="Загрузка файлов"
-    >
-      <n-upload-file-list />
-    </n-card>
+        <n-upload-file-list />
+      </n-card>
+    </div>
   </div>
 </template>
 
