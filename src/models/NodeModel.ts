@@ -11,6 +11,10 @@ export class NodeModel implements INodeModel {
   public constructor(node: INode) {
     this.node = node;
 
+    if (typeof node !== 'object') {
+      return node;
+    }
+
     return new Proxy<NodeModel>(this, {
       get: (target, field: keyof INode & keyof NodeModel) => {
         if (field in node) return target.node[field];
@@ -33,9 +37,13 @@ export class NodeModel implements INodeModel {
   }
 
   public static collection(nodes: INode[]) {
-    return nodes.map(node => {
-      return new NodeModel(node);
-    });
+    if (Array.isArray(nodes) && nodes.length > 0) {
+      return nodes.map(node => {
+        return new NodeModel(node);
+      });
+    } else {
+      return [];
+    }
   }
 
   public getFullName() {
@@ -114,6 +122,30 @@ export class NodeModel implements INodeModel {
   public getCreatedAt() {
     if (this.node.createdAt) {
       return formatTimestamp(this.node.createdAt);
+    } else {
+      return "";
+    }
+  }
+
+  public getUpdatedAt() {
+    if (this.node.updatedAt) {
+      return formatTimestamp(this.node.updatedAt);
+    } else {
+      return "";
+    }
+  }
+
+  public getTrashedAt() {
+    if (this.node.trashedAt) {
+      return formatTimestamp(this.node.trashedAt);
+    } else {
+      return "";
+    }
+  }
+
+  public getDeletedAt() {
+    if (this.node.deletedAt) {
+      return formatTimestamp(this.node.deletedAt);
     } else {
       return "";
     }
