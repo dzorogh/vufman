@@ -12,7 +12,7 @@ export function useAxios() {
 
   instance.interceptors.request.use(
     function (config) {
-      console.info('Axios request', config);
+      console.info('Axios request', config.url, config);
 
       loadingBar.start();
 
@@ -20,7 +20,7 @@ export function useAxios() {
       return config;
     },
     function (error) {
-      console.warn('Axios request error', error);
+      console.warn('Axios request error', { error });
 
 
       loadingBar.error();
@@ -35,7 +35,7 @@ export function useAxios() {
 
   instance.interceptors.response.use(
     function (response) {
-      console.info('Axios response', response);
+      console.info('Axios response', response.config.url, response);
 
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
@@ -45,15 +45,16 @@ export function useAxios() {
       return response;
     },
     function (error) {
-      console.warn('Axios response error', error);
+      console.warn('Axios response error', { error });
 
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
 
       loadingBar.error();
+
       notification.error({
         content: 'Ошибка сервера',
-        meta: error.toString()
+        meta: error.response.data && error.response.data.message ? error.response.data.message : error.response.statusText
       });
 
       return Promise.reject(error);
