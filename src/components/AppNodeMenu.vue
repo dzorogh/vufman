@@ -72,7 +72,8 @@ const items: {
     icon: IconDownload,
     command: async () => {
       await nodesActions.download(props.node);
-    }
+    },
+    show: () => !props.node.isFolder,
   },
   {
     label: 'Переместить',
