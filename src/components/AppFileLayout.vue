@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-4 h-full bg-white">
+  <div class="col-span-4 h-full bg-white overflow-hidden">
     <template v-if="isLoading">
       <div class="flex items-center justify-center h-full">
         <n-spin size="large" />
@@ -20,6 +20,7 @@
               <component
                 :is="getFileContentComponent(file.getFileType())"
                 :file="file"
+                @file-change="handleFileChange"
               />
             </div>
           </div>
@@ -87,6 +88,10 @@ const fileContentComponents = {
   text: AppFileContentText,
   archive: AppFileContentArchive,
   audio: AppFileContentAudio
+};
+
+const handleFileChange = (updatedFile: INodeModel) => {
+  file.value = updatedFile;
 };
 
 </script>
