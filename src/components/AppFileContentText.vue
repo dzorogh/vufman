@@ -5,8 +5,8 @@
   >
     <n-input
       ref="editor"
+      v-model:value="content"
       class="w-full grow p-6 shadow-inner font-mono resize-none rounded-none"
-      :value="content"
       type="textarea"
     />
 
@@ -58,6 +58,10 @@ const props = defineProps<{
   file: INodeModel;
 }>();
 
+const emit = defineEmits<{
+  (e: 'fileChange', file: INodeModel): void;
+}>();
+
 const loading = ref(false);
 const content = ref(props.file.content);
 const saveContent = async () => {
@@ -66,7 +70,8 @@ const saveContent = async () => {
   const result = await nodesActions.saveContent(props.file, content.value || '');
 
   if (result) {
-    content.value = result.content || '';
+    // content.value = result.content || '';
+    emit('fileChange', result);
   }
 
   loading.value = false;
