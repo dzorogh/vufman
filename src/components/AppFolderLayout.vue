@@ -72,12 +72,14 @@ watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.
       nodesStore.selectedNodes = [];
 
       [ nodesStore.currentFolder, nodesStore.nodes ] = await Promise.all([
-        api.folder({ id: folderId as string }),
+        folderId ? api.folder({ id: folderId as string }) : null,
+
         api.nodes({
           folderId: folderId as string || null,
           isTrashed: isTrash.value || undefined,
           search: search as string || undefined
         }, true)
+        
       ]);
 
       nodesStore.nodesLoading = false;
