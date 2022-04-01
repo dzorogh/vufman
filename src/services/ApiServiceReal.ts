@@ -32,35 +32,39 @@ export class ApiServiceReal extends ApiService implements IApiService {
 
     this.getNodesController = new AbortController();
 
-    const nodes = await this.axios.get(
+    const response = await this.axios.get(
       'nodes', {
-        data: request,
+        params: request,
         signal: cancelable ? this.getNodesController.signal : undefined
       });
 
-    return NodeModel.collection(nodes.data.data);
+    return NodeModel.collection(response.data.data);
   }
 
   async folder(request: IFolderRequest) {
-    const data = await this.axios.get(
+    const response = await this.axios.get(
       'folder',
       {
-        data: request
+        params: request
       }
     );
 
-    return new NodeModel(data.data);
+    if (response.data.data) {
+      return new NodeModel(response.data.data);
+    }
+
+    return null;
   }
 
   async file(request: IFileRequest) {
-    const data = await this.axios.get(
+    const response = await this.axios.get(
       'file',
       {
-        data: request
+        params: request
       }
     );
 
-    return new NodeModel(data.data);
+    return new NodeModel(response.data.data);
   }
 
   upload({
@@ -86,7 +90,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
         });
       }
 
-      formData.append(file.name, file.file as File);
+      formData.append('file', file.file as File);
 
       console.log('FileUpload FormData', data, formData);
 
@@ -118,7 +122,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     const response = await this.axios.get(
       'download',
       {
-        data: request,
+        params: request,
         responseType: 'blob'
       }
     );
@@ -129,9 +133,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async rename(request: IRenameRequest) {
     const response = await this.axios.post(
       'rename',
-      {
-        data: request
-      }
+      request
     );
 
     return new NodeModel(response.data.data);
@@ -139,10 +141,8 @@ export class ApiServiceReal extends ApiService implements IApiService {
 
   async saveContent(request: ISaveContentRequest) {
     const response = await this.axios.post(
-      'save-file',
-      {
-        data: request
-      }
+      'save-content',
+      request
     );
     return new NodeModel(response.data.data);
   }
@@ -150,9 +150,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async saveComment(request: ISaveCommentRequest) {
     const response = await this.axios.post(
       'save-comment',
-      {
-        data: request
-      }
+      request
     );
     return new NodeModel(response.data.data);
   }
@@ -160,9 +158,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async saveAccess(request: ISaveAccessRequest) {
     const response = await this.axios.post(
       'save-access',
-      {
-        data: request
-      }
+      request
     );
     return new NodeModel(response.data.data);
   }
@@ -170,9 +166,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async create(request: ICreateRequest) {
     const response = await this.axios.post(
       'create',
-      {
-        data: request
-      }
+      request
     );
 
     return new NodeModel(response.data.data);
@@ -181,9 +175,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async delete(request: IDeleteRequest) {
     const response = await this.axios.post(
       'delete',
-      {
-        data: request
-      }
+      request
     );
 
     return NodeModel.collection(response.data.data);
@@ -192,9 +184,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async destroy(request: IDestroyRequest) {
     const response = await this.axios.post(
       'destroy',
-      {
-        data: request
-      }
+      request
     );
 
     return true;
@@ -203,9 +193,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async restore(request: IRestoreRequest) {
     const response = await this.axios.post(
       'restore',
-      {
-        data: request
-      }
+      request
     );
 
     return NodeModel.collection(response.data.data);
@@ -214,9 +202,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async move(request: IMoveRequest) {
     const response = await this.axios.post(
       'move',
-      {
-        data: request
-      }
+      request
     );
 
     return NodeModel.collection(response.data.data);
@@ -225,23 +211,10 @@ export class ApiServiceReal extends ApiService implements IApiService {
   async paste(request: IPasteRequest) {
     const response = await this.axios.post(
       'paste',
-      {
-        data: request
-      }
+      request
     );
 
     return NodeModel.collection(response.data.data);
-  }
-
-  async log(request: ILogRequest) {
-    const response = await this.axios.get(
-      'log',
-      {
-        data: request
-      }
-    );
-
-    return response.data;
   }
 
   async emptyTrash() {
@@ -252,8 +225,19 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return true;
   }
 
+  async log(request: ILogRequest) {
+    const response = await this.axios.get(
+      'log',
+      {
+        params: request
+      }
+    );
+
+    return response.data;
+  }
+
   async currentUser() {
-    const response = await this.axios.post(
+    const response = await this.axios.get(
       'current-user',
     );
 
@@ -261,7 +245,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   }
 
   async users() {
-    const response = await this.axios.post(
+    const response = await this.axios.get(
       'users',
     );
 
@@ -269,7 +253,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
   }
 
   async roles() {
-    const response = await this.axios.post(
+    const response = await this.axios.get(
       'roles',
     );
 
