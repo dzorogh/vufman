@@ -15,6 +15,9 @@
     <td class="p-1">
       {{ node.getCreatedAt() }}
     </td>
+    <td class="p-1">
+      {{ node.getUpdatedAt() }}
+    </td>
   </tr>
 </template>
 

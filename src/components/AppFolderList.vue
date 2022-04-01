@@ -54,7 +54,7 @@
       v-if="nodesStore.layout === 'table'"
       class="w-full border-t-0 table border-x-0 border-collapse	"
     >
-      <thead class="border-b bg-slate-50">
+      <thead class="bg-slate-50 sticky top-0 ">
         <AppFolderTableHeader />
       </thead>
       <tbody class="divide-y">
