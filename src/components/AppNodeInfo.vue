@@ -155,7 +155,21 @@ const items = computed<{
     },
     {
       title: 'Дата создания',
-      content: props.node.createdAt ? formatTimestamp(props.node.createdAt) : "Неизвестно"
+      content: props.node.getCreatedAt()
+    },
+    {
+      title: 'Дата изменения',
+      content: props.node.getUpdatedAt()
+    },
+    {
+      title: 'Дата удаления в корзину',
+      content: props.node.getTrashedAt(),
+      show: () => !!props.node.trashedAt
+    },
+    {
+      title: 'Дата полного удаления',
+      content: props.node.getDeletedAt(),
+      show: () => !!props.node.deletedAt
     },
     {
       title: 'Создал',
