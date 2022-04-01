@@ -110,7 +110,7 @@ const usersOptions = computed<SelectOption[]>(() => {
   return store.users.map(user => {
     return {
       value: user.id,
-      label: `${user.firstName} ${user.lastName}`
+      label: `${user.lastName} ${user.firstName}`
     };
   });
 });
