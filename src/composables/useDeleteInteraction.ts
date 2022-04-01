@@ -1,5 +1,7 @@
 import { useConfirmStore } from "@/store/confirm";
 import { INodeModel } from "@/types/INodeModel";
+import IconFolder from "@/components/IconFolder.vue";
+import IconFile from "@/components/IconFile.vue";
 
 export function useDeleteInteraction() {
   const confirmStore = useConfirmStore();
@@ -27,7 +29,7 @@ export function useDeleteInteraction() {
         confirmStore.list = nodes.map(item => {
           return {
             label: item.getFullName(),
-            icon: item.isFolder ? 'pi pi-fw pi-folder' : 'pi pi-fw pi-file'
+            icon: item.isFolder ? IconFolder : IconFile
           };
         });
       } else {

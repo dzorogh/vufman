@@ -9,12 +9,13 @@
   >
     <div
       v-if="confirmStore.content"
-      class="items-center flex"
+      class="items-center flex gap-2"
     >
-      <i
-        class="mr-3"
-        :class="confirmStore.icon"
-        style="font-size: 2rem"
+      <n-icon
+        v-if="confirmStore.icon"
+        :component="confirmStore.icon"
+        size="30"
+        class="text-orange-700"
       />
 
       <span>
@@ -23,16 +24,15 @@
     </div>
 
     <div v-if="confirmStore.list.length">
-      <ul class="grid-cols-1 divide-y border mt-5">
+      <ul class="grid-cols-1 divide-y border mt-5 list-none m-0 p-0">
         <li
           v-for="(item, index) in confirmStore.list"
           :key="index"
-          class="py-2 px-3"
+          class="py-2 px-3 flex items-center gap-2"
         >
-          <i
+          <n-icon
             v-if="item.icon"
-            class="mr-2"
-            :class="item.icon"
+            :component="item.icon"
           />
           {{ item.label }}
         </li>
