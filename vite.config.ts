@@ -1,13 +1,40 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Components from 'unplugin-vue-components/vite';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+
+import { readFileSync } from 'fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   return {
+    server: {
+      logLevel: 'info',
+      // middlewareMode: 'ssr',
+
+      https: {
+        key: readFileSync('./.cert/key.pem'),
+        cert: readFileSync('./.cert/cert.pem'),
+      },
+
+      port: 3333,
+      hmr: {
+        host: 'localhost',
+        port: 3333,
+        clientPort: 3333
+      },
+      strictPort: true,
+      host: true,
+      base: '/fm/',
+      proxy: {
+        'https://localhost:3333': 'https://localhost:3333'
+      },
+    },
+
     plugins: [
       Components({
         resolvers: [ NaiveUiResolver() ]

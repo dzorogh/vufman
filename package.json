@@ -2,10 +2,11 @@
   "name": "@dzorogh/vufman",
   "version": "0.0.2",
   "scripts": {
-    "dev": "vite --host --port 3333",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "build-gd": "vue-tsc --noEmit && vite build --base=/libs/filemanager/"
+    "build-gd": "vue-tsc --noEmit && vite build --base=/libs/filemanager/",
+    "cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'"
   },
   "dependencies": {
     "@types/node": "^17.0.21",
