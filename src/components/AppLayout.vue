@@ -50,9 +50,11 @@ import { useApi } from "@/composables/useApi";
 import AppSidebar from "@/components/AppSidebar.vue";
 import { useStore } from "@/store/main";
 import { useNodesStore } from "@/store/nodes";
+import { useMessages } from "@/composables/useMessages";
 
 const store = useStore();
 const nodesStore = useNodesStore();
+const messages = useMessages();
 
 const fileList = ref<UploadFileInfo[]>([]);
 const showDropArea = ref(false);
@@ -92,14 +94,21 @@ onMounted(async () => {
   }
 });
 
-const uploadRequest = (options: UploadCustomRequestOptions) => {
-  api.upload({
+const uploadRequest = async (options: UploadCustomRequestOptions) => {
+  const newFile = await api.upload({
     ...options,
     data: {
       ...options.data,
       folderId: nodesStore.currentFolder ? nodesStore.currentFolder.id || '' : '',
     },
   });
+
+  if (newFile) {
+    messages.uploadSuccess();
+    nodesStore.nodes.push(newFile);
+  } else {
+    messages.uploadFailed();
+  }
 };
 
 </script>
