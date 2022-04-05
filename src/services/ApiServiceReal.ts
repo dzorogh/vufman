@@ -112,6 +112,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
         formData.append('isLast', isLast ? "1" : "0");
         formData.append('name', fileName);
         formData.append('type', fileType || '');
+        formData.append('chunkIndex', index + 1 + '');
 
         try {
           const percent = Math.ceil(((index + 1) / chunks.length) * 100);
