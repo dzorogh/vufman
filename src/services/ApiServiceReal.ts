@@ -67,12 +67,22 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
+  /**
+   * Upload file by chunks
+   *
+   * @param file
+   * @param data
+   * @param withCredentials
+   * @param onFinish
+   * @param onError
+   * @param onProgress
+   */
   async upload({
                  file,
                  data,
-                 headers,
+                 // headers,
                  withCredentials,
-                 action,
+                 // action,
                  onFinish,
                  onError,
                  onProgress
@@ -127,7 +137,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
               },
               onUploadProgress: ({ loaded, total }) => {
                 // onProgress({ percent: Math.ceil(loaded / total) });
-                onProgress({ percent });
+                onProgress({ percent }); // get percents only from chunks
               }
             });
 
