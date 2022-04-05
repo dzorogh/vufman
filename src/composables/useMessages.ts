@@ -75,6 +75,14 @@ export function useMessages() {
 
     accessSaved: () => {
       toast.success('Настройки доступов сохранены');
+    },
+
+    uploadFailed: () => {
+      toast.error('Ошибка при загрузке');
+    },
+
+    uploadSuccess: () => {
+      toast.success('Файл загружен');
     }
   };
 }
