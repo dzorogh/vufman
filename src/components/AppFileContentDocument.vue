@@ -47,6 +47,10 @@ const props = defineProps<{
   file: INodeModel;
 }>();
 
+const emit = defineEmits<{
+  (e: 'fileChange', file: INodeModel): void;
+}>();
+
 const content = ref(props.file.content);
 const saveContent = () => {
   // TODO: api - save content

@@ -44,6 +44,10 @@ const props = defineProps<{
   file: INodeModel;
 }>();
 
+const emit = defineEmits<{
+  (e: 'fileChange', file: INodeModel): void;
+}>();
+
 const mediaElement = ref();
 const mediaLoadingFailed = ref(false);
 
