@@ -67,55 +67,82 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  upload({
-           file,
-           data,
-           headers,
-           withCredentials,
-           action,
-           onFinish,
-           onError,
-           onProgress
-         }: UploadCustomRequestOptions) {
+  async upload({
+                 file,
+                 data,
+                 headers,
+                 withCredentials,
+                 action,
+                 onFinish,
+                 onError,
+                 onProgress
+               }: UploadCustomRequestOptions) {
+    if (!file || !file.file) {
+      throw new Error('No file content');
+    }
 
-    return new Promise<INodeModel>((resolve, reject) => {
-      const formData = new FormData();
+    const chunkSize = 2 * 1024 * 1024; // 2MB
+    const chunksCount = Math.ceil(file.file.size / chunkSize);
+    const chunks = [];
+    const fileContent = file.file;
+    const fileName = file.name;
+    const fileType = file.type;
 
-      if (data) {
-        Object.keys(data).forEach((key) => {
-          formData.append(
-            key,
-            data[key as keyof UploadCustomRequestOptions['data']]
-          );
-        });
-      }
+    for (let i = 0; i < chunksCount; i++) {
+      chunks.push(fileContent.slice(
+        i * chunkSize, Math.min(i * chunkSize + chunkSize, fileContent.size), fileContent.type
+      ));
+    }
 
-      formData.append('file', file.file as File);
+    if (chunks.length > 0) {
+      for (const [ index, chunk ] of chunks.entries()) {
+        const isLast = index + 1 === chunks.length;
+        const formData = new FormData();
 
-      console.log('FileUpload FormData', data, formData);
+        if (data) {
+          Object.keys(data).forEach((key) => {
+            formData.append(
+              key,
+              data[key as keyof UploadCustomRequestOptions['data']]
+            );
+          });
+        }
 
-      this.axios
-        .post(
-          // action as string,
-          'upload',
-          formData,
-          {
-            withCredentials,
-            headers,
-            onUploadProgress: ({ loaded, total }) => {
-              onProgress({ percent: Math.ceil((loaded / total) * 100) });
-            }
-          } as AxiosRequestConfig)
-        .then((e) => {
-          onFinish();
-          resolve(this.create({ name: file.name, folderId: null, type: 'file' }));
-        })
-        .catch((error) => {
+        formData.append('chunk', chunk);
+        formData.append('isLast', isLast ? "1" : "0");
+        formData.append('name', fileName);
+        formData.append('type', fileType || '');
+
+        try {
+          const percent = Math.ceil(((index + 1) / chunks.length) * 100);
+          console.log(`Sending chunk ${index + 1} of ${chunks.length}: ${percent}%`);
+          const response = await this.axios.post(
+            'upload',
+            formData,
+            {
+              withCredentials,
+              headers: {
+                'Content-Type': 'application/octet-stream'
+              },
+              onUploadProgress: ({ loaded, total }) => {
+                // onProgress({ percent: Math.ceil(loaded / total) });
+                onProgress({ percent });
+              }
+            });
+
+          if (isLast) {
+            onFinish();
+
+            return new NodeModel(response.data.data);
+          }
+
+        } catch (err) {
           onError();
-          reject();
-        });
-    });
+        }
+      }
+    }
 
+    return null;
   }
 
   async download(request: IDownloadRequest) {
