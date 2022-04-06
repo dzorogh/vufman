@@ -169,7 +169,7 @@ export const useNodesStore = defineStore('nodes', {
           this.nodes = [ ...result, ...this.nodes ];
         }
 
-        this.copiedNodes = [];
+        // this.copiedNodes = [];
       }
 
       this.deselect();
