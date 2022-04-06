@@ -1,29 +1,26 @@
 import { INodeModel } from "@/types/INodeModel";
-import { Component } from "vue";
+import { markRaw } from "vue";
 import { Folder24Filled } from "@vicons/fluent";
 import { safeParamCompare } from "@/services/safeParamCompare";
-
-export interface ITreeNode {
-  label: string;
-  key: string;
-  children?: ReturnType<typeof makeNavigatorTree>;
-  icon?: Component;
-}
+import { ITreeNode } from "@/types/ITreeNode";
 
 export function makeNavigatorTree(nodes: INodeModel[] | undefined, folderId: INodeModel['folderId']): ITreeNode[] | undefined {
   if (nodes && nodes.length) {
-    const result = [];
+    console.log('%cmakeNavigatorTree', 'color: #61AFEF', { nodes, folderId });
 
-    nodes = nodes.filter((item) => item.folderId === folderId);
-    nodes = nodes.sort(safeParamCompare<INodeModel>('name'));
+    const result = [] as ITreeNode[];
 
-    for (const node of nodes) {
+    let filteredNodes = nodes.filter((item) => item.folderId === folderId);
+    filteredNodes = filteredNodes.sort(safeParamCompare<INodeModel>('name'));
+
+    for (const node of filteredNodes) {
       result.push(
         {
           label: node.name || '',
           key: node.id + '',
+          ancestorsIds: node.ancestors ? node.ancestors.map(i => i.id) : [],
           children: makeNavigatorTree(nodes, node.id),
-          icon: Folder24Filled
+          icon: markRaw(Folder24Filled)
         }
       );
     }
