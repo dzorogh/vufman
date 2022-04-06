@@ -23,7 +23,7 @@
       <n-button
         class="bg-white"
         size="large"
-        @click="file.download()"
+        @click="emit('download')"
       >
         Скачать
       </n-button>
@@ -49,6 +49,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'fileChange', file: INodeModel): void;
+  (e: 'download'): void;
 }>();
 
 const content = ref(props.file.content);

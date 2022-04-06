@@ -4,8 +4,8 @@
     class="h-full flex flex-col bg-white"
   >
     <n-input
-      ref="editor"
       v-model:value="content"
+      autofocus
       class="w-full grow p-6 shadow-inner font-mono resize-none rounded-none"
       type="textarea"
     />
@@ -37,7 +37,7 @@
       <n-button
         class="bg-white"
         size="large"
-        @click="file.download()"
+        @click="emit('download')"
       >
         Скачать
       </n-button>
@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { INodeModel } from "@/types/INodeModel";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, TextareaHTMLAttributes } from "vue";
 import { useMessages } from "@/composables/useMessages";
 import IconText from "@/components/IconText.vue";
 import { useNodesActions } from "@/composables/useNodesActions";
@@ -60,6 +60,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'fileChange', file: INodeModel): void;
+  (e: 'download'): void;
 }>();
 
 const loading = ref(false);
@@ -76,14 +77,6 @@ const saveContent = async () => {
 
   loading.value = false;
 };
-
-const editor = ref();
-
-onMounted(() => {
-  if (editor.value) {
-    editor.value.focus();
-  }
-});
 
 </script>
 

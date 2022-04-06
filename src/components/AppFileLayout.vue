@@ -21,6 +21,7 @@
                 :is="getFileContentComponent(file.getFileType())"
                 :file="file"
                 @file-change="handleFileChange"
+                @download="handleFileDownload"
               />
             </div>
           </div>
@@ -55,10 +56,12 @@ import { INodeModel } from "@/types/INodeModel";
 import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 import AppFileHeading from "@/components/AppFileHeading.vue";
+import { useNodesActions } from "@/composables/useNodesActions";
 
 const api = useApi();
 const route = useRoute();
 const nodesStore = useNodesStore();
+const nodesActions = useNodesActions();
 
 const file = ref<INodeModel | null>();
 const isLoading = ref(false);
@@ -92,6 +95,12 @@ const fileContentComponents = {
 
 const handleFileChange = (updatedFile: INodeModel) => {
   file.value = updatedFile;
+};
+
+const handleFileDownload = () => {
+  if (file.value) {
+    nodesActions.download(file.value);
+  }
 };
 
 </script>
