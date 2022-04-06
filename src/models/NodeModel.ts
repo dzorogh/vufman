@@ -1,8 +1,9 @@
 import { INode } from "@/types/INode";
-import { FileTypes } from "@/config/FileTypes";
+import { fileTypes } from "@/config/fileTypes";
 import { INodeModel } from "@/types/INodeModel";
 import filesize from "filesize";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
+import { useNodesActions } from "@/composables/useNodesActions";
 
 export class NodeModel implements INodeModel {
 
@@ -54,20 +55,20 @@ export class NodeModel implements INodeModel {
     }
   }
 
-  public getFileType(): keyof typeof FileTypes | null {
+  public getFileType(): keyof typeof fileTypes | null {
     if (!this.node.mimetype && !this.node.extension) {
       return null;
     }
 
-    let result: keyof typeof FileTypes | null = null;
+    let result: keyof typeof fileTypes | null = null;
 
-    for (const [ type, mimes ] of Object.entries(FileTypes)) {
+    for (const [ type, mimes ] of Object.entries(fileTypes)) {
       if (this.node.mimetype && mimes.includes(this.node.mimetype)) {
-        result = type as keyof typeof FileTypes;
+        result = type as keyof typeof fileTypes;
       }
 
       if (this.node.extension && mimes.includes(this.node.extension)) {
-        result = type as keyof typeof FileTypes;
+        result = type as keyof typeof fileTypes;
       }
     }
 
@@ -75,7 +76,9 @@ export class NodeModel implements INodeModel {
   }
 
   public download() {
-    alert('download file');
+    const nodeActions = useNodesActions();
+
+    nodeActions.download(this);
   }
 
   public getSize() {

@@ -1,4 +1,4 @@
-export const FileTypes = {
+export const fileTypes = {
   archive: [
     'zip',
     'gz',
@@ -55,6 +55,11 @@ export const FileTypes = {
     'woff',
     'application/x-font-ttf',
     'application/vnd.ms-opentype',
+
+    // binary or something like it
+    'application/octet-stream',
+    'exe',
+    'bin'
   ],
 
   audio: [

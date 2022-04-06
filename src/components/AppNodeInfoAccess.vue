@@ -119,7 +119,7 @@ import { INodeModel } from "@/types/INodeModel";
 import AppNodeInfoItem from "@/components/AppNodeInfoItem.vue";
 import { useNodesActions } from "@/composables/useNodesActions";
 import { useStore } from "@/store/main";
-import { accessTypes } from "@/formatters/accessTypes";
+import { accessTypes } from "@/config/accessTypes";
 
 const props = defineProps<{
   node: INodeModel;
