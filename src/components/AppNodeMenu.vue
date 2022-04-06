@@ -53,12 +53,18 @@ import {
 } from "@vicons/fluent";
 import { useNodesActions } from "@/composables/useNodesActions";
 import { useNodesStore } from "@/store/nodes";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const nodesActions = useNodesActions();
 const nodesStore = useNodesStore();
 
 const props = defineProps<{
   node: INodeModel;
+}>();
+
+const emit = defineEmits<{
+  (e: 'nodeChange', node: INodeModel): void;
 }>();
 
 const items: {
@@ -79,7 +85,10 @@ const items: {
     label: 'Переместить',
     icon: IconMove,
     command: async () => {
-      await nodesActions.move([ props.node ]);
+      const result = await nodesActions.move([ props.node ]);
+      if (result) {
+        emit('nodeChange', result[0]);
+      }
     }
   },
   {
@@ -95,7 +104,11 @@ const items: {
     label: 'Переименовать',
     icon: IconRename,
     command: async () => {
-      await nodesActions.move([ props.node ]);
+      const result = await nodesActions.rename(props.node);
+
+      if (result) {
+        emit('nodeChange', result);
+      }
     },
     show: () => !props.node.isTrashed,
 
@@ -104,7 +117,11 @@ const items: {
     label: 'В корзину',
     icon: IconDelete,
     command: async () => {
-      await nodesActions.delete([ props.node ]);
+      const result = await nodesActions.delete([ props.node ]);
+
+      if (result) {
+        emit('nodeChange', result[0]);
+      }
     },
     show: () => !props.node.isTrashed,
   },
@@ -113,7 +130,11 @@ const items: {
     label: 'Удалить навсегда',
     icon: IconDestroy,
     command: async () => {
-      await nodesActions.destroy([ props.node ]);
+      const result = await nodesActions.destroy([ props.node ]);
+
+      if (result) {
+        await router.push('/trash');
+      }
     }
   },
   {
@@ -121,7 +142,11 @@ const items: {
     label: 'Восстановить',
     icon: IconRestore,
     command: async () => {
-      await nodesActions.restore([ props.node ]);
+      const result = await nodesActions.restore([ props.node ]);
+
+      if (result) {
+        emit('nodeChange', result[0]);
+      }
     }
   },
 ];

@@ -24,6 +24,7 @@
               v-if="nodesStore.currentFolder"
               class="mb-auto"
               :node="nodesStore.currentFolder"
+              @node-change="handleNodeChange"
             />
             <AppNodeInfo
               v-if="nodesStore.currentFolder"
@@ -48,6 +49,8 @@ import { useNodesStore } from "@/store/nodes";
 import { useApi } from "@/composables/useApi";
 import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
+import { INodeModel } from "@/types/INodeModel";
+import { useActiveElement } from "@vueuse/core";
 
 const confirmStore = useConfirmStore();
 const promptStore = usePromptStore();
@@ -79,7 +82,7 @@ watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.
           isTrashed: isTrash.value || undefined,
           search: search as string || undefined
         }, true)
-        
+
       ]);
 
       nodesStore.nodesLoading = false;
@@ -89,6 +92,10 @@ watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.
     immediate: true
   });
 
+
+const handleNodeChange = (updatedFolder: INodeModel) => {
+  nodesStore.currentFolder = updatedFolder;
+};
 
 const keyboardActive = computed(() => {
   return !confirmStore.show && !promptStore.show;

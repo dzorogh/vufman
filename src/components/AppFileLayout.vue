@@ -30,6 +30,7 @@
             <AppNodeMenu
               :node="file"
               class="mb-auto"
+              @node-change="handleFileChange"
             />
             <AppNodeInfo
               :node="file"
@@ -94,6 +95,7 @@ const fileContentComponents = {
 };
 
 const handleFileChange = (updatedFile: INodeModel) => {
+  console.log('handleFileChange', updatedFile, file.value);
   file.value = updatedFile;
 };
 
