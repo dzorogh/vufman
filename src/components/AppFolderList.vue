@@ -97,9 +97,9 @@
 
   <div
     v-else
-    class="p-4"
+    class="p-12 h-full flex items-center justify-center text-neutral-400 text-center text-2xl"
   >
-    Папка пуста. Перетащите файлы, чтобы загрузить.
+    Папка пуста
   </div>
 </template>
 
