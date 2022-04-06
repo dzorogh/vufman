@@ -14,7 +14,9 @@ export function useAxios() {
     function (config) {
       console.info('Axios request', config.url, config);
 
-      loadingBar.start();
+      if (!config.onUploadProgress) {
+        loadingBar.start();
+      }
 
       // Do something before request is sent
       return config;
@@ -22,8 +24,8 @@ export function useAxios() {
     function (error) {
       console.warn('Axios request error', { error });
 
-
       loadingBar.error();
+
       notification.error({
         content: 'Ошибка при отправке запроса',
         meta: error.toString()
@@ -40,7 +42,9 @@ export function useAxios() {
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
 
-      loadingBar.finish();
+      if (!response.config.onUploadProgress) {
+        loadingBar.finish();
+      }
 
       return response;
     },
