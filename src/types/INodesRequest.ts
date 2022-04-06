@@ -3,4 +3,5 @@ export interface INodesRequest {
   isFolder?: boolean;
   isTrashed?: true;
   search?: string;
+  withDescendants?: boolean;
 }
