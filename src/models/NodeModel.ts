@@ -111,8 +111,8 @@ export class NodeModel implements INodeModel {
   }
 
   public getParentName() {
-    if (this.node.folderId && this.node.ancestors && this.node.ancestors[0]) {
-      return this.node.ancestors[0].name;
+    if (this.node.folderId && this.node.ancestors && this.node.ancestors[this.node.ancestors.length - 1]) {
+      return this.node.ancestors[this.node.ancestors.length - 1].name;
     } else {
       if (this.node.isTrashed) {
         return 'Корзина';
