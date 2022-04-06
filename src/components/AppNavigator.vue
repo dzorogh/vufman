@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!navigatorStore.isLoading">
     <div class="mb-2 font-bold">
       Разделы
     </div>
@@ -8,7 +8,7 @@
       v-model:expanded-keys="expandedKeys"
       class="font-medium"
       :block-line="true"
-      :data="tree"
+      :data="navigatorStore.tree"
       :render-prefix="renderPrefix"
       :selectable="true"
       :node-props="nodeProps"
@@ -25,45 +25,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, HTMLAttributes, markRaw, onBeforeMount, ref, shallowRef } from "vue";
+import { computed, h, HTMLAttributes, markRaw, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useStorage } from "@vueuse/core";
 
 import { useApi } from "@/composables/useApi";
-import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
-import { NIcon, TreeOption } from "naive-ui";
-import { Delete24Filled, Home24Filled } from "@vicons/fluent";
+import { NIcon } from "naive-ui";
 import { useNodesStore } from "@/store/nodes";
-import { useMessages } from "@/composables/useMessages";
+import { useNodesActions } from "@/composables/useNodesActions";
+import { useNavigatorStore } from "@/store/navigator";
+import { ITreeNode } from "@/types/ITreeNode";
 
 const api = useApi();
 const router = useRouter();
 const route = useRoute();
-const nodes = ref();
-const isLoading = ref(true);
 const nodesStore = useNodesStore();
-const messages = useMessages();
-
-const tree = shallowRef<ITreeNode[]>(
-  [
-    {
-      label: 'Диск',
-      key: 'root',
-      icon: Home24Filled
-    },
-    {
-      label: 'Корзина',
-      key: 'trash',
-      icon: Delete24Filled
-    }
-  ]
-);
+const navigatorStore = useNavigatorStore();
+const nodesActions = useNodesActions();
 
 onBeforeMount(async () => {
-  nodes.value = await api.nodes({ isFolder: true });
-  tree.value[0].children = makeNavigatorTree(nodes.value, null) || undefined;
-  isLoading.value = false;
+  navigatorStore.loadNavigatorTree();
 });
 
 const expandedKeys = useStorage('navigatorExpandedKeys', [ 'root' ]);
@@ -77,13 +59,16 @@ const renderPrefix = ({ option }: { option: ITreeNode }) => {
   }
 };
 
-const nodeProps = ({ option }: { option: TreeOption }) => {
+const nodeProps = ({ option }: { option: ITreeNode }) => {
   return {
-    onMouseup: () => {
-      if (option && option.key && dropAvailableByKey(option.key as string)) {
-        messages.nodesMoved(option.key === 'trash' ? 'trash' : option.key === 'root' ? 'root' : 'folder');
+    onMouseup: async () => {
+      if (option && option.key && dropAvailable(option)) {
+        const result = await nodesActions.moveTo(nodesStore.selectedNodes, option.key as string);
+        // messages.nodesMoved(option.key === 'trash' ? 'trash' : option.key === 'root' ? 'root' : 'folder');
 
-        nodesStore.removeNodes(nodesStore.selectedNodes);
+        if (result) {
+          nodesStore.removeNodes(nodesStore.selectedNodes);
+        }
       }
     },
 
@@ -128,24 +113,31 @@ const selectedKeys = computed(() => {
   return [];
 });
 
-const dropAvailableByKey = (key: string) => {
+const dropAvailable = (option: ITreeNode) => {
   if (nodesStore.dragging) {
 
     // console.log(key);
 
-    if (key === 'root') {
+    if (option.key === 'root') {
       return !!nodesStore.currentFolder;
     }
 
-    if (key === 'trash') {
-      return !route.meta.isTrash;
+    if (option.key === 'trash') {
+      return !(route.query.trash === null && !route.params.folderId);
     }
 
-    if (nodesStore.selectedNodes.find(item => item.id === key || item.folderId === key)) {
+    if (nodesStore.selectedNodes.find(item => item.id === option.key || item.folderId === option.key)) {
       return false;
     }
 
-    // TODO: Check to move selected files in self subfoldrers
+    if (option.ancestorsIds) {
+      const selectedIds = nodesStore.selectedNodes.map(item => item.id);
+      for (const ancestorId of option.ancestorsIds) {
+        if (selectedIds.includes(ancestorId)) {
+          return false;
+        }
+      }
+    }
 
     return true;
   }
