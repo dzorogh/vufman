@@ -1,6 +1,7 @@
 import { INodeModel } from "@/types/INodeModel";
 import { Component } from "vue";
 import { Folder24Filled } from "@vicons/fluent";
+import { safeParamCompare } from "@/services/safeParamCompare";
 
 export interface ITreeNode {
   label: string;
@@ -13,7 +14,10 @@ export function makeNavigatorTree(nodes: INodeModel[] | undefined, folderId: INo
   if (nodes && nodes.length) {
     const result = [];
 
-    for (const node of nodes.filter((item) => item.folderId === folderId)) {
+    nodes = nodes.filter((item) => item.folderId === folderId);
+    nodes = nodes.sort(safeParamCompare<INodeModel>('name'));
+
+    for (const node of nodes) {
       result.push(
         {
           label: node.name || '',
