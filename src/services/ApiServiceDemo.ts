@@ -1,32 +1,32 @@
 import { IApiService } from '@/types/IApiService';
-import { INodesRequest } from "@/types/INodesRequest";
-import { IFolderRequest } from "@/types/IFolderRequest";
+import { IRequestNodes } from "@/types/IRequestNodes";
+import { IRequestFolder } from "@/types/IRequestFolder";
 import { INode } from "@/types/INode";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { promiseTimeout } from '@vueuse/core';
-import { IFileRequest } from "@/types/IFileRequest";
+import { IRequestFile } from "@/types/IRequestFile";
 import { NodeModel } from "@/models/NodeModel";
-import { IUploadRequest } from "@/types/IUploadRequest";
-import { IDownloadRequest } from "@/types/IDownloadRequest";
-import { ICreateRequest } from "@/types/ICreateRequest";
-import { IRenameRequest } from "@/types/IRenameRequest";
-import { IDeleteRequest } from "@/types/IDeleteRequest";
-import { IDestroyRequest } from "@/types/IDestroyRequest";
-import { IRestoreRequest } from "@/types/IRestoreRequest";
-import { IPasteRequest } from "@/types/IPasteRequest";
-import { IMoveRequest } from "@/types/IMoveRequest";
+import { IRequestUpload } from "@/types/IRequestUpload";
+import { IRequestDownload } from "@/types/IRequestDownload";
+import { IRequestCreate } from "@/types/IRequestCreate";
+import { IRequestRename } from "@/types/IRequestRename";
+import { IRequestDelete } from "@/types/IRequestDelete";
+import { IRequestTrash } from "@/types/IRequestTrash";
+import { IRequestUntrash } from "@/types/IRequestUntrash";
+import { IRequestPaste } from "@/types/IRequestPaste";
+import { IRequestMove } from "@/types/IRequestMove";
 import { ApiService } from "@/services/ApiService";
 import { generateUUID } from "@/services/generateUUID";
 import { IUser } from "@/types/IUser";
-import { ILogRequest } from "@/types/ILogRequest";
+import { IRequestLog } from "@/types/IRequestLog";
 import { ILogRow } from "@/types/ILogRow";
 import { actions } from "@/formatters/actions";
 import { isSameDay } from 'date-fns';
-import { ISaveContentRequest } from "@/types/ISaveContentRequest";
-import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
-import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
+import { IRequestSaveContent } from "@/types/IRequestSaveContent";
+import { IRequestSaveComment } from "@/types/IRequestSaveComment";
+import { IRequestSaveAccess } from "@/types/IRequestSaveAccess";
 import { UploadCustomRequestOptions } from "naive-ui";
 import { AxiosRequestConfig } from "axios";
 import { INodeModel } from "@/types/INodeModel";
@@ -559,7 +559,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
 
   // private getNodesController: AbortController | undefined;
 
-  async nodes(request: INodesRequest, cancelable?: boolean) {
+  async nodes(request: IRequestNodes, cancelable?: boolean) {
     console.log('getNodes', request, cancelable);
 
     // if (this.getNodesController && cancelable) {
@@ -606,7 +606,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return NodeModel.collection(data);
   }
 
-  async folder(request: IFolderRequest) {
+  async folder(request: IRequestFolder) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     let data = await this.getNodes();
@@ -627,7 +627,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async file(request: IFileRequest) {
+  async file(request: IRequestFile) {
     await promiseTimeout(Math.random() * 1000 + 100);
     const data = await this.getNodes();
 
@@ -698,7 +698,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
 
   }
 
-  async download(request: IDownloadRequest) {
+  async download(request: IRequestDownload) {
     const nodes = await this.getNodes();
 
     const node = nodes.find((node) => {
@@ -713,7 +713,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     }
   }
 
-  async rename(request: IRenameRequest) {
+  async rename(request: IRequestRename) {
     await promiseTimeout(Math.random() * 1000 + 100);
     const nodes = await this.getNodes();
 
@@ -727,7 +727,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async saveContent(request: ISaveContentRequest) {
+  async saveContent(request: IRequestSaveContent) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = await this.getNodes();
@@ -745,7 +745,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async saveComment(request: ISaveCommentRequest) {
+  async saveComment(request: IRequestSaveComment) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = await this.getNodes();
@@ -763,7 +763,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async saveAccess(request: ISaveAccessRequest) {
+  async saveAccess(request: IRequestSaveAccess) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = await this.getNodes();
@@ -781,11 +781,12 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return null;
   }
 
-  async create(request: ICreateRequest) {
+  async create(request: IRequestCreate) {
     return new NodeModel({
       name: request.name as string,
       ancestors: [],
       isTrashed: false,
+      isDeleted: false,
       isFolder: request.type === 'folder',
       mimetype: request.type === 'file' ? 'text/plain' : undefined,
       extension: request.type === 'file' ? 'txt' : undefined,
@@ -800,7 +801,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     });
   }
 
-  async delete(request: IDeleteRequest) {
+  async trash(request: IRequestTrash) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = (await this.getNodes())
@@ -815,12 +816,12 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return NodeModel.collection(nodes);
   }
 
-  async destroy(request: IDestroyRequest) {
+  async delete(request: IRequestTrash) {
     await promiseTimeout(Math.random() * 1000 + 100);
     return true;
   }
 
-  async restore(request: IRestoreRequest) {
+  async untrash(request: IRequestUntrash) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = (await this.getNodes())
@@ -835,7 +836,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return NodeModel.collection(nodes);
   }
 
-  async move(request: IMoveRequest) {
+  async move(request: IRequestMove) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = (await this.getNodes())
@@ -850,7 +851,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return NodeModel.collection(nodes);
   }
 
-  async paste(request: IPasteRequest) {
+  async paste(request: IRequestPaste) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const nodes = (await this.getNodes())
@@ -866,7 +867,7 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return NodeModel.collection(nodes);
   }
 
-  async log(request: ILogRequest) {
+  async log(request: IRequestLog) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
     const data = Array(200).fill({}).map((item, index) => {

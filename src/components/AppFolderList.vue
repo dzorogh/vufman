@@ -201,14 +201,14 @@ const contextMenu = {
         key: 'destroy',
         label: 'Удалить навсегда',
         icon: renderIcon(IconDestroy),
-        command: nodesStore.destroyNodes,
+        command: nodesStore.deleteNodes,
       });
 
       result.push({
         key: 'restore',
         label: 'Восстановить',
         icon: renderIcon(IconRestore),
-        command: nodesStore.restoreNodes,
+        command: nodesStore.untrashNodes,
       });
     } else {
       result.push({
@@ -235,10 +235,10 @@ const contextMenu = {
       }
 
       result.push({
-        key: 'delete',
+        key: 'trash',
         label: 'В корзину',
         icon: renderIcon(IconDelete),
-        command: nodesStore.deleteNodes,
+        command: nodesStore.trashNodes,
       });
     }
 

@@ -1,5 +1,5 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface IRestoreRequest {
+export interface IRequestUntrash {
   ids: INodeModel['id'][];
 }

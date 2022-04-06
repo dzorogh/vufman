@@ -92,19 +92,19 @@ const dynamicActions = [
     show: () => nodesStore.selectedNodes.length && !props.isTrash,
     label: 'Переместить в корзину',
     icon: IconDelete,
-    action: nodesStore.deleteNodes
+    action: nodesStore.trashNodes
   },
   {
     show: () => nodesStore.selectedNodes.length && props.isTrash,
     label: 'Удалить навсегда',
     icon: IconDestroy,
-    action: nodesStore.destroyNodes
+    action: nodesStore.deleteNodes
   },
   {
     show: () => nodesStore.selectedNodes.length && props.isTrash,
     label: 'Восстановить',
     icon: IconRestore,
-    action: nodesStore.restoreNodes
+    action: nodesStore.untrashNodes
   }
 ];
 

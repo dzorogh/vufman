@@ -1,6 +1,6 @@
 import { ActionType } from "@/types/ActionType";
 
-export interface ILogRequest {
+export interface IRequestLog {
   nodeName: string | null;
   action: ActionType | null;
   date: number | null;

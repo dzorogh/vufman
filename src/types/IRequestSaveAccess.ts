@@ -1,6 +1,6 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface ISaveCommentRequest {
+export interface IRequestSaveAccess {
   id: INodeModel['id'];
-  comment: INodeModel['comment'];
+  access: INodeModel['access'];
 }

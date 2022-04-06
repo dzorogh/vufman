@@ -1,6 +1,5 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface IMoveRequest {
+export interface IRequestDelete {
   ids: INodeModel['id'][];
-  destinationId: INodeModel['id'] | null;
 }

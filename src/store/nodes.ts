@@ -96,8 +96,18 @@ export const useNodesStore = defineStore('nodes', {
       });
     },
 
-    async deleteNodes() {
+    async trashNodes() {
 
+      const result = await this.nodesActions.trash(this.selectedNodes);
+
+      if (result) {
+        this.removeNodes(this.selectedNodes);
+      }
+
+      this.deselect();
+    },
+
+    async deleteNodes() {
       const result = await this.nodesActions.delete(this.selectedNodes);
 
       if (result) {
@@ -107,18 +117,8 @@ export const useNodesStore = defineStore('nodes', {
       this.deselect();
     },
 
-    async destroyNodes() {
-      const result = await this.nodesActions.destroy(this.selectedNodes);
-
-      if (result) {
-        this.removeNodes(this.selectedNodes);
-      }
-
-      this.deselect();
-    },
-
-    async restoreNodes() {
-      const result = await this.nodesActions.restore(this.selectedNodes);
+    async untrashNodes() {
+      const result = await this.nodesActions.untrash(this.selectedNodes);
 
       if (result) {
         this.removeNodes(this.selectedNodes);

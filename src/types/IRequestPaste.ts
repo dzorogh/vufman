@@ -1,5 +1,6 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface IDestroyRequest {
+export interface IRequestPaste {
   ids: INodeModel['id'][];
+  destinationId: INodeModel['id'] | null;
 }

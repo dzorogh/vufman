@@ -1,4 +1,4 @@
-export interface INodesRequest {
+export interface IRequestNodes {
   folderId?: string | null;
   isFolder?: boolean;
   isTrashed?: true;

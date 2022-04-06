@@ -55,12 +55,12 @@ export function useNodesActions() {
      *
      * @param nodes
      */
-    async delete(nodes: INodeModel[]) {
+    async trash(nodes: INodeModel[]) {
       const result = await deleteInteraction.show(nodes);
       const ids = nodes.map(i => i.id);
 
       if (result) {
-        const serverResult = await api.delete({ ids });
+        const serverResult = await api.trash({ ids });
 
         if (serverResult) {
           messages.nodesMoved('trash');
@@ -77,12 +77,12 @@ export function useNodesActions() {
      *
      * @param nodes
      */
-    async destroy(nodes: INodeModel[]) {
+    async delete(nodes: INodeModel[]) {
       const result = await deleteInteraction.show(nodes, true);
       const ids = nodes.map(i => i.id);
 
       if (result) {
-        const serverResult = await api.destroy({ ids });
+        const serverResult = await api.delete({ ids });
 
         if (serverResult) {
           messages.nodesDestroyed();
@@ -99,10 +99,10 @@ export function useNodesActions() {
      *
      * @param nodes
      */
-    async restore(nodes: INodeModel[]) {
+    async untrash(nodes: INodeModel[]) {
       const ids = nodes.map(i => i.id);
 
-      const serverResult = await api.restore({ ids });
+      const serverResult = await api.untrash({ ids });
 
       if (serverResult) {
         messages.nodesRestored();
@@ -187,7 +187,7 @@ export function useNodesActions() {
 
       if (destinationId && destinationId !== 'trash') {
         const updatedNodes = await api.move({ ids, destinationId: destinationId === 'root' ? null : destinationId });
-        
+
         if (updatedNodes.length) {
           messages.nodesMoved(destinationId ? 'folder' : 'root');
 
@@ -198,7 +198,7 @@ export function useNodesActions() {
       }
 
       if (destinationId === 'trash') {
-        return this.delete(nodes);
+        return this.trash(nodes);
       }
 
     },

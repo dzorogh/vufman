@@ -102,7 +102,7 @@ import { ActionType } from "@/types/ActionType";
 import { actions } from "@/formatters/actions";
 import { format } from 'date-fns';
 import { useStore } from "@/store/main";
-import { ILogRequest } from "@/types/ILogRequest";
+import { IRequestLog } from "@/types/IRequestLog";
 
 const store = useStore();
 
@@ -176,15 +176,15 @@ const pagination = reactive<Mutable<PaginationProps>>({
 });
 
 const filters = reactive({
-  date: null as ILogRequest['date'],
-  userId: null as ILogRequest['userId'],
-  action: null as ILogRequest['action'],
+  date: null as IRequestLog['date'],
+  userId: null as IRequestLog['userId'],
+  action: null as IRequestLog['action'],
   nodeName: ''
 });
 
 const sorting = reactive({
-  orderBy: null as ILogRequest['orderBy'],
-  orderDirection: null as ILogRequest['orderDirection'],
+  orderBy: null as IRequestLog['orderBy'],
+  orderDirection: null as IRequestLog['orderDirection'],
 });
 
 const data = ref<ILogRow[]>([]);

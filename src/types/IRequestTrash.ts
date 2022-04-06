@@ -1,5 +1,5 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface IDeleteRequest {
+export interface IRequestTrash {
   ids: INodeModel['id'][];
 }

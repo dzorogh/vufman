@@ -1,29 +1,28 @@
 import { ApiService } from "@/services/ApiService";
 import { IApiService } from "@/types/IApiService";
-import { INodesRequest } from "@/types/INodesRequest";
+import { IRequestNodes } from "@/types/IRequestNodes";
 import { NodeModel } from "@/models/NodeModel";
-import { IFolderRequest } from "@/types/IFolderRequest";
-import { IFileRequest } from "@/types/IFileRequest";
+import { IRequestFolder } from "@/types/IRequestFolder";
+import { IRequestFile } from "@/types/IRequestFile";
 import { UploadCustomRequestOptions } from "naive-ui";
 import { INodeModel } from "@/types/INodeModel";
 import { AxiosRequestConfig } from "axios";
-import { IDownloadRequest } from "@/types/IDownloadRequest";
-import { IRenameRequest } from "@/types/IRenameRequest";
-import { ISaveContentRequest } from "@/types/ISaveContentRequest";
-import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
-import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
-import { ICreateRequest } from "@/types/ICreateRequest";
-import { IDeleteRequest } from "@/types/IDeleteRequest";
-import { IDestroyRequest } from "@/types/IDestroyRequest";
-import { IRestoreRequest } from "@/types/IRestoreRequest";
-import { IMoveRequest } from "@/types/IMoveRequest";
-import { IPasteRequest } from "@/types/IPasteRequest";
-import { ILogRequest } from "@/types/ILogRequest";
+import { IRequestRename } from "@/types/IRequestRename";
+import { IRequestSaveContent } from "@/types/IRequestSaveContent";
+import { IRequestSaveComment } from "@/types/IRequestSaveComment";
+import { IRequestSaveAccess } from "@/types/IRequestSaveAccess";
+import { IRequestCreate } from "@/types/IRequestCreate";
+import { IRequestDelete } from "@/types/IRequestDelete";
+import { IRequestTrash } from "@/types/IRequestTrash";
+import { IRequestUntrash } from "@/types/IRequestUntrash";
+import { IRequestMove } from "@/types/IRequestMove";
+import { IRequestPaste } from "@/types/IRequestPaste";
+import { IRequestLog } from "@/types/IRequestLog";
 
 export class ApiServiceReal extends ApiService implements IApiService {
   private getNodesController: AbortController | undefined;
 
-  async nodes(request: INodesRequest, cancelable?: boolean) {
+  async nodes(request: IRequestNodes, cancelable?: boolean) {
     console.log('getNodes', request, cancelable);
 
     if (this.getNodesController && cancelable) {
@@ -41,7 +40,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return NodeModel.collection(response.data.data);
   }
 
-  async folder(request: IFolderRequest) {
+  async folder(request: IRequestFolder) {
     const response = await this.axios.get(
       'folder',
       {
@@ -56,7 +55,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return null;
   }
 
-  async file(request: IFileRequest) {
+  async file(request: IRequestFile) {
     const response = await this.axios.get(
       'file',
       {
@@ -166,7 +165,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return null;
   }
 
-  async rename(request: IRenameRequest) {
+  async rename(request: IRequestRename) {
     const response = await this.axios.post(
       'rename',
       request
@@ -175,7 +174,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async saveContent(request: ISaveContentRequest) {
+  async saveContent(request: IRequestSaveContent) {
     const response = await this.axios.post(
       'save-content',
       request
@@ -183,7 +182,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async saveComment(request: ISaveCommentRequest) {
+  async saveComment(request: IRequestSaveComment) {
     const response = await this.axios.post(
       'save-comment',
       request
@@ -191,7 +190,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async saveAccess(request: ISaveAccessRequest) {
+  async saveAccess(request: IRequestSaveAccess) {
     const response = await this.axios.post(
       'save-access',
       request
@@ -199,7 +198,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async create(request: ICreateRequest) {
+  async create(request: IRequestCreate) {
     const response = await this.axios.post(
       'create',
       request
@@ -208,34 +207,34 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return new NodeModel(response.data.data);
   }
 
-  async delete(request: IDeleteRequest) {
+  async trash(request: IRequestTrash) {
+    const response = await this.axios.post(
+      'trash',
+      request
+    );
+
+    return NodeModel.collection(response.data.data);
+  }
+
+  async delete(request: IRequestTrash) {
     const response = await this.axios.post(
       'delete',
       request
     );
 
-    return NodeModel.collection(response.data.data);
+    return !!response;
   }
 
-  async destroy(request: IDestroyRequest) {
+  async untrash(request: IRequestUntrash) {
     const response = await this.axios.post(
-      'destroy',
-      request
-    );
-
-    return true;
-  }
-
-  async restore(request: IRestoreRequest) {
-    const response = await this.axios.post(
-      'restore',
+      'untrash',
       request
     );
 
     return NodeModel.collection(response.data.data);
   }
 
-  async move(request: IMoveRequest) {
+  async move(request: IRequestMove) {
     const response = await this.axios.post(
       'move',
       request
@@ -244,7 +243,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return NodeModel.collection(response.data.data);
   }
 
-  async paste(request: IPasteRequest) {
+  async paste(request: IRequestPaste) {
     const response = await this.axios.post(
       'paste',
       request
@@ -261,7 +260,7 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return true;
   }
 
-  async log(request: ILogRequest) {
+  async log(request: IRequestLog) {
     const response = await this.axios.get(
       'log',
       {

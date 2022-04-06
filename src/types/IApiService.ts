@@ -1,49 +1,47 @@
 import { AxiosInstance } from "axios";
-import { INodesRequest } from '@/types/INodesRequest';
-import { IFolderRequest } from "@/types/IFolderRequest";
-import { IFileRequest } from "@/types/IFileRequest";
+import { IRequestNodes } from '@/types/IRequestNodes';
+import { IRequestFolder } from "@/types/IRequestFolder";
+import { IRequestFile } from "@/types/IRequestFile";
 import { INodeModel } from "@/types/INodeModel";
-import { IUploadRequest } from "@/types/IUploadRequest";
-import { IRenameRequest } from "@/types/IRenameRequest";
-import { IDeleteRequest } from "@/types/IDeleteRequest";
-import { IDestroyRequest } from "@/types/IDestroyRequest";
-import { IRestoreRequest } from "@/types/IRestoreRequest";
-import { ICreateRequest } from "@/types/ICreateRequest";
-import { IMoveRequest } from "@/types/IMoveRequest";
-import { IDownloadRequest } from "@/types/IDownloadRequest";
-import { IPasteRequest } from "@/types/IPasteRequest";
+import { IRequestUpload } from "@/types/IRequestUpload";
+import { IRequestRename } from "@/types/IRequestRename";
+import { IRequestDelete } from "@/types/IRequestDelete";
+import { IRequestTrash } from "@/types/IRequestTrash";
+import { IRequestUntrash } from "@/types/IRequestUntrash";
+import { IRequestCreate } from "@/types/IRequestCreate";
+import { IRequestMove } from "@/types/IRequestMove";
+import { IRequestPaste } from "@/types/IRequestPaste";
 import { IUser } from "@/types/IUser";
 import { IRole } from "@/types/IRole";
-import { ILogRequest } from "@/types/ILogRequest";
+import { IRequestLog } from "@/types/IRequestLog";
 import { ILogResponse } from "@/types/ILogResponse";
-import { ISaveContentRequest } from "@/types/ISaveContentRequest";
-import { ISaveCommentRequest } from "@/types/ISaveCommentRequest";
-import { ISaveAccessRequest } from "@/types/ISaveAccessRequest";
+import { IRequestSaveContent } from "@/types/IRequestSaveContent";
+import { IRequestSaveComment } from "@/types/IRequestSaveComment";
+import { IRequestSaveAccess } from "@/types/IRequestSaveAccess";
 
 export interface IApiService {
   axios: AxiosInstance;
 
-  nodes: (request: INodesRequest, cancelable?: boolean) => Promise<INodeModel[]>;
-  folder: (request: IFolderRequest) => Promise<INodeModel | null>;
-  file: (request: IFileRequest) => Promise<INodeModel | null>;
+  nodes: (request: IRequestNodes, cancelable?: boolean) => Promise<INodeModel[]>;
+  folder: (request: IRequestFolder) => Promise<INodeModel | null>;
+  file: (request: IRequestFile) => Promise<INodeModel | null>;
 
-  upload: (request: IUploadRequest) => Promise<INodeModel | null>;
-  rename: (request: IRenameRequest) => Promise<INodeModel | null>;
-  delete: (request: IDeleteRequest) => Promise<INodeModel[]>;
-  destroy: (request: IDestroyRequest) => Promise<boolean>;
-  restore: (request: IRestoreRequest) => Promise<INodeModel[]>;
-  move: (request: IMoveRequest) => Promise<INodeModel[]>;
-  paste: (request: IPasteRequest) => Promise<INodeModel[]>;
-  create: (request: ICreateRequest) => Promise<INodeModel | null>;
-  // download: (request: IDownloadRequest) => Promise<Blob | null>;
-  saveContent: (request: ISaveContentRequest) => Promise<INodeModel | null>;
-  saveComment: (request: ISaveCommentRequest) => Promise<INodeModel | null>;
-  saveAccess: (request: ISaveAccessRequest) => Promise<INodeModel | null>;
+  upload: (request: IRequestUpload) => Promise<INodeModel | null>;
+  rename: (request: IRequestRename) => Promise<INodeModel | null>;
+  trash: (request: IRequestTrash) => Promise<INodeModel[]>;
+  delete: (request: IRequestDelete) => Promise<boolean>;
+  untrash: (request: IRequestUntrash) => Promise<INodeModel[]>;
+  move: (request: IRequestMove) => Promise<INodeModel[]>;
+  paste: (request: IRequestPaste) => Promise<INodeModel[]>;
+  create: (request: IRequestCreate) => Promise<INodeModel | null>;
+  saveContent: (request: IRequestSaveContent) => Promise<INodeModel | null>;
+  saveComment: (request: IRequestSaveComment) => Promise<INodeModel | null>;
+  saveAccess: (request: IRequestSaveAccess) => Promise<INodeModel | null>;
 
   emptyTrash: () => Promise<boolean>;
   currentUser: () => Promise<IUser>;
   users: () => Promise<IUser[]>;
   roles: () => Promise<IRole[]>;
-  log: (request: ILogRequest) => Promise<ILogResponse>;
+  log: (request: IRequestLog) => Promise<ILogResponse>;
 }
 

@@ -117,7 +117,7 @@ const items: {
     label: 'В корзину',
     icon: IconDelete,
     command: async () => {
-      const result = await nodesActions.delete([ props.node ]);
+      const result = await nodesActions.trash([ props.node ]);
 
       if (result) {
         emit('nodeChange', result[0]);
@@ -130,7 +130,7 @@ const items: {
     label: 'Удалить навсегда',
     icon: IconDestroy,
     command: async () => {
-      const result = await nodesActions.destroy([ props.node ]);
+      const result = await nodesActions.delete([ props.node ]);
 
       if (result) {
         await router.push('/trash');
@@ -142,7 +142,7 @@ const items: {
     label: 'Восстановить',
     icon: IconRestore,
     command: async () => {
-      const result = await nodesActions.restore([ props.node ]);
+      const result = await nodesActions.untrash([ props.node ]);
 
       if (result) {
         emit('nodeChange', result[0]);

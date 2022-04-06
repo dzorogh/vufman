@@ -1,6 +1,6 @@
 import { INodeModel } from "@/types/INodeModel";
 
-export interface ISaveContentRequest {
+export interface IRequestRename {
   id: INodeModel['id'];
-  content: INodeModel['content'];
+  name: string;
 }

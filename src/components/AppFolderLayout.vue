@@ -127,21 +127,21 @@ useKeypress({
       keyCode: 46, // delete
       // modifiers: [ "ctrlKey" ],
       success: () => {
-        nodesStore.deleteNodes();
+        nodesStore.trashNodes();
       },
     },
     {
       keyCode: 8, // backspace
       modifiers: [ "metaKey" ], // + cmd
       success: () => {
-        nodesStore.deleteNodes();
+        nodesStore.trashNodes();
       },
     },
     {
       keyCode: 8, // backspace
       modifiers: [ "ctrlKey" ], // + ctrl
       success: () => {
-        nodesStore.deleteNodes();
+        nodesStore.trashNodes();
       },
     },
     {
