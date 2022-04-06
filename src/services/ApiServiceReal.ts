@@ -87,16 +87,19 @@ export class ApiServiceReal extends ApiService implements IApiService {
                  onError,
                  onProgress
                }: UploadCustomRequestOptions) {
+
+
     if (!file || !file.file) {
       throw new Error('No file content');
     }
 
-    const chunkSize = 2 * 1024 * 1024; // 2MB
+    const chunkSize = 256 * 1000 * 20;
     const chunksCount = Math.ceil(file.file.size / chunkSize);
-    const chunks = [];
     const fileContent = file.file;
     const fileName = file.name;
     const fileType = file.type;
+
+    const chunks = [];
 
     for (let i = 0; i < chunksCount; i++) {
       chunks.push(fileContent.slice(
@@ -104,54 +107,61 @@ export class ApiServiceReal extends ApiService implements IApiService {
       ));
     }
 
-    if (chunks.length > 0) {
-      for (const [ index, chunk ] of chunks.entries()) {
-        const isLast = index + 1 === chunks.length;
-        const formData = new FormData();
+    if (chunks.length === 0) {
+      chunks.push(new File([], 'blob'));
+    }
 
-        if (data) {
-          Object.keys(data).forEach((key) => {
-            formData.append(
-              key,
-              data[key as keyof UploadCustomRequestOptions['data']]
-            );
+    for (const [ index, chunk ] of chunks.entries()) {
+      const isLast = index + 1 === chunks.length;
+      const formData = new FormData();
+
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          formData.append(
+            key,
+            data[key as keyof UploadCustomRequestOptions['data']]
+          );
+        });
+      }
+
+      formData.append('chunk', chunk);
+      formData.append('isLast', isLast ? "1" : "0");
+      formData.append('name', fileName);
+      formData.append('type', fileType || '');
+      formData.append('chunkIndex', index + 1 + '');
+
+      try {
+        const percent = Math.ceil(((index + 1) / chunks.length) * 100);
+
+        console.log(`Sending chunk ${index + 1} of ${chunks.length}: ${percent}%`);
+
+        const response = await this.axios.post(
+          'upload',
+          formData,
+          {
+            withCredentials,
+            headers: {
+              'Content-Type': 'application/octet-stream'
+            },
+            onUploadProgress: ({ loaded, total }) => {
+              // onProgress({ percent: Math.ceil(loaded / total) });
+              onProgress({ percent }); // get percents only from chunks
+            }
           });
+
+        if (isLast) {
+          onFinish();
+
+          return new NodeModel(response.data.data);
         }
 
-        formData.append('chunk', chunk);
-        formData.append('isLast', isLast ? "1" : "0");
-        formData.append('name', fileName);
-        formData.append('type', fileType || '');
-        formData.append('chunkIndex', index + 1 + '');
-
-        try {
-          const percent = Math.ceil(((index + 1) / chunks.length) * 100);
-          console.log(`Sending chunk ${index + 1} of ${chunks.length}: ${percent}%`);
-          const response = await this.axios.post(
-            'upload',
-            formData,
-            {
-              withCredentials,
-              headers: {
-                'Content-Type': 'application/octet-stream'
-              },
-              onUploadProgress: ({ loaded, total }) => {
-                // onProgress({ percent: Math.ceil(loaded / total) });
-                onProgress({ percent }); // get percents only from chunks
-              }
-            });
-
-          if (isLast) {
-            onFinish();
-
-            return new NodeModel(response.data.data);
-          }
-
-        } catch (err) {
-          onError();
-        }
+      } catch (err) {
+        console.error(err);
+        onError();
       }
     }
+
+    console.error('No chunks');
 
     return null;
   }
