@@ -14,16 +14,10 @@
       :class="{'text-center': nodesStore.layout === 'grid'}"
     >
       <div
-        class="font-bold"
+        class="font-bold break-all"
         :class="{'mb-1': nodesStore.layout === 'grid'}"
       >
-        <template v-if="node.extension">
-          {{ `${node.name}.${node.extension}` }}
-        </template>
-
-        <template v-else>
-          {{ node.name }}
-        </template>
+        {{ node.getFullName() }}
       </div>
 
       <div class="text-sm text-slate-600">
