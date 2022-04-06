@@ -12,7 +12,10 @@ export function useAxios() {
 
   instance.interceptors.request.use(
     function (config) {
-      console.info('Axios request', config.url, config);
+      console.log('%cAxios request',
+        'background: -webkit-linear-gradient(315deg,#42d392 25%,#5AFFE2); border-radius: 5px; padding: 2px 5px; color: #282C34; font-size: 70%; font-weight: bold;',
+        config.url,
+        config);
 
       if (!config.onUploadProgress) {
         loadingBar.start();
@@ -22,7 +25,9 @@ export function useAxios() {
       return config;
     },
     function (error) {
-      console.warn('Axios request error', { error });
+      console.warn('%cAxios request error',
+        'background: -webkit-linear-gradient(315deg,#FF1C36 25%,#D39149);' +
+        ' border-radius: 5px; padding: 2px 5px; color: #282C34; font-size: 70%; font-weight: bold;', { error });
 
       loadingBar.error();
 
@@ -37,7 +42,9 @@ export function useAxios() {
 
   instance.interceptors.response.use(
     function (response) {
-      console.info('Axios response', response.config.url, response);
+      console.log('%cAxios response',
+        'background: -webkit-linear-gradient(315deg,#42d392 25%,#7FFF6E); border-radius: 5px; padding: 2px 5px; color: #282C34; font-size: 70%; font-weight: bold;',
+        response.config.url, response);
 
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
