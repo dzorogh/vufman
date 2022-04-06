@@ -127,6 +127,7 @@ import {
   ArrowReset20Filled as IconRestore,
   Cut20Filled as IconCut
 } from "@vicons/fluent";
+import { useNodesActions } from "@/composables/useNodesActions";
 
 const props = defineProps<{
   isTrash: boolean;
@@ -135,7 +136,8 @@ const props = defineProps<{
 const nodesStore = useNodesStore();
 const router = useRouter();
 const route = useRoute();
-const messages = useMessages();
+const nodesActions = useNodesActions();
+
 
 const renderIcon = (icon: Component) => {
   return () => {
@@ -321,19 +323,13 @@ document.addEventListener('mouseup', () => {
   nodesStore.dragging = false;
 });
 
-const handleDrop = (destination: INodeModel) => {
+const handleDrop = async (destination: INodeModel) => {
   if (dropAvailable(destination)) {
     console.log('drop to', destination);
 
-    nodesStore.selectedNodes.forEach((selectedNode) => {
-      const index = nodesStore.nodes.indexOf(selectedNode);
-      if (index >= 0) {
-        nodesStore.nodes.splice(index, 1);
-      }
-    });
+    await nodesActions.moveTo(nodesStore.selectedNodes, destination.id);
 
-    messages.nodesMoved('folder');
-
+    nodesStore.removeNodes(nodesStore.selectedNodes);
   }
 };
 
