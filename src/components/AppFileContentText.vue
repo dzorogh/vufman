@@ -8,6 +8,7 @@
       autofocus
       class="w-full grow p-6 shadow-inner font-mono resize-none rounded-none"
       type="textarea"
+      placeholder="Введите текст..."
     />
 
     <div class="p-6">
