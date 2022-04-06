@@ -38,6 +38,7 @@ declare module 'vue' {
     AppSidebar: typeof import('./src/components/AppSidebar.vue')['default']
     DialogConfirm: typeof import('./src/components/DialogConfirm.vue')['default']
     DialogPrompt: typeof import('./src/components/DialogPrompt.vue')['default']
+    IconArchive: typeof import('./src/components/IconArchive.vue')['default']
     IconAudio: typeof import('./src/components/IconAudio.vue')['default']
     IconDocument: typeof import('./src/components/IconDocument.vue')['default']
     IconFile: typeof import('./src/components/IconFile.vue')['default']
