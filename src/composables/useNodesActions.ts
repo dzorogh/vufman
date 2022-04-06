@@ -8,6 +8,7 @@ import { useMoveInteraction } from "@/composables/useMoveInteraction";
 import { useMakeFolderInteraction } from "@/composables/useMakeFolderInteraction";
 import { useMakeFileInteraction } from "@/composables/useMakeFileInteraction";
 import { useRouter } from "vue-router";
+import { useNavigatorStore } from "@/store/navigator";
 
 export function useNodesActions() {
   const messages = useMessages();
@@ -19,6 +20,7 @@ export function useNodesActions() {
   const router = useRouter();
 
   const api = useApi();
+  const navigatorStore = useNavigatorStore();
 
   return {
     /**
@@ -38,6 +40,10 @@ export function useNodesActions() {
 
         if (updatedNode) {
           messages.nodeRenamed();
+
+          if (updatedNode.isFolder) {
+            navigatorStore.loadNavigatorTree();
+          }
 
           return updatedNode;
         }
@@ -59,7 +65,9 @@ export function useNodesActions() {
         if (serverResult) {
           messages.nodesMoved('trash');
 
-          return true;
+          navigatorStore.loadNavigatorTree();
+
+          return serverResult;
         }
       }
     },
@@ -79,6 +87,8 @@ export function useNodesActions() {
         if (serverResult) {
           messages.nodesDestroyed();
 
+          navigatorStore.loadNavigatorTree();
+
           return true;
         }
       }
@@ -96,6 +106,8 @@ export function useNodesActions() {
 
       if (serverResult) {
         messages.nodesRestored();
+
+        navigatorStore.loadNavigatorTree();
 
         return serverResult;
       }
@@ -140,6 +152,8 @@ export function useNodesActions() {
         if (result) {
           messages.nodesMoved(destinationId ? 'folder' : 'root');
 
+          navigatorStore.loadNavigatorTree();
+
           return result;
         }
       } else {
@@ -147,6 +161,8 @@ export function useNodesActions() {
 
         if (result) {
           messages.nodesPasted();
+
+          navigatorStore.loadNavigatorTree();
 
           return result;
         }
@@ -168,6 +184,8 @@ export function useNodesActions() {
         if (updatedNodes.length) {
           messages.nodesMoved(destinationId ? 'folder' : 'root');
 
+          navigatorStore.loadNavigatorTree();
+
           return updatedNodes;
         }
       }
@@ -184,6 +202,8 @@ export function useNodesActions() {
 
       if (name) {
         const result = await api.create({ name, folderId, type: 'folder' });
+
+        navigatorStore.loadNavigatorTree();
 
         return result;
       }
