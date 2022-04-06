@@ -35,7 +35,7 @@ export interface IApiService {
   move: (request: IMoveRequest) => Promise<INodeModel[]>;
   paste: (request: IPasteRequest) => Promise<INodeModel[]>;
   create: (request: ICreateRequest) => Promise<INodeModel | null>;
-  download: (request: IDownloadRequest) => Promise<Blob | null>;
+  // download: (request: IDownloadRequest) => Promise<Blob | null>;
   saveContent: (request: ISaveContentRequest) => Promise<INodeModel | null>;
   saveComment: (request: ISaveCommentRequest) => Promise<INodeModel | null>;
   saveAccess: (request: ISaveAccessRequest) => Promise<INodeModel | null>;

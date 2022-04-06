@@ -156,18 +156,6 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return null;
   }
 
-  async download(request: IDownloadRequest) {
-    const response = await this.axios.get(
-      'download',
-      {
-        params: request,
-        responseType: 'blob'
-      }
-    );
-
-    return new Blob([ response.data ]);
-  }
-
   async rename(request: IRenameRequest) {
     const response = await this.axios.post(
       'rename',

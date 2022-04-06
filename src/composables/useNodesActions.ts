@@ -113,10 +113,10 @@ export function useNodesActions() {
         return false;
       }
 
-      const blob = await api.download({ id: node.id });
+      // const blob = await api.download({ id: node.id });
 
-      if (blob) {
-        downloadFile(blob, node.getFullName());
+      if (node.src) {
+        downloadFile(node.src, node.getFullName());
         return true;
       }
 
