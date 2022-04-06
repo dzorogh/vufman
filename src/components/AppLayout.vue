@@ -11,6 +11,7 @@
       :multiple="true"
       :custom-request="uploadRequest"
       :show-remove-button="false"
+      @finish="handleUploadFinished"
     >
       <div
         class="border border-slate-200 grid grid-cols-5 grow h-full min-h-full overflow-hidden rounded"
@@ -30,12 +31,16 @@
       :multiple="true"
       :custom-request="uploadRequest"
       :show-remove-button="false"
+      @finish="handleUploadFinished"
     >
       <n-upload-dragger
         class="absolute right-6 bottom-6 left-6 top-6 w-auto flex items-center justify-center"
         @dragleave="handleDragLeave"
         @dragover="handleDragOver"
         @drop="handleDrop"
+        @click="handleDragLeave"
+        @mouseover="handleDragLeave"
+        @mouseleave="handleDragLeave"
       >
         Перетащите файлы, чтобы загрузить
       </n-upload-dragger>
@@ -44,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { UploadCustomRequestOptions, UploadFileInfo } from "naive-ui";
 import { useApi } from "@/composables/useApi";
 import AppSidebar from "@/components/AppSidebar.vue";
@@ -109,6 +114,17 @@ const uploadRequest = async (options: UploadCustomRequestOptions) => {
   } else {
     messages.uploadFailed();
   }
+};
+
+const handleUploadFinished = () => {
+
+  console.log('handleUploadFinished', fileList.value);
+
+  nextTick(() => {
+    fileList.value = fileList.value.filter(item => {
+      return item.status !== 'finished';
+    });
+  });
 };
 
 </script>
