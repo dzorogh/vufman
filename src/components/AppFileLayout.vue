@@ -72,8 +72,8 @@ onBeforeMount(async () => {
 
   file.value = await api.file({ id: route.params.fileId as string });
 
-  if (file.value && file.value.ancestors && file.value.ancestors[0]) {
-    nodesStore.currentFolder = file.value.ancestors[0] as INodeModel;
+  if (file.value && file.value.ancestors && file.value.ancestors[file.value.ancestors.length - 1]) {
+    nodesStore.currentFolder = file.value.ancestors[file.value.ancestors.length - 1] as INodeModel;
   }
 
   isLoading.value = false;
