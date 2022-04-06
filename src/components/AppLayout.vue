@@ -11,6 +11,7 @@
       :multiple="true"
       :custom-request="uploadRequest"
       :show-remove-button="false"
+      :show-cancel-button="false"
       @finish="handleUploadFinished"
     >
       <div
@@ -31,6 +32,7 @@
       :multiple="true"
       :custom-request="uploadRequest"
       :show-remove-button="false"
+      :show-cancel-button="false"
       @finish="handleUploadFinished"
     >
       <n-upload-dragger
