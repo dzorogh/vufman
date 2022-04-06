@@ -176,11 +176,18 @@ export function useNodesActions() {
      */
     async move(nodes: INodeModel[]) {
       const destinationId = await moveInteraction.show(nodes);
-      const ids = nodes.map(i => i.id);
 
       if (destinationId) {
-        const updatedNodes = await api.move({ ids, destinationId: destinationId === 'root' ? null : destinationId });
+        return await this.moveTo(nodes, destinationId);
+      }
+    },
 
+    async moveTo(nodes: INodeModel[], destinationId: INodeModel['id'] | 'root' | 'trash') {
+      const ids = nodes.map(i => i.id);
+
+      if (destinationId && destinationId !== 'trash') {
+        const updatedNodes = await api.move({ ids, destinationId: destinationId === 'root' ? null : destinationId });
+        
         if (updatedNodes.length) {
           messages.nodesMoved(destinationId ? 'folder' : 'root');
 
@@ -189,6 +196,11 @@ export function useNodesActions() {
           return updatedNodes;
         }
       }
+
+      if (destinationId === 'trash') {
+        return this.delete(nodes);
+      }
+
     },
 
     /**
