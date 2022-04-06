@@ -57,6 +57,7 @@ const promptStore = usePromptStore();
 const nodesStore = useNodesStore();
 const route = useRoute();
 const api = useApi();
+const activeElement = useActiveElement();
 
 // testModule();
 
@@ -98,6 +99,10 @@ const handleNodeChange = (updatedFolder: INodeModel) => {
 };
 
 const keyboardActive = computed(() => {
+  if (activeElement.value && (activeElement.value.tagName === "INPUT" || activeElement.value.tagName === "TEXTAREA")) {
+    return false;
+  }
+
   return !confirmStore.show && !promptStore.show;
 });
 
