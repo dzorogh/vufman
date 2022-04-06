@@ -49,6 +49,12 @@
         class="text-slate-300"
         :class="iconSizeClasses"
       />
+
+      <IconArchive
+        v-if="node.getFileType() === 'archive'"
+        class="text-slate-300"
+        :class="iconSizeClasses"
+      />
     </template>
   </div>
 </template>
@@ -59,9 +65,9 @@ import IconFolder from "@/components/IconFolder.vue";
 import IconDocument from "@/components/IconDocument.vue";
 import IconVideo from "@/components/IconVideo.vue";
 import IconAudio from "@/components/IconAudio.vue";
-import IconFont from "@/components/IconFont.vue";
 import IconImage from "@/components/IconImage.vue";
 import IconText from "@/components/IconText.vue";
+import IconArchive from "@/components/IconArchive.vue";
 
 defineProps<{
   node: INodeModel;
