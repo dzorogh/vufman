@@ -11,6 +11,7 @@ import { settings } from "./setup";
 import router from "./router";
 import VueLazyLoad from 'vue3-lazyload';
 import { useNodesActions } from "@/composables/useNodesActions";
+import { useApi } from "@/composables/useApi";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -19,6 +20,7 @@ pinia.use(({ store }: PiniaPluginContext) => {
   store.router = markRaw(router);
   store.messages = markRaw(useMessages());
   store.nodesActions = markRaw(useNodesActions());
+  store.api = markRaw(useApi());
 });
 
 app.use(Toast, { position: POSITION.TOP_RIGHT } as PluginOptions);
