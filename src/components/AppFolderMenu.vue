@@ -33,21 +33,17 @@ import AppFolderMenuDynamicActions from "@/components/AppFolderMenuDynamicAction
 import AppFolderMenuStaticActions from "@/components/AppFolderMenuStaticActions.vue";
 
 import { useEmptyTrashInteraction } from "@/composables/useEmptyTrashInteraction";
+import { useNodesActions } from "@/composables/useNodesActions";
 
 const route = useRoute();
-const emptyTrashAction = useEmptyTrashInteraction();
+const nodesActions = useNodesActions();
+
 const props = defineProps<{
   isTrash: boolean;
 }>();
 
 const emptyTrash = async () => {
-  console.log('emptyTrash');
-
-  const result = await emptyTrashAction.show();
-
-  if (result) {
-    // TODO: api - empty trash
-  }
+  const result = await nodesActions.emptyTrash();
 };
 
 </script>

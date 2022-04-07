@@ -83,6 +83,10 @@ export function useMessages() {
 
     uploadSuccess: () => {
       toast.success('Файл загружен');
+    },
+
+    trashEmpty: () => {
+      toast.success('Корзина очищена');
     }
   };
 }

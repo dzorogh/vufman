@@ -166,6 +166,10 @@ export const useNodesStore = defineStore('nodes', {
         console.log('paste result', result);
 
         if (result) {
+          if (this.isCutNodes) {
+            this.removeNodes(result);
+          }
+
           this.nodes = [ ...result, ...this.nodes ];
         }
 

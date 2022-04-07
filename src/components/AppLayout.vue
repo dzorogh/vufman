@@ -22,7 +22,7 @@
           :file-list="fileList"
         />
 
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </div>
     </n-upload>
 

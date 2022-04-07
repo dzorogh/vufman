@@ -9,6 +9,7 @@ import { useMakeFolderInteraction } from "@/composables/useMakeFolderInteraction
 import { useMakeFileInteraction } from "@/composables/useMakeFileInteraction";
 import { useRouter } from "vue-router";
 import { useNavigatorStore } from "@/store/navigator";
+import { useEmptyTrashInteraction } from "@/composables/useEmptyTrashInteraction";
 
 export function useNodesActions() {
   const messages = useMessages();
@@ -17,6 +18,8 @@ export function useNodesActions() {
   const moveInteraction = useMoveInteraction();
   const makeFolderInteraction = useMakeFolderInteraction();
   const makeFileInteraction = useMakeFileInteraction();
+  const emptyTrashAction = useEmptyTrashInteraction();
+
   const router = useRouter();
 
   const api = useApi();
@@ -110,6 +113,34 @@ export function useNodesActions() {
         navigatorStore.loadNavigatorTree();
 
         return serverResult;
+      }
+    },
+
+    /**
+     * Remove all trashed nodes
+     *
+     * @param nodes
+     */
+    async emptyTrash() {
+
+      const actionResult = await emptyTrashAction.show();
+
+      if (actionResult) {
+        const serverResult = await api.emptyTrash();
+
+        if (serverResult) {
+          messages.trashEmpty();
+
+          await router.push({
+            name: 'folder',
+            query: {
+              trash: null,
+              empty: 1
+            }
+          });
+
+          return true;
+        }
       }
     },
 
