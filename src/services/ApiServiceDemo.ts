@@ -9,7 +9,6 @@ import { promiseTimeout } from '@vueuse/core';
 import { IRequestFile } from "@/types/IRequestFile";
 import { NodeModel } from "@/models/NodeModel";
 import { IRequestUpload } from "@/types/IRequestUpload";
-import { IRequestDownload } from "@/types/IRequestDownload";
 import { IRequestCreate } from "@/types/IRequestCreate";
 import { IRequestRename } from "@/types/IRequestRename";
 import { IRequestDelete } from "@/types/IRequestDelete";
@@ -275,7 +274,7 @@ const nodes = [
     "folderId": null,
     "access": {
       "global": "denied",
-      "partial": [
+      "special": [
         {
           "type": "user",
           "id": 2,
@@ -696,21 +695,6 @@ export class ApiServiceDemo extends ApiService implements IApiService {
         });
     });
 
-  }
-
-  async download(request: IRequestDownload) {
-    const nodes = await this.getNodes();
-
-    const node = nodes.find((node) => {
-      return node.id === request.id;
-    });
-
-    if (!node || !node.src) {
-      return null;
-    } else {
-      const response = await this.axios.get(node.src, { responseType: 'blob' });
-      return new Blob([ response.data ]);
-    }
   }
 
   async rename(request: IRequestRename) {
