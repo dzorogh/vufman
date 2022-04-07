@@ -1,7 +1,7 @@
 import { AccessType } from "@/types/AccessType";
 
 export interface IAccess {
-  global: AccessType | null;
+  global: AccessType | 'default';
   special: {
     type: 'user' | 'role';
     id: number | string;

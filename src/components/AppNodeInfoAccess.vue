@@ -17,7 +17,7 @@
       v-model:show="showEditAccess"
       class="custom-card"
       preset="card"
-      style="width: 800px"
+      style="width: 850px"
       title="Доступы"
       :bordered="false"
       size="huge"
@@ -31,7 +31,7 @@
               v-model:value="newAccess.global"
               placeholder="По умолчанию"
               clearable
-              :options="accessOptions"
+              :options="accessOptionsGlobal"
             />
           </n-form-item>
         </div>
@@ -55,7 +55,7 @@
                 <n-select
                   v-model:value="value.type"
                   placeholder="Тип"
-                  class="w-36 flex-none"
+                  class="w-44 flex-none"
                   :options="accessTypeOptions"
                   @update:value="value.id = null"
                 />
@@ -137,7 +137,7 @@ const saving = ref(false);
 const showEditAccess = ref(false);
 const newAccess = reactive<IAccess>(
   {
-    global: props.node.access ? props.node.access.global : null,
+    global: props.node.access ? props.node.access.global : 'default',
     special: props.node.access ? props.node.access.special : []
   }
 );
@@ -180,6 +180,14 @@ const accessTypeOptions = [
     label: 'Роль',
     value: 'role'
   },
+];
+
+const accessOptionsGlobal = [
+  {
+    label: 'По умолчанию',
+    value: 'default'
+  },
+  ...accessOptions
 ];
 
 const usersOptions = computed(() => {

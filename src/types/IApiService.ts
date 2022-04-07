@@ -37,8 +37,8 @@ export interface IApiService {
   saveContent: (request: IRequestSaveContent) => Promise<INodeModel | null>;
   saveComment: (request: IRequestSaveComment) => Promise<INodeModel | null>;
   saveAccess: (request: IRequestSaveAccess) => Promise<INodeModel | null>;
-
   emptyTrash: () => Promise<boolean>;
+  
   currentUser: () => Promise<IUser>;
   users: () => Promise<IUser[]>;
   roles: () => Promise<IRole[]>;
