@@ -2,7 +2,7 @@
   <AppNodeInfoItem
     title="Доступ"
     :content="'Общий доступ: ' + (newAccess && newAccess.global ? accessTypes[newAccess.global] : 'Не задан')"
-    :description="newAccess && newAccess.partial.length ? `Частных правил: ${newAccess.partial.length}` : 'Частные правила не заданы'"
+    :description="newAccess && newAccess.special.length ? `Частных правил: ${newAccess.special.length}` : 'Частные правила не заданы'"
   />
 
   <div>
@@ -29,7 +29,8 @@
           >
             <n-select
               v-model:value="newAccess.global"
-              placeholder="Select"
+              placeholder="По умолчанию"
+              clearable
               :options="accessOptions"
             />
           </n-form-item>
@@ -37,11 +38,11 @@
 
         <n-form-item
           label="Частный доступ"
-          :feedback="partialValidationStatus"
+          :feedback="specialValidationStatus"
         >
           <n-dynamic-input
-            v-model:value="newAccess.partial"
-            :on-create="createPartialRow"
+            v-model:value="newAccess.special"
+            :on-create="createSpecialRow"
           >
             <template #create-button-default>
               Добавить доступ
@@ -93,7 +94,7 @@
           <n-button
             type="primary"
             size="large"
-            :disabled="partialIsValid"
+            :disabled="specialIsValid"
             :loading="saving"
             @click="saveAccess"
           >
@@ -137,7 +138,7 @@ const showEditAccess = ref(false);
 const newAccess = reactive<IAccess>(
   {
     global: props.node.access ? props.node.access.global : null,
-    partial: props.node.access ? props.node.access.partial : []
+    special: props.node.access ? props.node.access.special : []
   }
 );
 const saveAccess = async () => {
@@ -147,7 +148,7 @@ const saveAccess = async () => {
   showEditAccess.value = false;
 };
 
-const createPartialRow = () => {
+const createSpecialRow = () => {
   return {
     type: null,
     id: null,
@@ -199,10 +200,10 @@ const rolesOptions = computed(() => {
   });
 });
 
-const partialIsValid = computed(() => {
+const specialIsValid = computed(() => {
   let error = false;
 
-  newAccess.partial.forEach(row => {
+  newAccess.special.forEach(row => {
     if (!row.type) {
       error = true;
     }
@@ -219,8 +220,8 @@ const partialIsValid = computed(() => {
   return error;
 });
 
-const partialValidationStatus = computed(() => {
-  return partialIsValid.value ? 'Выберите параметры или удалите строку' : null;
+const specialValidationStatus = computed(() => {
+  return specialIsValid.value ? 'Выберите параметры или удалите строку' : null;
 });
 
 </script>
