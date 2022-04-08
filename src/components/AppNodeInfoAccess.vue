@@ -1,7 +1,7 @@
 <template>
   <AppNodeInfoItem
     title="Доступ"
-    :content="'Общий доступ: ' + (newAccess && newAccess.global ? accessTypes[newAccess.global] : 'Не задан')"
+    :content="'Общий доступ: ' + (newAccess && newAccess.global !== 'default' ? accessTypes[newAccess.global] : 'По умолчанию')"
     :description="newAccess && newAccess.special.length ? `Частных правил: ${newAccess.special.length}` : 'Частные правила не заданы'"
   />
 
@@ -64,6 +64,7 @@
                   v-if="value.type === 'user'"
                   v-model:value="value.id"
                   placeholder="Пользователь"
+                  filterable
                   class=""
                   :options="usersOptions"
                 />
@@ -72,6 +73,7 @@
                   v-if="value.type === 'role'"
                   v-model:value="value.id"
                   placeholder="Роль"
+                  filterable
                   class=""
                   :options="rolesOptions"
                 />
