@@ -2,7 +2,6 @@ import { INode } from "@/types/INode";
 import { fileTypes } from "@/config/fileTypes";
 import { INodeModel } from "@/types/INodeModel";
 import filesize from "filesize";
-import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { useNodesActions } from "@/composables/useNodesActions";
 import { format } from "date-fns";
 
