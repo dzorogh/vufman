@@ -9,10 +9,11 @@ export interface INode {
   size: number;
   comment?: string;
   folderId: INode['id'] | null;
-  createdAt: ReturnType<Date['toISOString']> | null;
-  updatedAt: ReturnType<Date['toISOString']> | null;
-  deletedAt: ReturnType<Date['toISOString']> | null;
-  trashedAt: ReturnType<Date['toISOString']> | null;
+
+  createdAt: number | null;
+  updatedAt: number | null;
+  deletedAt: number | null;
+  trashedAt: number | null;
 
   isTrashed: boolean;
   isDeleted: boolean;
@@ -34,5 +35,8 @@ export interface INode {
 
   // For folder
   children?: INode[];
+
+  canRead: boolean;
+  canWrite: boolean;
 
 }

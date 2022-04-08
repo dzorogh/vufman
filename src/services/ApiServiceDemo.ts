@@ -776,12 +776,14 @@ export class ApiServiceDemo extends ApiService implements IApiService {
       extension: request.type === 'file' ? 'txt' : undefined,
       size: 0,
       folderId: request.folderId as string,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: +(new Date()),
+      updatedAt: +(new Date()),
       deletedAt: null,
       trashedAt: null,
       authorId: 1,
-      id: generateUUID()
+      id: generateUUID(),
+      canRead: true,
+      canWrite: true
     });
   }
 
