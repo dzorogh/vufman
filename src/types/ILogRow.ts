@@ -1,5 +1,6 @@
 import { ActionType } from "@/types/ActionType";
 import { IUser } from "@/types/IUser";
+import { INodeModel } from "@/types/INodeModel";
 
 export interface ILogRow {
   id: number | string;
@@ -7,5 +8,5 @@ export interface ILogRow {
   createdAt: number;
   action: ActionType;
   user: IUser;
-  nodeName: string;
+  node?: INodeModel;
 }

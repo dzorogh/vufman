@@ -553,7 +553,7 @@ const nodes = [
 export class ApiServiceDemo extends ApiService implements IApiService {
 
   private async getNodes() {
-    return nodes as INode[];
+    return nodes as unknown as INode[];
   }
 
   // private getNodesController: AbortController | undefined;
@@ -854,6 +854,8 @@ export class ApiServiceDemo extends ApiService implements IApiService {
   async log(request: IRequestLog) {
     await promiseTimeout(Math.random() * 1000 + 100);
 
+    const node = await this.create({ name: 'тест ', folderId: null, type: 'file' });
+
     const data = Array(200).fill({}).map((item, index) => {
       const actionsTypes = Object.keys(actions);
 
@@ -861,8 +863,8 @@ export class ApiServiceDemo extends ApiService implements IApiService {
         id: index,
         createdAt: +new Date(+new Date() - index * 10000000),
         user: users[index % users.length],
-        nodeName: `Название файла ${index}.png`,
-        action: actionsTypes[index % actionsTypes.length]
+        node: node,
+        action: actionsTypes[index % actionsTypes.length],
       } as ILogRow;
     });
 
@@ -887,8 +889,8 @@ export class ApiServiceDemo extends ApiService implements IApiService {
         }
       }
 
-      if (request.nodeName) {
-        if (item.nodeName.search(request.nodeName) < 0) {
+      if (request.nodeName && item.node && item.node.name) {
+        if (item.node.name.search(request.nodeName) < 0) {
           filtered = false;
         }
       }
@@ -901,8 +903,8 @@ export class ApiServiceDemo extends ApiService implements IApiService {
     return {
       data: pagedData,
       meta: {
-        page: request.page,
-        perPage: request.perPage,
+        current_page: request.page,
+        per_page: request.perPage,
         total: filteredData.length
       }
     };
