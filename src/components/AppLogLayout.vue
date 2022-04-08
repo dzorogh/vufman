@@ -130,6 +130,7 @@ const dateColumn: DataTableColumn = {
   title: 'Дата',
   key: 'createdAt',
   sorter: true,
+  width: 150,
   render: (rowData, rowIndex) => {
     const date = rowData.createdAt as number;
 
@@ -141,6 +142,8 @@ const userColumn: DataTableColumn = {
   title: 'Пользователь',
   key: 'userId',
   sorter: true,
+  width: 200,
+
   render: (rowData, rowIndex) => {
     const user = rowData.user as IUser;
 
@@ -152,6 +155,7 @@ const nodeColumn: DataTableColumn = {
   title: 'Файл/папка',
   key: 'nodeName',
   sorter: true,
+
   render: (rowData, rowIndex) => {
     const data = rowData as unknown as ILogRow;
 
@@ -193,6 +197,8 @@ const actionColumn: DataTableColumn = {
   title: 'Действие',
   key: 'action',
   sorter: true,
+  width: 200,
+
   render: (rowData, rowIndex) => {
     const action = rowData.action as ActionType;
 
@@ -203,8 +209,8 @@ const actionColumn: DataTableColumn = {
 const columns = reactive<Array<DataTableColumn>>([
   dateColumn,
   userColumn,
+  actionColumn,
   nodeColumn,
-  actionColumn
 ]);
 
 const pagination = reactive<Mutable<PaginationProps>>({
@@ -236,7 +242,7 @@ const load = async (page: number) => {
   loading.value = true;
 
   const response = await api.log({
-    action: filters.action || null,
+    actionType: filters.action || null,
     date: filters.date || null,
     userId: filters.userId || null,
     nodeName: filters.nodeName || null,

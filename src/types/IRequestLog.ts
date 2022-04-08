@@ -2,7 +2,7 @@ import { ActionType } from "@/types/ActionType";
 
 export interface IRequestLog {
   nodeName: string | null;
-  action: ActionType | null;
+  actionType: ActionType | null;
   date: number | null;
   userId: string | number | null;
   page: number;
