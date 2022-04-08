@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col col-span-4 h-full bg-white">
+  <div class="flex flex-col col-span-4 h-full bg-white overflow-hidden">
     <div class="bg-indigo-200 p-4 py-6 font-bold">
       Лог действий пользователей
     </div>
@@ -129,7 +129,7 @@ const dateColumn: DataTableColumn = {
   render: (rowData, rowIndex) => {
     const date = rowData.createdAt as number;
 
-    return format(date, 'dd.MM.yyyy hh:mm');
+    return format(date, 'dd.MM.yyyy HH:mm');
   }
 };
 
@@ -147,7 +147,42 @@ const userColumn: DataTableColumn = {
 const nodeColumn: DataTableColumn = {
   title: 'Файл/папка',
   key: 'nodeName',
-  sorter: true
+  sorter: true,
+  render: (rowData, rowIndex) => {
+    const data = rowData as unknown as ILogRow;
+
+    if (data.node) {
+      const node = new NodeModel(data.node as INode) as INodeModel;
+
+      return h(RouterLink, {
+        to: (() => {
+          if (node.isFolder) {
+            return {
+              name: 'folder',
+              params: {
+                folderId: node.id,
+              }
+            };
+          } else {
+            return {
+              name: 'file',
+              params: {
+                fileId: node.id,
+              }
+            };
+          }
+        })()
+      }, () => node.getPath() + '/' + node.getFullName());
+    }
+
+    if (data.action === 'emptyTrash') {
+      return h(RouterLink, {
+        to: {
+          name: 'trash',
+        }
+      }, () => 'Корзина');
+    }
+  }
 };
 
 const actionColumn: DataTableColumn = {
@@ -216,8 +251,8 @@ const load = async (page: number) => {
   loading.value = false;
   data.value = responseData;
 
-  pagination.page = response.meta.page;
-  pagination.pageSize = response.meta.perPage;
+  pagination.page = response.meta.current_page;
+  pagination.pageSize = response.meta.per_page;
   pagination.itemCount = response.meta.total;
 };
 
