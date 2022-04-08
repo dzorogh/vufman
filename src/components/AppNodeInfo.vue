@@ -89,10 +89,9 @@
 <script setup lang="ts">
 // libs
 import linkifyHtml from 'linkify-html';
-import { computed, reactive, ref } from "vue";
+import { computed, ref } from "vue";
 
 // app
-import { formatTimestamp } from '@/formatters/formatTimestamp';
 import { useNodesActions } from "@/composables/useNodesActions";
 import { useStore } from "@/store/main";
 

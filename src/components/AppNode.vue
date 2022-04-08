@@ -31,7 +31,7 @@
         <div
           v-if="node.createdAt"
         >
-          {{ formatTimestamp(node.createdAt) }}
+          {{ node.getCreatedAt() }}
         </div>
 
         <div v-if="node.author">
@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 
-import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { INodeModel } from "@/types/INodeModel";
 import AppNodeIcon from "@/components/AppNodeIcon.vue";
 import { useNodesStore } from "@/store/nodes";
