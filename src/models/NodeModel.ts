@@ -4,6 +4,7 @@ import { INodeModel } from "@/types/INodeModel";
 import filesize from "filesize";
 import { formatTimestamp } from "@/formatters/formatTimestamp";
 import { useNodesActions } from "@/composables/useNodesActions";
+import { format } from "date-fns";
 
 export class NodeModel implements INodeModel {
 
@@ -110,9 +111,19 @@ export class NodeModel implements INodeModel {
     }
   }
 
-  public getParentName() {
+  public getParent() {
     if (this.node.folderId && this.node.ancestors && this.node.ancestors[this.node.ancestors.length - 1]) {
-      return this.node.ancestors[this.node.ancestors.length - 1].name;
+      return this.node.ancestors[this.node.ancestors.length - 1];
+    }
+
+    return null;
+  }
+
+  public getParentName() {
+    const parent = this.getParent();
+
+    if (parent) {
+      return parent.name;
     } else {
       if (this.node.isTrashed) {
         return 'Корзина';
@@ -124,7 +135,7 @@ export class NodeModel implements INodeModel {
 
   public getCreatedAt() {
     if (this.node.createdAt) {
-      return formatTimestamp(this.node.createdAt);
+      return format(this.node.createdAt, 'dd.MM.yyyy HH:mm');
     } else {
       return "";
     }
@@ -132,7 +143,8 @@ export class NodeModel implements INodeModel {
 
   public getUpdatedAt() {
     if (this.node.updatedAt) {
-      return formatTimestamp(this.node.updatedAt);
+      return format(this.node.updatedAt, 'dd.MM.yyyy HH:mm');
+
     } else {
       return "";
     }
@@ -140,7 +152,8 @@ export class NodeModel implements INodeModel {
 
   public getTrashedAt() {
     if (this.node.trashedAt) {
-      return formatTimestamp(this.node.trashedAt);
+      return format(this.node.trashedAt, 'dd.MM.yyyy HH:mm');
+
     } else {
       return "";
     }
@@ -148,7 +161,8 @@ export class NodeModel implements INodeModel {
 
   public getDeletedAt() {
     if (this.node.deletedAt) {
-      return formatTimestamp(this.node.deletedAt);
+      return format(this.node.deletedAt, 'dd.MM.yyyy HH:mm');
+
     } else {
       return "";
     }
