@@ -106,7 +106,7 @@ const uploadRequest = async (options: UploadCustomRequestOptions) => {
     ...options,
     data: {
       ...options.data,
-      folderId: nodesStore.currentFolder ? nodesStore.currentFolder.id || '' : '',
+      folderId: nodesStore.currentFolder ? nodesStore.currentFolder.id as string || '' : '',
     },
   });
 
