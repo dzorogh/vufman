@@ -4,7 +4,7 @@
       v-if="nodesStore.currentFolder"
       class="flex gap-4 items-center"
     >
-      <n-tooltip>
+      <n-tooltip v-if="haveAccessToParent">
         <template #trigger>
           <n-button
             round
@@ -64,7 +64,7 @@ const props = defineProps<{
   isTrash?: boolean;
 }>();
 
-const handleClickBack = function () {
+const handleClickBack = () => {
   if (nodesStore.currentFolder) {
     router.push({
       name: 'folder',
@@ -76,6 +76,18 @@ const handleClickBack = function () {
       }
     });
   }
+};
+
+const haveAccessToParent = () => {
+  if (nodesStore.currentFolder) {
+    const parent = nodesStore.currentFolder.getParent();
+    
+    if (parent) {
+      return parent.canRead;
+    }
+  }
+
+  return true;
 };
 
 </script>
