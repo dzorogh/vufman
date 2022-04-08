@@ -13,4 +13,7 @@ export const actions: { [key in ActionType]: string } = {
   saveComment: 'Сохранение комментария',
   saveAccess: 'Сохранение доступов',
   saveContent: 'Сохранение файла',
+  folder: 'Открыл папку',
+  file: 'Открыл файл',
+  download: 'Скачивание / просмотр файла'
 };
