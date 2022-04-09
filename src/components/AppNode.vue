@@ -11,10 +11,11 @@
     />
 
     <div
+      class="break-words w-full"
       :class="{'text-center': nodesStore.layout === 'grid'}"
     >
       <div
-        class="font-bold break-all"
+        class="font-bold "
         :class="{'mb-1': nodesStore.layout === 'grid'}"
       >
         {{ node.getFullName() }}
