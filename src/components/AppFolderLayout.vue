@@ -65,26 +65,22 @@ const isTrash = computed(() => {
   return typeof route.query.trash !== 'undefined';
 });
 
-
 watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.search ],
-  async ([ folderId, routeName, trash, search ]) => {
+  async ([ folderId, routeName, trash, search ], old) => {
 
-    console.log({ folderId, routeName, trash });
+    // Check for empty old params - only load if it is empty to prevent double request
+    if (routeName === 'folder' && !old) {
+      console.log('Reload folder', { folderId, routeName, trash, search }, old);
 
-    if (routeName === 'folder') {
       nodesStore.nodesLoading = true;
       nodesStore.selectedNodes = [];
 
-      [ nodesStore.currentFolder, nodesStore.nodes ] = await Promise.all([
-        folderId ? api.folder({ id: folderId as string }) : null,
-
-        api.nodes({
-          folderId: folderId as string || null,
-          isTrashed: isTrash.value || undefined,
-          search: search as string || undefined
-        }, true)
-
-      ]);
+      nodesStore.currentFolder = await (folderId ? api.folder({ id: folderId as string }) : null);
+      nodesStore.nodes = await api.nodes({
+        folderId: folderId as string || null,
+        isTrashed: isTrash.value || undefined,
+        search: search as string || undefined
+      }, true);
 
       nodesStore.nodesLoading = false;
     }
