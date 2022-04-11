@@ -223,7 +223,7 @@ const pagination = reactive<Mutable<PaginationProps>>({
 const filters = reactive({
   date: null as IRequestLog['date'],
   userId: null as IRequestLog['userId'],
-  action: null as IRequestLog['action'],
+  action: null as IRequestLog['actionType'],
   nodeName: ''
 });
 

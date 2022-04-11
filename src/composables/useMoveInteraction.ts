@@ -1,8 +1,9 @@
 import { usePromptStore } from "@/store/prompt";
 import { INodeModel } from "@/types/INodeModel";
 import { useApi } from "@/composables/useApi";
-import { ITreeNode, makeNavigatorTree } from "@/services/makeNavigatorTree";
+import { makeNavigatorTree } from "@/services/makeNavigatorTree";
 import { Home16Filled as IconHome } from "@vicons/fluent";
+import { ITreeNode } from "@/types/ITreeNode";
 
 export function useMoveInteraction() {
   const promptStore = usePromptStore();

@@ -4,7 +4,7 @@
       v-if="nodesStore.currentFolder"
       class="flex gap-4 items-center"
     >
-      <n-tooltip v-if="haveAccessToParent">
+      <n-tooltip v-if="haveAccessToParent()">
         <template #trigger>
           <n-button
             round

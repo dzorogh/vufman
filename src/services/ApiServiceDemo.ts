@@ -885,8 +885,8 @@ export class ApiServiceDemo extends ApiService implements IApiService {
         }
       }
 
-      if (request.action) {
-        if (request.action !== item.action) {
+      if (request.actionType) {
+        if (request.actionType !== item.action) {
           filtered = false;
         }
       }

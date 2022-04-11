@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ITreeNode } from "@/services/makeNavigatorTree";
+import { ITreeNode } from "@/types/ITreeNode";
 
 export const usePromptStore = defineStore('prompt', {
   state: () => {

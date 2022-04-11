@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="file.mimetype === 'text/plain' && file.size < 100000"
+    v-if="file.mimetype === 'text/plain' && file.size ? file.size < 100000 : true"
     class="h-full flex flex-col bg-white"
   >
     <n-input
