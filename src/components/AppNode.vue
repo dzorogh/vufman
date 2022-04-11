@@ -11,22 +11,33 @@
     />
 
     <div
-      class="break-words w-full"
+      class="break-words w-full flex flex-col gap-0.5"
       :class="{'text-center': nodesStore.layout === 'grid'}"
     >
       <div
-        class="font-bold "
-        :class="{'mb-1': nodesStore.layout === 'grid'}"
+        class="font-bold flex items-center gap-2"
       >
-        {{ node.getFullName() }}
+        <div>
+          {{ node.getFullName() }}
+        </div>
+
+        <div
+          v-if="!node.canWrite"
+          class="opacity-50"
+        >
+          <IconReadOnly class="w-3 h-3" />
+        </div>
       </div>
 
-      <div class="text-sm text-slate-600">
+      <div
+        v-if="!node.isFolder"
+        class="text-sm text-slate-600"
+      >
         {{ node.getSize() }}
       </div>
 
       <div
-        class="flex items-center text-sm text-slate-600 gap-2"
+        class="flex items-center text-sm text-slate-600 gap-x-2"
         :class="{'flex-col': nodesStore.layout === 'grid'}"
       >
         <div
@@ -36,7 +47,7 @@
         </div>
 
         <div v-if="node.author">
-          {{ node.author.fullName }}
+          {{ `${node.author.lastName} ${node.author.firstName} ` }}
         </div>
       </div>
     </div>
@@ -49,6 +60,9 @@ import { INodeModel } from "@/types/INodeModel";
 import AppNodeIcon from "@/components/AppNodeIcon.vue";
 import { useNodesStore } from "@/store/nodes";
 import { ref } from "vue";
+import {
+  EditOff16Filled as IconReadOnly
+} from "@vicons/fluent";
 
 const nodesStore = useNodesStore();
 

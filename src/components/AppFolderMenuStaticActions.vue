@@ -1,6 +1,7 @@
 <template>
   <n-button-group>
     <n-upload-trigger
+      v-if="nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true"
       #="{ handleClick }"
       abstract
     >
@@ -12,9 +13,9 @@
         </template>
       </n-button>
     </n-upload-trigger>
-    
+
     <n-tooltip
-      v-for="(item, index) in staticActions"
+      v-for="(item, index) in staticActions.filter(item => item.show ? item.show() : true)"
       :key="index"
       placement="bottom"
       trigger="hover"
@@ -48,13 +49,13 @@ const nodesStore = useNodesStore();
 
 const staticActions = [
   {
-    show: () => true,
+    show: () => nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true,
     label: 'Новая папка <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>N</kbd>',
     icon: IconMakeFolder,
     action: nodesStore.makeFolder,
   },
   {
-    show: () => true,
+    show: () => nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true,
     label: 'Создать текстовый файл <kbd>СTRL/CMD</kbd>+<kbd>ALT</kbd>+<kbd>F</kbd>',
     icon: IconMakeFile,
     action: nodesStore.makeFile,

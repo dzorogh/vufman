@@ -53,7 +53,7 @@ const dynamicActions = [
     action: nodesStore.selectAllNodes,
   },
   {
-    show: () => nodesStore.selectedNodes.length,
+    show: () => nodesStore.selectedNodes.length && nodesStore.canWriteSelectedNodes(),
     label: 'Переместить',
     icon: IconMove,
     action: nodesStore.moveNodes
@@ -65,19 +65,19 @@ const dynamicActions = [
     action: nodesStore.copyNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length && !props.isTrash,
+    show: () => nodesStore.selectedNodes.length && !props.isTrash && nodesStore.canWriteSelectedNodes(),
     label: 'Вырезать <kbd>СTRL/CMD</kbd>+<kbd>C</kbd>',
     icon: IconCut,
     action: nodesStore.cutNodes
   },
   {
-    show: () => nodesStore.copiedNodes.length && !props.isTrash,
+    show: () => nodesStore.copiedNodes.length && !props.isTrash && (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true),
     label: 'Вставить <kbd>СTRL/CMD</kbd>+<kbd>V</kbd>',
     icon: IconPaste,
     action: nodesStore.pasteNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length === 1 && !props.isTrash,
+    show: () => nodesStore.selectedNodes.length === 1 && !props.isTrash && nodesStore.canWriteSelectedNodes(),
     label: 'Переименовать',
     icon: IconRename,
     action: nodesStore.renameNode
@@ -89,19 +89,19 @@ const dynamicActions = [
     action: nodesStore.downloadNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length && !props.isTrash,
+    show: () => nodesStore.selectedNodes.length && !props.isTrash && nodesStore.canWriteSelectedNodes(),
     label: 'Переместить в корзину',
     icon: IconDelete,
     action: nodesStore.trashNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length && props.isTrash,
+    show: () => nodesStore.selectedNodes.length && props.isTrash && nodesStore.canWriteSelectedNodes(),
     label: 'Удалить навсегда',
     icon: IconDestroy,
     action: nodesStore.deleteNodes
   },
   {
-    show: () => nodesStore.selectedNodes.length && props.isTrash,
+    show: () => nodesStore.selectedNodes.length && props.isTrash && nodesStore.canWriteSelectedNodes(),
     label: 'Восстановить',
     icon: IconRestore,
     action: nodesStore.untrashNodes

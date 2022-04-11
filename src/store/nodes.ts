@@ -205,6 +205,19 @@ export const useNodesStore = defineStore('nodes', {
 
       await this.nodesActions.makeFile(this.currentFolder);
     },
+
+    canWriteSelectedNodes() {
+      let result = true;
+
+      this.selectedNodes.forEach(selectedNode => {
+        if (!selectedNode.canWrite) {
+          result = false;
+          return false;
+        }
+      });
+
+      return result;
+    }
   },
 
   getters: {

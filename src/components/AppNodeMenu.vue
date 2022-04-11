@@ -89,7 +89,8 @@ const items: {
       if (result) {
         emit('nodeChange', result[0]);
       }
-    }
+    },
+    show: () => !!props.node.canWrite,
   },
   {
     label: 'Скопировать',
@@ -110,7 +111,7 @@ const items: {
         emit('nodeChange', result);
       }
     },
-    show: () => !props.node.isTrashed,
+    show: () => !props.node.isTrashed && !!props.node.canWrite,
 
   },
   {
@@ -123,10 +124,9 @@ const items: {
         emit('nodeChange', result[0]);
       }
     },
-    show: () => !props.node.isTrashed,
+    show: () => !props.node.isTrashed && !!props.node.canWrite,
   },
   {
-    show: () => !!props.node.isTrashed,
     label: 'Удалить навсегда',
     icon: IconDestroy,
     command: async () => {
@@ -135,10 +135,12 @@ const items: {
       if (result) {
         await router.push('/trash');
       }
-    }
+    },
+    show: () => !!props.node.isTrashed && !!props.node.canWrite,
+
   },
   {
-    show: () => !!props.node.isTrashed,
+    show: () => !!props.node.isTrashed && !!props.node.canWrite,
     label: 'Восстановить',
     icon: IconRestore,
     command: async () => {

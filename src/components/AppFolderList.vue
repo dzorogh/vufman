@@ -189,27 +189,31 @@ const contextMenu = {
       key: 'd1'
     });
 
-    result.push({
-      key: 'move',
-      label: 'Переместить',
-      icon: renderIcon(IconMove),
-      command: nodesStore.moveNodes,
-    });
+    if (nodesStore.canWriteSelectedNodes()) {
+      result.push({
+        key: 'move',
+        label: 'Переместить',
+        icon: renderIcon(IconMove),
+        command: nodesStore.moveNodes,
+      });
+    }
 
     if (props.isTrash) {
-      result.push({
-        key: 'destroy',
-        label: 'Удалить навсегда',
-        icon: renderIcon(IconDestroy),
-        command: nodesStore.deleteNodes,
-      });
+      if (nodesStore.canWriteSelectedNodes()) {
+        result.push({
+          key: 'destroy',
+          label: 'Удалить навсегда',
+          icon: renderIcon(IconDestroy),
+          command: nodesStore.deleteNodes,
+        });
 
-      result.push({
-        key: 'restore',
-        label: 'Восстановить',
-        icon: renderIcon(IconRestore),
-        command: nodesStore.untrashNodes,
-      });
+        result.push({
+          key: 'restore',
+          label: 'Восстановить',
+          icon: renderIcon(IconRestore),
+          command: nodesStore.untrashNodes,
+        });
+      }
     } else {
       result.push({
         key: 'copy',
@@ -218,14 +222,16 @@ const contextMenu = {
         command: nodesStore.copyNodes,
       });
 
-      result.push({
-        key: 'cut',
-        label: 'Вырезать',
-        icon: renderIcon(IconCut),
-        command: nodesStore.cutNodes,
-      });
+      if (nodesStore.canWriteSelectedNodes()) {
+        result.push({
+          key: 'cut',
+          label: 'Вырезать',
+          icon: renderIcon(IconCut),
+          command: nodesStore.cutNodes,
+        });
+      }
 
-      if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1) {
+      if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && nodesStore.canWriteSelectedNodes()) {
         result.push({
           key: 'rename',
           label: 'Переименовать',
@@ -234,12 +240,14 @@ const contextMenu = {
         });
       }
 
-      result.push({
-        key: 'trash',
-        label: 'В корзину',
-        icon: renderIcon(IconDelete),
-        command: nodesStore.trashNodes,
-      });
+      if (nodesStore.canWriteSelectedNodes()) {
+        result.push({
+          key: 'trash',
+          label: 'В корзину',
+          icon: renderIcon(IconDelete),
+          command: nodesStore.trashNodes,
+        });
+      }
     }
 
     if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {

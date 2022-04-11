@@ -11,8 +11,13 @@
         />
       </div>
 
-      <div class="py-4 px-4">
-        <AppFolderMenu :is-trash="props.isTrash" />
+      <div
+        v-if="nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true"
+        class="py-4 px-4"
+      >
+        <AppFolderMenu
+          :is-trash="props.isTrash"
+        />
       </div>
     </template>
   </div>

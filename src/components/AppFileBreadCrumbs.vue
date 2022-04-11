@@ -18,7 +18,20 @@
     </n-tooltip>
 
     <div class="font-bold flex gap-4 items-center">
-      {{ file.getFullName() }}
+      <div
+        class="font-bold flex items-center gap-2"
+      >
+        <div>
+          {{ file.getFullName() }}
+        </div>
+
+        <div
+          v-if="!file.canWrite"
+          class="opacity-50"
+        >
+          <IconReadOnly class="w-3 h-3" />
+        </div>
+      </div>
 
       <n-tag
         v-if="file.isTrashed"
@@ -35,6 +48,9 @@ import {
   ArrowEnterUp24Filled
 } from "@vicons/fluent";
 import { useRouter } from "vue-router";
+import {
+  EditOff16Filled as IconReadOnly
+} from "@vicons/fluent";
 
 const router = useRouter();
 
