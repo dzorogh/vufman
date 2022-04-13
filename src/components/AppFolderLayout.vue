@@ -69,7 +69,7 @@ const activeElement = useActiveElement();
 // testModule();
 
 const isTrash = computed(() => {
-  if (nodesStore.currentFolder) {
+  if (nodesStore.currentFolder && nodesStore.currentFolder.isTrashed !== undefined) {
     return nodesStore.currentFolder.isTrashed;
   } else {
     return typeof route.query.trash !== 'undefined';

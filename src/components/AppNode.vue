@@ -30,7 +30,7 @@
         </div>
 
         <div
-          v-if="node.access.global === 'denied'"
+          v-if="node.access && node.access.global === 'denied'"
           class="text-red-600"
         >
           <IconDenied class="w-3 h-3" />
