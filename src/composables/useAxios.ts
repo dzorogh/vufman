@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useLoadingBar, useNotification } from "naive-ui";
 import { settings } from "@/setup";
+import router from "@/router";
 
 export function useAxios() {
   const instance = axios.create({
@@ -55,8 +56,18 @@ export function useAxios() {
 
       return response;
     },
-    function (error) {
+    function (error: AxiosError) {
       console.warn('Axios response error', { error });
+
+      // On unauthenticated - reload page to allow webserver to redirect to login page
+      if (error.response && error.response.status === 401) {
+        return document.location.reload();
+      }
+
+      // On unauthenticated - reload page to allow webserver to redirect to login page
+      if (error.response && error.response.status === 404) {
+        router.push('/');
+      }
 
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
@@ -65,8 +76,9 @@ export function useAxios() {
 
       notification.error({
         content: 'Ошибка сервера',
-        meta: error.response.data && error.response.data.message ? error.response.data.message : error.response.statusText
+        meta: error.response && error.response.data && error.response.data.message ? error.response.data.message : error.response?.statusText
       });
+
 
       return Promise.reject(error);
     });
