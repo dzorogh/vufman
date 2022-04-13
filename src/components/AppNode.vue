@@ -28,6 +28,13 @@
         >
           <IconReadOnly class="w-3 h-3" />
         </div>
+
+        <div
+          v-if="node.access.global === 'denied'"
+          class="text-red-600"
+        >
+          <IconDenied class="w-3 h-3" />
+        </div>
       </div>
 
       <div
@@ -62,7 +69,8 @@ import AppNodeIcon from "@/components/AppNodeIcon.vue";
 import { useNodesStore } from "@/store/nodes";
 import { ref } from "vue";
 import {
-  EditOff16Filled as IconReadOnly
+  EditOff16Filled as IconReadOnly,
+  LockClosed12Filled as IconDenied
 } from "@vicons/fluent";
 
 const nodesStore = useNodesStore();
