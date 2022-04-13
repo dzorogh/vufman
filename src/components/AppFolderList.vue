@@ -20,7 +20,7 @@
       :class="{
         'cursor-grabbing': nodesStore.dragging,
         'grid lg:grid-cols-2 gap-2' : nodesStore.layout === 'list',
-        'grid xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'
+        'grid grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4' : nodesStore.layout === 'grid'
       }"
       class="overflow-x-hidden p-4"
       @click.self="nodesStore.deselect()"

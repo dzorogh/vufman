@@ -1,10 +1,14 @@
 <template>
-  <n-button-group>
+  <n-button-group
+    size="small"
+    class="overflow-auto"
+  >
     <n-tooltip
       v-for="(item, index) in dynamicActionsFiltered"
       :key="index"
       placement="bottom"
       trigger="hover"
+      :disabled="mdAndSmaller"
     >
       <template #trigger>
         <n-button
@@ -38,12 +42,16 @@ import {
 import { computed } from "vue";
 import { useNodesStore } from "@/store/nodes";
 import { useRoute } from "vue-router";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
 const nodesStore = useNodesStore();
 const route = useRoute();
 const props = defineProps<{
   isTrash: boolean;
 }>();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('md');
 
 const dynamicActions = [
   {

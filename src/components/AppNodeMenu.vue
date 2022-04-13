@@ -20,7 +20,7 @@
         :key="index"
         class="grid"
       >
-        <n-tooltip>
+        <n-tooltip :disabled="mdAndSmaller">
           <template #trigger>
             <n-button
               @click="item.command"
@@ -54,10 +54,13 @@ import {
 import { useNodesActions } from "@/composables/useNodesActions";
 import { useNodesStore } from "@/store/nodes";
 import { useRouter } from "vue-router";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
 const router = useRouter();
 const nodesActions = useNodesActions();
 const nodesStore = useNodesStore();
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('md');
 
 const props = defineProps<{
   node: INodeModel;

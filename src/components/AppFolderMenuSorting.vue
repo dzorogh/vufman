@@ -1,5 +1,5 @@
 <template>
-  <n-button-group>
+  <n-button-group size="small">
     <n-popselect
       v-model:value="nodesStore.sorting"
       :options="sortingTypes"

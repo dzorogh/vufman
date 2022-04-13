@@ -1,6 +1,9 @@
 <template>
-  <div class="flex items-center flex-wrap gap-4">
-    <n-button @click="handleReload">
+  <div class="flex items-center flex-wrap gap-4 overflow-hidden">
+    <n-button
+      size="small"
+      @click="handleReload"
+    >
       <template #icon>
         <n-icon>
           <icon-reload />
@@ -10,6 +13,7 @@
 
     <n-button
       v-if="isTrash"
+      size="small"
       ghost
       type="error"
       class="mr-auto"

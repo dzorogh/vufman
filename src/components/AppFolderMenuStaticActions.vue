@@ -1,5 +1,5 @@
 <template>
-  <n-button-group>
+  <n-button-group size="small">
     <n-upload-trigger
       v-if="nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true"
       #="{ handleClick }"
@@ -19,9 +19,11 @@
       :key="index"
       placement="bottom"
       trigger="hover"
+      :disabled="mdAndSmaller"
     >
       <template #trigger>
         <n-button
+          size="small"
           @click="item.action"
         >
           <template #icon>
@@ -43,9 +45,12 @@ import {
 } from "@vicons/fluent";
 import { useNodesStore } from "@/store/nodes";
 import { useRoute } from "vue-router";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
 const route = useRoute();
 const nodesStore = useNodesStore();
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('md');
 
 const staticActions = [
   {

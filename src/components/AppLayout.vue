@@ -15,10 +15,10 @@
       @finish="handleUploadFinished"
     >
       <div
-        class="border border-slate-200 grid grid-cols-5 grow h-full min-h-full overflow-hidden rounded"
+        class="border border-slate-200 lg:grid flex flex-col grid-cols-5 grow h-full min-h-full overflow-hidden rounded"
       >
         <AppSidebar
-          class="col-span-1 grow bg-slate-200"
+          class="col-span-1 grow shrink-0 bg-slate-200"
           :file-list="fileList"
         />
 
@@ -132,5 +132,7 @@ const handleUploadFinished = () => {
 </script>
 
 <style scoped>
-
+::v-deep(.n-pagination) {
+  @apply overflow-auto;
+}
 </style>

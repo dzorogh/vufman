@@ -1,80 +1,83 @@
 <template>
-  <div class="flex gap-4 items-center">
-    <div
-      v-if="nodesStore.currentFolder"
-      class="flex gap-4 items-center"
-    >
-      <n-tooltip v-if="haveAccessToParent()">
-        <template #trigger>
-          <n-button
-            round
-            @click="handleClickBack"
-          >
-            <template #icon>
-              <n-icon>
-                <ArrowEnterUp24Filled />
-              </n-icon>
-            </template>
-          </n-button>
-        </template>
+  <div class="flex flex-wrap gap-4 items-center">
+    <div class="mr-auto">
+      <div
+        v-if="nodesStore.currentFolder"
+        class="flex gap-4 items-center"
+      >
+        <n-tooltip v-if="haveAccessToParent()">
+          <template #trigger>
+            <n-button
+              size="small"
+              round
+              @click="handleClickBack"
+            >
+              <template #icon>
+                <n-icon>
+                  <ArrowEnterUp24Filled />
+                </n-icon>
+              </template>
+            </n-button>
+          </template>
 
-        В родительскую папку
-      </n-tooltip>
+          В родительскую папку
+        </n-tooltip>
 
-      <div class="font-bold flex gap-4 items-center">
-        <div
-          class="font-bold flex items-center gap-2"
-        >
-          <div>
-            {{ nodesStore.currentFolder.name }}
-          </div>
-
+        <div class="font-bold flex gap-4 items-center">
           <div
-            v-if="!nodesStore.currentFolder.canWrite"
-            class="opacity-50"
+            class="font-bold flex items-center gap-2"
           >
-            <IconReadOnly class="w-3 h-3" />
+            <div>
+              {{ nodesStore.currentFolder.name }}
+            </div>
+
+            <div
+              v-if="!nodesStore.currentFolder.canWrite"
+              class="opacity-50"
+            >
+              <IconReadOnly class="w-3 h-3" />
+            </div>
           </div>
+
+          <n-tag
+            v-if="nodesStore.currentFolder.isTrashed || props.isTrash"
+            type="error"
+          >
+            В корзине
+          </n-tag>
+        </div>
+      </div>
+
+      <div v-else-if="!nodesStore.currentFolder && !props.isTrash && !route.query.search">
+        <div class="font-bold ">
+          Диск
+        </div>
+      </div>
+
+      <div
+        v-else-if="route.query.search"
+        class="flex items-center gap-6"
+      >
+        <div class="font-bold">
+          Поиск: {{ route.query.search }}
         </div>
 
-        <n-tag
-          v-if="nodesStore.currentFolder.isTrashed || props.isTrash"
-          type="error"
+        <n-button
+          size="small"
+          @click="resetSearch"
         >
-          В корзине
-        </n-tag>
+          Сбросить поиск
+        </n-button>
+      </div>
+
+      <div v-else>
+        <div class="font-bold">
+          Корзина
+        </div>
       </div>
     </div>
 
-    <div v-else-if="!nodesStore.currentFolder && !props.isTrash && !route.query.search">
-      <div class="font-bold ">
-        Диск
-      </div>
-    </div>
-
-    <div
-      v-else-if="route.query.search"
-      class="flex items-center gap-6"
-    >
-      <div class="font-bold">
-        Поиск: {{ route.query.search }}
-      </div>
-
-      <n-button
-        size="small"
-        @click="resetSearch"
-      >
-        Сбросить поиск
-      </n-button>
-    </div>
-
-    <div v-else>
-      <div class="font-bold">
-        Корзина
-      </div>
-    </div>
-
-    <AppFolderMenuSorting class="ml-auto" />
+    <AppFolderMenuSorting class="" />
     <AppFolderMenuLayoutSelection />
   </div>
 </template>

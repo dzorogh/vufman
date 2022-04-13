@@ -12,8 +12,8 @@
           @reload="handleReload"
         />
 
-        <div class="grid grid-cols-4 grow overflow-hidden">
-          <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
+        <div class="lg:grid flex flex-col divide-y lg:divide-y-0 grid-cols-4 grow overflow-hidden">
+          <div class="h-full overflow-hidden flex flex-col col-span-3 ">
             <div
               class="grow bg-white shadow-sm overflow-auto"
               @click.self="nodesStore.deselect()"
@@ -22,17 +22,21 @@
             </div>
           </div>
 
-          <div class="flex flex-col border-l p-6 gap-10 overflow-auto">
-            <AppNodeMenu
-              v-if="nodesStore.currentFolder"
-              class="mb-auto"
-              :node="nodesStore.currentFolder"
-              @node-change="handleNodeChange"
-            />
-            <AppNodeInfo
-              v-if="nodesStore.currentFolder"
-              :node="nodesStore.currentFolder"
-            />
+          <div class="flex flex-col border-l divide-y overflow-auto">
+            <div class="p-6">
+              <AppNodeMenu
+                v-if="nodesStore.currentFolder"
+                class="mb-auto"
+                :node="nodesStore.currentFolder"
+                @node-change="handleNodeChange"
+              />
+            </div>
+            <div class="p-6 grow">
+              <AppNodeInfo
+                v-if="nodesStore.currentFolder"
+                :node="nodesStore.currentFolder"
+              />
+            </div>
           </div>
         </div>
       </div>

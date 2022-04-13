@@ -1,10 +1,11 @@
 <template>
-  <n-button-group>
+  <n-button-group size="small">
     <n-tooltip
       v-for="(item, index) in layoutOptions"
       :key="index"
       placement="bottom"
       trigger="hover"
+      :disabled="mdAndSmaller"
     >
       <template #trigger>
         <n-button
@@ -32,9 +33,10 @@ import { useNodesStore } from "@/store/nodes";
 import { useRoute } from "vue-router";
 import { Component } from "vue";
 import { FolderLayoutType } from "@/types/FolderLayoutType";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
-const route = useRoute();
-
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('md');
 const nodesStore = useNodesStore();
 
 const layoutOptions: {

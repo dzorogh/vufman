@@ -6,7 +6,7 @@
     @click.prevent="handleClick"
   >
     <AppNodeIcon
-      :icon-size-classes="nodesStore.layout === 'grid' ? ['w-32', 'h-32'] : nodesStore.layout === 'list' ? ['w-14', 'h-14'] : []"
+      :icon-size-classes="nodesStore.layout === 'grid' ? ['lg:w-32', 'lg:h-32', 'w-16', 'h-16'] : nodesStore.layout === 'list' ? ['w-14', 'h-14'] : []"
       :node="node"
     />
 
@@ -16,6 +16,7 @@
     >
       <div
         class="font-bold flex items-center gap-2"
+        :class="{'justify-center': nodesStore.layout === 'grid'}"
       >
         <div>
           {{ node.getFullName() }}
@@ -37,7 +38,7 @@
       </div>
 
       <div
-        class="flex items-center text-sm text-slate-600 gap-x-2"
+        class="flex flex-wrap items-center text-sm text-slate-600 gap-x-2"
         :class="{'flex-col': nodesStore.layout === 'grid'}"
       >
         <div

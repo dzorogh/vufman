@@ -1,7 +1,19 @@
 <template>
   <div class="flex flex-col col-span-4 h-full bg-white overflow-hidden">
-    <div class="bg-indigo-200 p-4 py-6 font-bold">
+    <div class="bg-indigo-200 p-4 py-6 font-bold flex items-center">
       Лог действий пользователей
+
+      <n-button
+        class="ml-auto"
+        circle
+        @click="handleCloseLog"
+      >
+        <template #icon>
+          <n-icon>
+            <Dismiss24Filled />
+          </n-icon>
+        </template>
+      </n-button>
     </div>
     <div
       class="overflow-auto"
@@ -9,6 +21,7 @@
       <div class="p-4 flex flex-col gap-4">
         <n-form
           inline
+          class="flex-wrap"
           :model="filters"
         >
           <n-form-item
@@ -107,6 +120,10 @@ import { INodeModel } from "@/types/INodeModel";
 import { RouterLink } from "vue-router";
 import { NodeModel } from "@/models/NodeModel";
 import { INode } from "@/types/INode";
+import {
+  Dismiss24Filled
+} from "@vicons/fluent";
+import router from "@/router";
 
 const store = useStore();
 
@@ -155,6 +172,7 @@ const nodeColumn: DataTableColumn = {
   title: 'Файл/папка',
   key: 'nodeName',
   sorter: true,
+  className: 'min-w-[12em]',
 
   render: (rowData, rowIndex) => {
     const data = rowData as unknown as ILogRow;
@@ -293,6 +311,9 @@ watch(
   }
 );
 
+const handleCloseLog = () => {
+  router.push('/');
+};
 
 </script>
 

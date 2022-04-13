@@ -1,15 +1,17 @@
 <template>
-  <div class="overflow-auto divide-y divide-slate-100">
+  <div class="overflow-auto lg:block flex divide-y divide-slate-100">
     <div class="p-4">
       <n-input-group>
         <n-input
           v-model:value="search"
+          size="small"
           placeholder="Поиск"
           clearable
           @change="handleSearch"
           @keydown.enter="handleSearch"
         />
         <n-button
+          size="small"
           type="primary"
           ghost
           @click="handleSearch"
@@ -19,7 +21,7 @@
       </n-input-group>
     </div>
 
-    <div class="p-4 flex flex-col">
+    <div class="p-4 lg:!flex hidden flex-col">
       <AppNavigator />
     </div>
 
@@ -33,6 +35,7 @@
         custom
       >
         <n-button
+          size="small"
           :tertiary="!isActive"
           :disabled="isActive"
           type="primary"
@@ -43,7 +46,10 @@
               <IconLog />
             </n-icon>
           </template>
-          Лог действий
+
+          <span v-if="!mdAndSmaller">
+            Лог действий
+          </span>
         </n-button>
       </router-link>
     </div>
@@ -64,6 +70,7 @@ import { UploadFileInfo } from "naive-ui";
 import { computed, ref } from "vue";
 import { useStore } from "@/store/main";
 import { useRoute, useRouter } from "vue-router";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
 const router = useRouter();
 const route = useRoute();
@@ -73,6 +80,9 @@ const props = defineProps<{
 }>();
 
 const store = useStore();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('md');
 
 const userIsAdmin = computed(() => {
   return store.currentUser ? store.currentUser.isAdmin : false;
