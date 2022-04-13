@@ -1,5 +1,13 @@
 <template>
   <div class="flex items-center flex-wrap gap-4">
+    <n-button @click="handleReload">
+      <template #icon>
+        <n-icon>
+          <icon-reload />
+        </n-icon>
+      </template>
+    </n-button>
+
     <n-button
       v-if="isTrash"
       ghost
@@ -25,25 +33,34 @@
 
 <script setup lang="ts">
 import {
-  DeleteDismiss20Filled as IconEmptyTrash
+  DeleteDismiss20Filled as IconEmptyTrash,
+  ArrowClockwise12Filled as IconReload
 } from "@vicons/fluent";
 import { useRoute } from "vue-router";
 
 import AppFolderMenuDynamicActions from "@/components/AppFolderMenuDynamicActions.vue";
 import AppFolderMenuStaticActions from "@/components/AppFolderMenuStaticActions.vue";
 
-import { useEmptyTrashInteraction } from "@/composables/useEmptyTrashInteraction";
 import { useNodesActions } from "@/composables/useNodesActions";
+import { useNodesStore } from "@/store/nodes";
 
-const route = useRoute();
 const nodesActions = useNodesActions();
+const nodesStore = useNodesStore();
 
 const props = defineProps<{
   isTrash: boolean;
 }>();
 
+const emit = defineEmits<{
+  (e: 'reload'): void;
+}>();
+
 const emptyTrash = async () => {
   const result = await nodesActions.emptyTrash();
+};
+
+const handleReload = async () => {
+  await emit('reload');
 };
 
 </script>

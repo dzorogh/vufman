@@ -7,7 +7,10 @@
     </template>
     <template v-else>
       <div class="flex flex-col overflow-hidden divide-y h-full">
-        <AppFolderHeading :is-trash="isTrash" />
+        <AppFolderHeading
+          :is-trash="routeIsTrash"
+          @reload="handleReload"
+        />
 
         <div class="grid grid-cols-4 grow overflow-hidden">
           <div class="h-full overflow-hidden flex flex-col col-span-3 divide-y">
@@ -15,7 +18,7 @@
               class="grow bg-white shadow-sm overflow-auto"
               @click.self="nodesStore.deselect()"
             >
-              <AppFolderList :is-trash="isTrash" />
+              <AppFolderList :is-trash="routeIsTrash" />
             </div>
           </div>
 
@@ -61,28 +64,59 @@ const activeElement = useActiveElement();
 
 // testModule();
 
-const isTrash = computed(() => {
+const routeIsTrash = computed(() => {
   return typeof route.query.trash !== 'undefined';
 });
 
+const routeSearch = computed(() => {
+  return route.query.search as string || undefined;
+});
+
+const routeFolderId = computed(() => {
+  return route.params.folderId as string || null;
+});
+
+const loadNodes = async () => {
+  nodesStore.nodes = await api.nodes({
+    isTrashed: routeIsTrash.value || undefined,
+    folderId: routeFolderId.value,
+    search: routeSearch.value
+  }, true);
+};
+
+const loadCurrentFolder = async () => {
+  nodesStore.currentFolder = await (routeFolderId.value ? api.folder({ id: routeFolderId.value as string }) : null);
+};
+
+const handleReload = async () => {
+  nodesStore.selectedNodes = [];
+  nodesStore.nodesLoading = true;
+
+  await loadNodes();
+  await loadCurrentFolder();
+
+  nodesStore.nodesLoading = false;
+};
+
 watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.search ],
   async ([ folderId, routeName, trash, search ], old) => {
+    console.log('Folder watcher', { folderId, routeName, trash, search }, old);
 
     // Check for empty old params - only load if it is empty to prevent double request
     if (routeName === 'folder' && !old) {
-      console.log('Reload folder', { folderId, routeName, trash, search }, old);
 
-      nodesStore.nodesLoading = true;
-      nodesStore.selectedNodes = [];
+      // nodesStore.nodesLoading = true;
 
-      nodesStore.currentFolder = await (folderId ? api.folder({ id: folderId as string }) : null);
-      nodesStore.nodes = await api.nodes({
-        folderId: folderId as string || null,
-        isTrashed: isTrash.value || undefined,
-        search: search as string || undefined
-      }, true);
+      // nodesStore.currentFolder = await (folderId ? api.folder({ id: folderId as string }) : null);
+      // nodesStore.nodes = await api.nodes({
+      //   folderId: folderId as string || null,
+      //   isTrashed: isTrash.value || undefined,
+      //   search: search as string || undefined
+      // }, true);
 
-      nodesStore.nodesLoading = false;
+      await handleReload();
+
+      // nodesStore.nodesLoading = false;
     }
 
   }, {
@@ -188,6 +222,7 @@ useKeypress({
   // onAnyKey: someAnyKeyCallback,
   // isActive: isActiveRef,
 });
+
 
 </script>
 

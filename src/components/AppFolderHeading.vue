@@ -12,11 +12,11 @@
       </div>
 
       <div
-        v-if="nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true"
         class="py-4 px-4"
       >
         <AppFolderMenu
           :is-trash="props.isTrash"
+          @reload="handleReload"
         />
       </div>
     </template>
@@ -32,6 +32,13 @@ const nodesStore = useNodesStore();
 const props = defineProps<{
   isTrash: boolean;
 }>();
+const emit = defineEmits<{
+  (e: 'reload'): void;
+}>();
+
+const handleReload = () => {
+  emit('reload');
+};
 
 </script>
 
