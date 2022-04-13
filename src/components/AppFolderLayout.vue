@@ -8,7 +8,7 @@
     <template v-else>
       <div class="flex flex-col overflow-hidden divide-y h-full">
         <AppFolderHeading
-          :is-trash="routeIsTrash"
+          :is-trash="isTrash"
           @reload="handleReload"
         />
 
@@ -18,7 +18,7 @@
               class="grow bg-white shadow-sm overflow-auto"
               @click.self="nodesStore.deselect()"
             >
-              <AppFolderList :is-trash="routeIsTrash" />
+              <AppFolderList :is-trash="isTrash" />
             </div>
           </div>
 
@@ -68,8 +68,12 @@ const activeElement = useActiveElement();
 
 // testModule();
 
-const routeIsTrash = computed(() => {
-  return typeof route.query.trash !== 'undefined';
+const isTrash = computed(() => {
+  if (nodesStore.currentFolder) {
+    return nodesStore.currentFolder.isTrashed;
+  } else {
+    return typeof route.query.trash !== 'undefined';
+  }
 });
 
 const routeSearch = computed(() => {
@@ -82,7 +86,7 @@ const routeFolderId = computed(() => {
 
 const loadNodes = async () => {
   nodesStore.nodes = await api.nodes({
-    isTrashed: routeIsTrash.value || undefined,
+    isTrashed: isTrash.value || undefined,
     folderId: routeFolderId.value,
     search: routeSearch.value
   }, true);
@@ -161,35 +165,51 @@ useKeypress({
       keyCode: 46, // delete
       // modifiers: [ "ctrlKey" ],
       success: () => {
-        nodesStore.trashNodes();
+        if (isTrash.value) {
+          nodesStore.deleteNodes();
+        } else {
+          nodesStore.trashNodes();
+        }
       },
     },
     {
       keyCode: 8, // backspace
       modifiers: [ "metaKey" ], // + cmd
       success: () => {
-        nodesStore.trashNodes();
+        if (isTrash.value) {
+          nodesStore.deleteNodes();
+        } else {
+          nodesStore.trashNodes();
+        }
       },
     },
     {
       keyCode: 8, // backspace
       modifiers: [ "ctrlKey" ], // + ctrl
       success: () => {
-        nodesStore.trashNodes();
+        if (isTrash.value) {
+          nodesStore.deleteNodes();
+        } else {
+          nodesStore.trashNodes();
+        }
       },
     },
     {
       keyCode: 78, // N
       modifiers: [ "shiftKey", "altKey" ],
       success: () => {
-        nodesStore.makeFolder();
+        if (!isTrash.value) {
+          nodesStore.makeFolder();
+        }
       },
     },
     {
       keyCode: 70, // F
       modifiers: [ "shiftKey", "altKey" ],
       success: () => {
-        nodesStore.makeFile();
+        if (!isTrash.value) {
+          nodesStore.makeFile();
+        }
       },
     },
     {
@@ -210,14 +230,18 @@ useKeypress({
       keyCode: 86, // V
       modifiers: [ "ctrlKey" ],
       success: () => {
-        nodesStore.pasteNodes();
+        if (!isTrash.value && (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true)) {
+          nodesStore.pasteNodes();
+        }
       },
     },
     {
       keyCode: 86, // V
       modifiers: [ "metaKey" ],
       success: () => {
-        nodesStore.pasteNodes();
+        if (!isTrash.value && (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true)) {
+          nodesStore.pasteNodes();
+        }
       },
     },
   ],
