@@ -58,8 +58,18 @@
         v-else-if="route.query.search"
         class="flex items-center gap-6"
       >
-        <div class="font-bold">
+        <div
+          v-if="!props.isTrash"
+          class="font-bold"
+        >
           Поиск: {{ route.query.search }}
+        </div>
+
+        <div
+          v-else
+          class="font-bold"
+        >
+          Поиск по корзине: {{ route.query.search }}
         </div>
 
         <n-button
@@ -127,7 +137,15 @@ const haveAccessToParent = () => {
 };
 
 const resetSearch = () => {
-
+  router.push({
+    name: 'folder',
+    params: {
+      folderId: nodesStore.currentFolder ? nodesStore.currentFolder.folderId : null
+    },
+    query: {
+      trash: props.isTrash ? null : undefined
+    }
+  });
 };
 
 </script>

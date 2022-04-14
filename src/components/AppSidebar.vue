@@ -93,7 +93,8 @@ const handleSearch = () => {
   router.push({
     name: 'root',
     query: {
-      search: search.value || undefined
+      search: search.value || undefined,
+      trash: route.query.trash
     }
   });
 };
