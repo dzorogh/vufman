@@ -132,7 +132,7 @@ import {
   ArrowReset20Filled as IconRestore,
   Cut20Filled as IconCut,
   CheckboxChecked16Filled as IconSelectAll,
-  ClipboardPaste16Filled as IconPaste,
+  ClipboardPaste16Filled as IconPaste, FolderAdd16Filled as IconMakeFolder, DocumentAdd16Filled as IconMakeFile,
 } from "@vicons/fluent";
 import { useNodesActions } from "@/composables/useNodesActions";
 
@@ -291,6 +291,25 @@ const contextMenu = {
         icon: renderIcon(IconSelectAll),
         command: nodesStore.selectAllNodes,
       });
+
+      if (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true) {
+        result.push({
+          key: 'makeFolder',
+          label: 'Создать папку',
+          icon: renderIcon(IconMakeFolder),
+          command: nodesStore.makeFolder,
+        });
+      }
+
+      if (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true) {
+        result.push({
+          key: 'makeFile',
+          label: 'Создать текстовый файл',
+          icon: renderIcon(IconMakeFile),
+          command: nodesStore.makeFile,
+        });
+      }
+
 
       if (nodesStore.copiedNodes.length && !props.isTrash && (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true)) {
         result.push({
