@@ -12,7 +12,7 @@
     </n-button>
 
     <n-button
-      v-if="isTrash && store.currentUser.isAdmin"
+      v-if="isTrash && store.currentUser && store.currentUser.isAdmin"
       size="small"
       ghost
       type="error"
