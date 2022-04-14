@@ -10,7 +10,7 @@
       {{ node.getFullName() }}
     </td>
     <td class="p-1">
-      {{ node.getSize() }}
+      {{ node.isFolder ? '—' : node.getSize() }}
     </td>
     <td class="p-1">
       {{ node.getCreatedAt() }}
