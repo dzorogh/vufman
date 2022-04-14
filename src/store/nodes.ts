@@ -7,6 +7,7 @@ import {
   Folder16Filled
 } from "@vicons/fluent";
 import { SortingType } from "@/types/SortingType";
+import { sortNodes } from "@/services/sortNodes";
 
 export const useNodesStore = defineStore('nodes', {
   state: () => {
@@ -253,56 +254,7 @@ export const useNodesStore = defineStore('nodes', {
         return [];
       }
 
-      return [ ...state.nodes ]
-        .sort((a: INodeModel, b: INodeModel) => {
-          const direction = state.sortingDirection === 'asc' ? 1 : -1;
-
-          return (b.name || '').localeCompare(a.name || '') * direction;
-        })
-        .sort((a: INodeModel, b: INodeModel) => {
-          const direction = state.sortingDirection === 'asc' ? 1 : -1;
-
-          if (state.sorting === 'name') {
-            return (b.name || '').localeCompare(a.name || '') * direction;
-          }
-
-          if (state.sorting === 'type') {
-            if (a.isFolder !== undefined && b.isFolder !== undefined) {
-              if (b.isFolder > a.isFolder) {
-                return -direction;
-              }
-
-              if (b.isFolder < a.isFolder) {
-                return direction;
-              }
-            }
-
-            const aFileType = a.getFileType() || '';
-            const bFileType = b.getFileType() || '';
-
-            return aFileType.localeCompare(bFileType) * direction;
-          }
-
-          if (state.sorting === 'size') {
-            return ((b.size || 0) - (a.size || 0)) * direction;
-          }
-
-          if (state.sorting === 'create') {
-            const aTime = new Date(a.createdAt || 0).getTime();
-            const bTime = new Date(b.createdAt || 0).getTime();
-
-            return (bTime - aTime) * direction;
-          }
-
-          if (state.sorting === 'update') {
-            const aTime = new Date(a.updatedAt || 0).getTime();
-            const bTime = new Date(b.updatedAt || 0).getTime();
-
-            return (bTime - aTime) * direction;
-          }
-
-          return 0;
-        });
+      return sortNodes(state.nodes, state.sorting, state.sortingDirection);
     }
   }
 });

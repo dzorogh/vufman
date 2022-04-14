@@ -1,7 +1,9 @@
+import { INode } from "@/types/INode";
+
 export interface IRequestNodes {
-  folderId?: string | null;
+  folderId?: INode['id'] | null;
   isFolder?: boolean;
-  isTrashed?: true;
+  isTrashed?: boolean;
   search?: string;
   withDescendants?: boolean;
 }
