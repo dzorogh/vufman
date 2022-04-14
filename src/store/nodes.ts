@@ -171,7 +171,7 @@ export const useNodesStore = defineStore('nodes', {
             this.removeNodes(result);
           }
 
-          this.nodes = [ ...result, ...this.nodes ];
+          this.nodes = [ ...this.nodes, ...result ];
         }
 
         // this.copiedNodes = [];

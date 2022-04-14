@@ -14,7 +14,12 @@
     </div>
   </Teleport>
 
-  <template v-if="nodesStore.selectedNodes && nodesStore.sortedNodes.length > 0">
+  <div
+    v-if="nodesStore.selectedNodes && nodesStore.sortedNodes.length > 0"
+    class="h-full"
+    @contextmenu="contextMenu.handleFolderContextMenu"
+    @click.self="nodesStore.deselect()"
+  >
     <div
       v-if="['grid', 'list'].includes(nodesStore.layout)"
       :class="{
@@ -93,7 +98,7 @@
       @clickoutside="contextMenu.handleClickOutside"
       @select="contextMenu.handleSelect"
     />
-  </template>
+  </div>
 
   <div
     v-else
@@ -125,7 +130,9 @@ import {
   FolderArrowRight16Filled as IconMove,
   Rename16Filled as IconRename,
   ArrowReset20Filled as IconRestore,
-  Cut20Filled as IconCut
+  Cut20Filled as IconCut,
+  CheckboxChecked16Filled as IconSelectAll,
+  ClipboardPaste16Filled as IconPaste,
 } from "@vicons/fluent";
 import { useNodesActions } from "@/composables/useNodesActions";
 
@@ -135,7 +142,6 @@ const props = defineProps<{
 
 const nodesStore = useNodesStore();
 const router = useRouter();
-const route = useRoute();
 const nodesActions = useNodesActions();
 
 
@@ -151,14 +157,28 @@ const contextMenu = {
   show: ref(false),
   x: ref(0),
   y: ref(0),
-  handleContextMenu: async (node: INodeModel, e: MouseEvent) => {
+  handleFolderContextMenu: async (e: MouseEvent) => {
+    e.preventDefault();
+    nodesStore.deselect();
+
+    contextMenu.show.value = false;
+
+    await nextTick();
+
+    contextMenu.show.value = true;
+    contextMenu.x.value = e.clientX;
+    contextMenu.y.value = e.clientY;
+  },
+  handleContextMenu: async (node: INodeModel | null, e: MouseEvent) => {
     e.preventDefault();
     contextMenu.show.value = false;
 
     await nextTick();
 
-    if (!nodesStore.isNodeSelected(node)) {
-      nodesStore.selectNodeSingle(node);
+    if (node) {
+      if (!nodesStore.isNodeSelected(node)) {
+        nodesStore.selectNodeSingle(node);
+      }
     }
 
     contextMenu.show.value = true;
@@ -189,81 +209,98 @@ const contextMenu = {
       key: 'd1'
     });
 
-    if (nodesStore.canWriteSelectedNodes()) {
-      result.push({
-        key: 'move',
-        label: 'Переместить',
-        icon: renderIcon(IconMove),
-        command: nodesStore.moveNodes,
-      });
-    }
-
-    if (props.isTrash) {
+    if (nodesStore.selectedNodes.length) {
       if (nodesStore.canWriteSelectedNodes()) {
         result.push({
-          key: 'destroy',
-          label: 'Удалить навсегда',
-          icon: renderIcon(IconDestroy),
-          command: nodesStore.deleteNodes,
+          key: 'move',
+          label: 'Переместить',
+          icon: renderIcon(IconMove),
+          command: nodesStore.moveNodes,
+        });
+      }
+
+      if (props.isTrash) {
+        if (nodesStore.canWriteSelectedNodes()) {
+          result.push({
+            key: 'destroy',
+            label: 'Удалить навсегда',
+            icon: renderIcon(IconDestroy),
+            command: nodesStore.deleteNodes,
+          });
+
+          result.push({
+            key: 'restore',
+            label: 'Восстановить',
+            icon: renderIcon(IconRestore),
+            command: nodesStore.untrashNodes,
+          });
+        }
+      } else {
+        result.push({
+          key: 'copy',
+          label: 'Скопировать',
+          icon: renderIcon(IconCopy),
+          command: nodesStore.copyNodes,
+        });
+
+        if (nodesStore.canWriteSelectedNodes()) {
+          result.push({
+            key: 'cut',
+            label: 'Вырезать',
+            icon: renderIcon(IconCut),
+            command: nodesStore.cutNodes,
+          });
+        }
+
+        if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && nodesStore.canWriteSelectedNodes()) {
+          result.push({
+            key: 'rename',
+            label: 'Переименовать',
+            icon: renderIcon(IconRename),
+            command: nodesStore.renameNode,
+          });
+        }
+
+        if (nodesStore.canWriteSelectedNodes()) {
+          result.push({
+            key: 'trash',
+            label: 'В корзину',
+            icon: renderIcon(IconDelete),
+            command: nodesStore.trashNodes,
+          });
+        }
+      }
+
+      if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {
+        result.push({
+          type: 'divider',
+          key: 'd1'
         });
 
         result.push({
-          key: 'restore',
-          label: 'Восстановить',
-          icon: renderIcon(IconRestore),
-          command: nodesStore.untrashNodes,
+          key: 'download',
+          label: 'Скачать',
+          icon: renderIcon(IconDownload),
+          command: nodesStore.downloadNodes,
         });
       }
     } else {
       result.push({
-        key: 'copy',
-        label: 'Скопировать',
-        icon: renderIcon(IconCopy),
-        command: nodesStore.copyNodes,
+        key: 'selectAll',
+        label: 'Выделить все',
+        icon: renderIcon(IconSelectAll),
+        command: nodesStore.selectAllNodes,
       });
 
-      if (nodesStore.canWriteSelectedNodes()) {
+      if (nodesStore.copiedNodes.length && !props.isTrash && (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true)) {
         result.push({
-          key: 'cut',
-          label: 'Вырезать',
-          icon: renderIcon(IconCut),
-          command: nodesStore.cutNodes,
-        });
-      }
-
-      if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && nodesStore.canWriteSelectedNodes()) {
-        result.push({
-          key: 'rename',
-          label: 'Переименовать',
-          icon: renderIcon(IconRename),
-          command: nodesStore.renameNode,
-        });
-      }
-
-      if (nodesStore.canWriteSelectedNodes()) {
-        result.push({
-          key: 'trash',
-          label: 'В корзину',
-          icon: renderIcon(IconDelete),
-          command: nodesStore.trashNodes,
+          key: 'paste',
+          label: 'Вставить',
+          icon: renderIcon(IconPaste),
+          command: nodesStore.pasteNodes
         });
       }
     }
-
-    if (nodesStore.selectedNodes && nodesStore.selectedNodes.length === 1 && !nodesStore.selectedNodes[0].isFolder) {
-      result.push({
-        type: 'divider',
-        key: 'd1'
-      });
-
-      result.push({
-        key: 'download',
-        label: 'Скачать',
-        icon: renderIcon(IconDownload),
-        command: nodesStore.downloadNodes,
-      });
-    }
-
 
     return result;
   })
@@ -351,6 +388,8 @@ const dragIconStyle = computed(() => {
     opacity: nodesStore.dragging ? '1' : '0'
   };
 });
+
+
 </script>
 
 <style scoped>

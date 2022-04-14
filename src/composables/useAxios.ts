@@ -76,7 +76,7 @@ export function useAxios() {
 
       notification.error({
         content: 'Ошибка сервера',
-        meta: error.response && error.response.data && error.response.data.message ? error.response.data.message : error.response?.statusText
+        meta: error.response && error.response.data && error.response.data.message ? error.response.data.message : error.response?.statusText || error.message
       });
 
 

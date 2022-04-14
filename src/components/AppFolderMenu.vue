@@ -12,7 +12,7 @@
     </n-button>
 
     <n-button
-      v-if="isTrash"
+      v-if="isTrash && store.currentUser.isAdmin"
       size="small"
       ghost
       type="error"
@@ -47,9 +47,10 @@ import AppFolderMenuStaticActions from "@/components/AppFolderMenuStaticActions.
 
 import { useNodesActions } from "@/composables/useNodesActions";
 import { useNodesStore } from "@/store/nodes";
+import { useStore } from "@/store/main";
 
 const nodesActions = useNodesActions();
-const nodesStore = useNodesStore();
+const store = useStore();
 
 const props = defineProps<{
   isTrash: boolean;
