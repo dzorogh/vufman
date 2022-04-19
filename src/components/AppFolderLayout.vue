@@ -239,6 +239,20 @@ useKeypress({
       },
     },
     {
+      keyCode: 88, // X
+      modifiers: [ "ctrlKey" ],
+      success: () => {
+        nodesStore.cutNodes();
+      },
+    },
+    {
+      keyCode: 88, // X
+      modifiers: [ "metaKey" ],
+      success: () => {
+        nodesStore.cutNodes();
+      },
+    },
+    {
       keyCode: 86, // V
       modifiers: [ "ctrlKey" ],
       success: () => {
