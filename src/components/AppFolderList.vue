@@ -17,7 +17,7 @@
   <div
     v-if="nodesStore.selectedNodes && nodesStore.sortedNodes.length > 0"
     class="h-full"
-    @contextmenu="contextMenu.handleFolderContextMenu"
+    @contextmenu.self="contextMenu.handleFolderContextMenu"
     @click.self="nodesStore.deselect()"
   >
     <div
@@ -391,9 +391,11 @@ const handleDrop = async (destination: INodeModel) => {
   if (dropAvailable(destination)) {
     console.log('drop to', destination);
 
-    await nodesActions.moveTo(nodesStore.selectedNodes, destination.id);
+    const result = await nodesActions.moveTo(nodesStore.selectedNodes, destination.id);
 
-    nodesStore.removeNodes(nodesStore.selectedNodes);
+    if (result) {
+      nodesStore.removeNodes(result);
+    }
   }
 };
 
