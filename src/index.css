@@ -84,3 +84,8 @@ img[lazy=loaded] {
 .p-toast .p-toast-message .p-toast-message-content {
     @apply !border-0;
 }
+
+
+.n-dropdown-option-body__label {
+    @apply max-w-lg overflow-ellipsis overflow-hidden;
+}

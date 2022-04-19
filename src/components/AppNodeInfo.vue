@@ -150,7 +150,8 @@ const items = computed<{
     {
       title: 'Размер',
       content: props.node.size ? props.node.getSize() : '0 B',
-      description: props.node.size && props.node.size >= 1000 ? `${props.node.size} B` : ''
+      description: props.node.size && props.node.size >= 1000 ? `${props.node.size} B` : '',
+      show: () => !props.node.isFolder
     },
     {
       title: 'Дата создания',

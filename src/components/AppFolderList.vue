@@ -29,6 +29,7 @@
       }"
       class="overflow-x-hidden p-4"
       @click.self="nodesStore.deselect()"
+      @contextmenu.self="contextMenu.handleFolderContextMenu"
     >
       <AppNode
         v-for="(child) in nodesStore.sortedNodes"
@@ -87,25 +88,26 @@
         />
       </tbody>
     </table>
-
-    <n-dropdown
-      placement="bottom-start"
-      trigger="manual"
-      :options="contextMenu.options.value"
-      :x="contextMenu.x.value"
-      :y="contextMenu.y.value"
-      :show="contextMenu.show.value"
-      @clickoutside="contextMenu.handleClickOutside"
-      @select="contextMenu.handleSelect"
-    />
   </div>
 
   <div
     v-else
     class="p-12 h-full flex items-center justify-center text-neutral-400 text-center text-2xl"
+    @contextmenu="contextMenu.handleFolderContextMenu"
   >
     Папка пуста
   </div>
+
+  <n-dropdown
+    placement="bottom-start"
+    trigger="manual"
+    :options="contextMenu.options.value"
+    :x="contextMenu.x.value"
+    :y="contextMenu.y.value"
+    :show="contextMenu.show.value"
+    @clickoutside="contextMenu.handleClickOutside"
+    @select="contextMenu.handleSelect"
+  />
 </template>
 
 <script setup lang="ts">
@@ -158,6 +160,7 @@ const contextMenu = {
   x: ref(0),
   y: ref(0),
   handleFolderContextMenu: async (e: MouseEvent) => {
+    console.log('handleFolderContextMenu');
     e.preventDefault();
     nodesStore.deselect();
 
@@ -285,12 +288,14 @@ const contextMenu = {
         });
       }
     } else {
-      result.push({
-        key: 'selectAll',
-        label: 'Выделить все',
-        icon: renderIcon(IconSelectAll),
-        command: nodesStore.selectAllNodes,
-      });
+      if (nodesStore.nodes.length > 0) {
+        result.push({
+          key: 'selectAll',
+          label: 'Выделить все',
+          icon: renderIcon(IconSelectAll),
+          command: nodesStore.selectAllNodes,
+        });
+      }
 
       if (nodesStore.currentFolder ? nodesStore.currentFolder.canWrite : true) {
         result.push({
@@ -414,4 +419,5 @@ const dragIconStyle = computed(() => {
 </script>
 
 <style scoped>
+
 </style>

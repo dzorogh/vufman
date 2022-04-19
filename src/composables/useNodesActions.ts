@@ -209,7 +209,11 @@ export function useNodesActions() {
       const destinationId = await moveInteraction.show(nodes);
 
       if (destinationId) {
-        return await this.moveTo(nodes, destinationId);
+        const result = await this.moveTo(nodes, destinationId);
+
+        console.log('Move Action', result, destinationId);
+
+        return result;
       }
     },
 

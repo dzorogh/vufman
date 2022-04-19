@@ -93,7 +93,13 @@ export const useNodesStore = defineStore('nodes', {
 
     removeNodes(nodes: INodeModel[]) {
       nodes.forEach((node) => {
-        this.nodes.splice(this.nodes.indexOf(node), 1);
+        const nodeIndex = this.nodes.findIndex(item => node.id === item.id);
+
+        console.log('removeNodes', nodeIndex, node);
+
+        if (nodeIndex >= 0) {
+          this.nodes.splice(nodeIndex, 1);
+        }
       });
     },
 
@@ -164,14 +170,12 @@ export const useNodesStore = defineStore('nodes', {
 
         const result = await this.nodesActions.paste(this.copiedNodes, this.currentFolder, this.isCutNodes);
 
-        console.log('paste result', result);
-
         if (result) {
           if (this.isCutNodes) {
             this.removeNodes(result);
           }
 
-          this.nodes = [ ...this.nodes, ...result ];
+          // this.nodes = [ ...result, ...this.nodes ];
         }
 
         // this.copiedNodes = [];
@@ -185,6 +189,11 @@ export const useNodesStore = defineStore('nodes', {
       const result = await this.nodesActions.move(this.selectedNodes);
 
       if (result) {
+
+        if (this.currentFolder ? result[0].folderId !== this.currentFolder.id : result[0].folderId !== null) {
+          this.removeNodes(result);
+        }
+
         this.nodes = [ ...result, ...this.nodes ];
       }
 

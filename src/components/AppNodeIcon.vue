@@ -20,38 +20,44 @@
       >
 
       <IconImage
-        v-if="node.getFileType() === 'image' && !node.thumbnail"
+        v-else-if="node.getFileType() === 'image' && !node.thumbnail"
         :extension="node.extension"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconDocument
-        v-if="node.getFileType() === 'document'"
+        v-else-if="node.getFileType() === 'document'"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconText
-        v-if="node.getFileType() === 'text'"
+        v-else-if="node.getFileType() === 'text'"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconVideo
-        v-if="node.getFileType() === 'video'"
+        v-else-if="node.getFileType() === 'video'"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconAudio
-        v-if="node.getFileType() === 'audio'"
+        v-else-if="node.getFileType() === 'audio'"
         class="text-slate-300"
         :class="iconSizeClasses"
       />
 
       <IconArchive
-        v-if="node.getFileType() === 'archive'"
+        v-else-if="node.getFileType() === 'archive'"
+        class="text-slate-300"
+        :class="iconSizeClasses"
+      />
+
+      <IconFile
+        v-else
         class="text-slate-300"
         :class="iconSizeClasses"
       />
@@ -68,6 +74,7 @@ import IconAudio from "@/components/IconAudio.vue";
 import IconImage from "@/components/IconImage.vue";
 import IconText from "@/components/IconText.vue";
 import IconArchive from "@/components/IconArchive.vue";
+import IconFile from "@/components/IconFile.vue";
 
 defineProps<{
   node: INodeModel;
