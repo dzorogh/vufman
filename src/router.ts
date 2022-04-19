@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         name: 'folder',
-        path: '/folder/:folderId?',
+        path: '/folder/:folderId?/:folderName?',
         component: AppFolderLayout,
       },
       {
@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'file',
-        path: '/file/:fileId',
+        path: '/file/:fileId/:fileName?',
         component: AppFileLayout,
       },
       {

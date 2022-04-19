@@ -58,6 +58,8 @@ import AppNodeMenu from "@/components/AppNodeMenu.vue";
 import { useNodesStore } from "@/store/nodes";
 import AppFileHeading from "@/components/AppFileHeading.vue";
 import { useNodesActions } from "@/composables/useNodesActions";
+import slugify from "slugify";
+import router from "@/router";
 
 const api = useApi();
 const route = useRoute();
@@ -74,6 +76,16 @@ onBeforeMount(async () => {
 
   if (file.value && file.value.ancestors && file.value.ancestors[file.value.ancestors.length - 1]) {
     nodesStore.currentFolder = file.value.ancestors[file.value.ancestors.length - 1] as INodeModel;
+  }
+
+  if (file.value) {
+    await router.replace({
+      ...route,
+      params: {
+        ...route.params,
+        fileName: slugify(file.value?.getFullName() as string)
+      }
+    });
   }
 
   isLoading.value = false;

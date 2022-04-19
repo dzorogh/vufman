@@ -58,6 +58,8 @@ import { useConfirmStore } from "@/store/confirm";
 import { usePromptStore } from "@/store/prompt";
 import { INodeModel } from "@/types/INodeModel";
 import { useActiveElement } from "@vueuse/core";
+import router from "@/router";
+import slugify from "slugify";
 
 const confirmStore = useConfirmStore();
 const promptStore = usePromptStore();
@@ -123,6 +125,16 @@ watch(() => [ route.params.folderId, route.name, route.query.trash, route.query.
       // }, true);
 
       await handleReload();
+
+      if (nodesStore.currentFolder) {
+        await router.replace({
+          ...route,
+          params: {
+            ...route.params,
+            folderName: slugify(nodesStore.currentFolder.name as string)
+          }
+        });
+      }
 
       // nodesStore.nodesLoading = false;
     }
