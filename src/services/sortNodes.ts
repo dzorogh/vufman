@@ -6,7 +6,7 @@ export const sortNodes = (nodes: INodeModel[], sorting: SortingType, sortingDire
     .sort((a: INodeModel, b: INodeModel) => {
       const direction = sortingDirection === 'asc' ? 1 : -1;
 
-      return (b.name || '').localeCompare(a.name || '') * direction;
+      return (b.name || '').localeCompare(a.name || '', 'ru', { numeric: true }) * direction;
     })
     .sort((a: INodeModel, b: INodeModel) => {
       const direction = sortingDirection === 'asc' ? 1 : -1;
