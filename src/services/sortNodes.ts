@@ -12,7 +12,7 @@ export const sortNodes = (nodes: INodeModel[], sorting: SortingType, sortingDire
       const direction = sortingDirection === 'asc' ? 1 : -1;
 
       if (sorting === 'name') {
-        return (b.name || '').localeCompare(a.name || '') * direction;
+        return (b.name || '').localeCompare(a.name || '', 'ru', { numeric: true }) * direction;
       }
 
       if (sorting === 'type') {
