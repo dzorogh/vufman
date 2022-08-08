@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia';
-import { makeNavigatorTree } from "@/services/makeNavigatorTree";
-import { useApi } from "@/composables/useApi";
 import { ITreeNode } from "@/types/ITreeNode";
 import { Delete24Filled, Home24Filled } from "@vicons/fluent";
-import { markRaw, shallowRef } from "vue";
+import { markRaw } from "vue";
+import { mapNavigatorFolders } from "@/services/mapNavigator";
 
 export const useNavigatorStore = defineStore('navigator', {
   state: () => {
@@ -27,8 +26,10 @@ export const useNavigatorStore = defineStore('navigator', {
     async loadNavigatorTree() {
       const api = this.api;
 
-      const nodes = await api.nodes({ isFolder: true, withDescendants: true });
-      this.tree[0].children = makeNavigatorTree(nodes, null) || undefined;
+      const nodesTree = await api.navigator();
+
+      this.tree[0].children = mapNavigatorFolders(nodesTree) || undefined;
+
       this.isLoading = false;
     }
   }

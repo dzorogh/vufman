@@ -40,6 +40,14 @@ export class ApiServiceReal extends ApiService implements IApiService {
     return NodeModel.collection(response.data.data);
   }
 
+  async navigator() {
+    console.log('getNavigator');
+
+    const response = await this.axios.get('navigator');
+
+    return NodeModel.collection(response.data.data);
+  }
+
   async folder(request: IRequestFolder) {
     const response = await this.axios.get(
       'folder',

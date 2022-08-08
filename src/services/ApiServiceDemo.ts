@@ -555,8 +555,14 @@ export class ApiServiceDemo extends ApiService implements IApiService {
   private async getNodes() {
     return nodes as unknown as INode[];
   }
-
+  
   // private getNodesController: AbortController | undefined;
+
+  async navigator() {
+    const data = await this.getNodes();
+
+    return NodeModel.collection(data);
+  }
 
   async nodes(request: IRequestNodes, cancelable?: boolean) {
     console.log('getNodes', request, cancelable);

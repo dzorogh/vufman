@@ -23,6 +23,7 @@ export interface IApiService {
   axios: AxiosInstance;
 
   nodes: (request: IRequestNodes, cancelable?: boolean) => Promise<INodeModel[]>;
+  navigator: () => Promise<INodeModel[]>;
   folder: (request: IRequestFolder) => Promise<INodeModel | null>;
   file: (request: IRequestFile) => Promise<INodeModel | null>;
 
@@ -38,7 +39,7 @@ export interface IApiService {
   saveComment: (request: IRequestSaveComment) => Promise<INodeModel | null>;
   saveAccess: (request: IRequestSaveAccess) => Promise<INodeModel | null>;
   emptyTrash: () => Promise<boolean>;
-  
+
   currentUser: () => Promise<IUser>;
   users: () => Promise<IUser[]>;
   roles: () => Promise<IRole[]>;
