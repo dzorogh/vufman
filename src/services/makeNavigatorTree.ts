@@ -6,7 +6,7 @@ import { ITreeNode } from "@/types/ITreeNode";
 
 export function makeNavigatorTree(nodes: INodeModel[] | undefined, folderId: INodeModel['folderId']): ITreeNode[] | undefined {
   if (nodes && nodes.length) {
-    console.log('%cmakeNavigatorTree', 'color: #61AFEF', { nodes, folderId });
+    // console.log('%cmakeNavigatorTree', 'color: #61AFEF', { nodes, folderId });
 
     const result = [] as ITreeNode[];
 
